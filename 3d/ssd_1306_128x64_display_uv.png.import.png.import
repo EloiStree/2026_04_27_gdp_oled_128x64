@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b1l3cow7sccmf"
-path="res://.godot/imported/ssd_1306_128x64_dispaly_uv.png.import.png-68917bacf436752aac76df0e1cd14296.ctex"
+path="res://.godot/imported/ssd_1306_128x64_display_uv.png.import.png-adcf721147b88d5fa294a787de7026d7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/2026_04_27_gdp_oled_128x64/oled_128x64_display/3d/ssd_1306_128x64_dispaly_uv.png.import.png"
-dest_files=["res://.godot/imported/ssd_1306_128x64_dispaly_uv.png.import.png-68917bacf436752aac76df0e1cd14296.ctex"]
+source_file="res://addons/2026_04_27_gdp_oled_128x64/3d/ssd_1306_128x64_display_uv.png.import.png"
+dest_files=["res://.godot/imported/ssd_1306_128x64_display_uv.png.import.png-adcf721147b88d5fa294a787de7026d7.ctex"]
 
 [params]
 

@@ -1,4 +1,4 @@
-class_name SensorModelBoolDisplay128x64CPU
+class_name SSD1306SetGetScreenStateInterfaceWithCPU
 extends Node
 
 enum QueenDirection {
@@ -12,22 +12,25 @@ enum QueenDirection {
 	DOWN_RIGHT
 }
 
-
 signal on_boolean_array_updated(display_as_boolean_array: Array[bool])
 const SCREEN_WIDTH: int = 128
 const SCREEN_HEIGHT: int = 64
 const SCREEN_SIZE: int = SCREEN_WIDTH * SCREEN_HEIGHT
 const SCREEN_SIZE_INDEX_MAX: int = SCREEN_SIZE - 1
 
+@export var screen_state: SSD1306BooleanStateResource
 
 
+#region TESTED CODE
 
-var display_as_boolean_array: Array[bool] = []
+## shortcut of emit_boolean_array_updated()
+## it pushed the array state to the listeners.
+func emit():
+	emit_boolean_array_as_updated()
 
+#endregion
 
-
-
-
+#region UNTESTED CODE
 
 #region STATIC 
 
@@ -69,44 +72,50 @@ static func vector_xy_lrdt_to_index(vec: Vector2i) -> int:
 
 #region PRIVATE
 func emit_boolean_array_as_updated():
-	on_boolean_array_updated.emit(display_as_boolean_array)	
+	on_boolean_array_updated.emit(screen_state.boolean_state)	
 
 
 #endregion
 
 #region EASY CODED
 
+func get_bool_array()->Array[bool]:
+	return screen_state.boolean_state
 
 func inverse_all_boolean_value():
 	for i in range(SCREEN_SIZE):
-		display_as_boolean_array[i] = not display_as_boolean_array[i]
+		get_bool_array()[i] = not get_bool_array()[i]
 
 func inverse_boolean_horizontally():
+	var array:= get_bool_array()
 	for y in range(SCREEN_HEIGHT):
 		for x in range(SCREEN_WIDTH / 2):
 			var left_index: int = xy_lrtd_to_index(x, y)
 			var right_index: int = xy_lrtd_to_index(SCREEN_WIDTH - 1 - x, y)
-			var temp: bool = display_as_boolean_array[left_index]
-			display_as_boolean_array[left_index] = display_as_boolean_array[right_index]
-			display_as_boolean_array[right_index] = temp
+			var temp: bool = array[left_index]
+			array[left_index] = array[right_index]
+			array[right_index] = temp
 
 func inverse_boolean_vertically():
+	var array:= get_bool_array()
 	for x in range(SCREEN_WIDTH):
 		for y in range(SCREEN_HEIGHT / 2):
 			var top_index: int = xy_lrtd_to_index(x, y)
 			var bottom_index: int = xy_lrtd_to_index(x, SCREEN_HEIGHT - 1 - y)
-			var temp: bool = display_as_boolean_array[top_index]
-			display_as_boolean_array[top_index] = display_as_boolean_array[bottom_index]
-			display_as_boolean_array[bottom_index] = temp
+			var temp: bool = array[top_index]
+			array[top_index] = array[bottom_index]
+			array[bottom_index] = temp
 
 
 func set_boolean_array_to_full():
+	var array:= get_bool_array()
 	for i in range(SCREEN_SIZE):
-		display_as_boolean_array[i] = true
+		array[i] = true
 
 func set_boolean_array_to_clear():
+	var array:= get_bool_array()
 	for i in range(SCREEN_SIZE):
-		display_as_boolean_array[i] = false
+		array[i] = false
 
 func set_boolean_line_top_down(line_index: int, is_on: bool = true):
 	set_boolean_right_of(0, line_index, is_on)
@@ -128,7 +137,7 @@ func set_boolean_column_right_left(column_index: int, is_on: bool = true):
 func set_boolean_with_1d(index: int, is_on: bool):
 	if index < 0 or index > SCREEN_SIZE_INDEX_MAX:
 		return
-	display_as_boolean_array[index] = is_on
+	get_bool_array()[index] = is_on
 
 func set_boolean_with_2d_lrtd(x: int, y: int, is_on: bool):
 	if x < 0 or x >= SCREEN_WIDTH:
@@ -178,7 +187,7 @@ func get_bottom_right_corner_index_1d() -> int:
 func set_boolean_to_random_at_1d(index: int):
 	if index < 0 or index > SCREEN_SIZE_INDEX_MAX:
 		return
-	display_as_boolean_array[index] = randi() % 2 == 0
+	get_bool_array()[index] = randi() % 2 == 0
 
 func set_all_to_random():
 	for i in range(SCREEN_SIZE):
@@ -187,7 +196,7 @@ func set_all_to_random():
 func toggle_1d_value(index: int):
 	if index < 0 or index > SCREEN_SIZE_INDEX_MAX:
 		return
-	display_as_boolean_array[index] = not display_as_boolean_array[index]
+	get_bool_array()[index] = not get_bool_array()[index]
 
 func toggle_2d_lrdt_value(x: int, y: int):
 	if x < 0 or x >= SCREEN_WIDTH:
@@ -261,16 +270,18 @@ func set_boolean_diagonal_lrdt_of(x_left_right: int, y_down_top: int, is_on: boo
 
 
 func _init() -> void:
-	display_as_boolean_array.resize(SCREEN_SIZE)
-	for i in range(SCREEN_SIZE):
-		display_as_boolean_array[i] = false
+	if screen_state==null:
+		screen_state = SSD1306BooleanStateResource.new()
+	screen_state.resize()
+	set_boolean_array_to_clear()
 		
 func override_array_with_boolean_array(source_array: Array[bool]):
+	var array := get_bool_array()
 	for i in range(SCREEN_SIZE):
 		if i < source_array.size():
-			display_as_boolean_array[i] = source_array[i]
+			array[i] = source_array[i]
 		else:
-			display_as_boolean_array[i] = false
+			array[i] = false
 
 func override_array_with_boolean_array_and_emit(source_array: Array[bool]):
 	override_array_with_boolean_array(source_array)
@@ -280,63 +291,65 @@ func override_array_with_boolean_array_and_emit(source_array: Array[bool]):
 
 func shift_1d_by_steps_right(steps: int, loop_border: bool = false):
 	var new_array: Array[bool] = []
+	var array := get_bool_array()
+
 	new_array.resize(SCREEN_SIZE)
 	if loop_border:
 		for i in range(SCREEN_SIZE):
 			var source_index: int = (i - steps) % SCREEN_SIZE
-			new_array[i] = display_as_boolean_array[source_index]
+			new_array[i] = array[source_index]
 	else:
 		for i in range(SCREEN_SIZE):
 			var source_index: int = i - steps
-			new_array[i] = display_as_boolean_array[source_index] if source_index >= 0 else false
+			new_array[i] = array[source_index] if source_index >= 0 else false
 	override_array_with_boolean_array(new_array)
 
 
 func shift_boolean_array_right(loop_border: bool = false):
+	var array := get_bool_array()
+
 	for y in range(SCREEN_HEIGHT):
-		var last_value: bool = display_as_boolean_array[xy_lrtd_to_index(SCREEN_WIDTH - 1, y)]
+		var last_value: bool = array[xy_lrtd_to_index(SCREEN_WIDTH - 1, y)]
 		for x in range(SCREEN_WIDTH - 1, 0, -1):
 			var current_index: int = xy_lrtd_to_index(x, y)
 			var previous_index: int = xy_lrtd_to_index(x - 1, y)
-			display_as_boolean_array[current_index] = display_as_boolean_array[previous_index]		
-		display_as_boolean_array[xy_lrtd_to_index(0, y)] = last_value if loop_border else false
+			array[current_index] = array[previous_index]		
+		array[xy_lrtd_to_index(0, y)] = last_value if loop_border else false
 
 func shift_boolean_array_left(loop_border: bool = false):
+	var array := get_bool_array()
+
 	for y in range(SCREEN_HEIGHT):
-		var first_value: bool = display_as_boolean_array[xy_lrtd_to_index(0, y)]
+		var first_value: bool = array[xy_lrtd_to_index(0, y)]
 		for x in range(SCREEN_WIDTH - 1):
 			var current_index: int = xy_lrtd_to_index(x, y)
 			var next_index: int = xy_lrtd_to_index(x + 1, y)
-			display_as_boolean_array[current_index] = display_as_boolean_array[next_index]
+			array[current_index] = array[next_index]
 		
-		display_as_boolean_array[xy_lrtd_to_index(SCREEN_WIDTH - 1, y)] = first_value if loop_border else false
+		array[xy_lrtd_to_index(SCREEN_WIDTH - 1, y)] = first_value if loop_border else false
 
 func shift_boolean_array_down(loop_border: bool = false):
+	var array := get_bool_array()
+
 	for x in range(SCREEN_WIDTH):
-		var last_value: bool = display_as_boolean_array[xy_lrtd_to_index(x, SCREEN_HEIGHT - 1)]
+		var last_value: bool = 	array[xy_lrtd_to_index(x, SCREEN_HEIGHT - 1)]
 		for y in range(SCREEN_HEIGHT - 1, -1, -1):
 			var current_index: int = xy_lrtd_to_index(x, y)
 			var previous_index: int = xy_lrtd_to_index(x, y - 1)
-			display_as_boolean_array[current_index] = display_as_boolean_array[previous_index]		
+			array[current_index] = array[previous_index]		
 
 
 func shift_boolean_array_up(loop_border: bool = false):
+	var array := get_bool_array()	
 	for x in range(SCREEN_WIDTH):
-		var first_value: bool = display_as_boolean_array[xy_lrtd_to_index(x, 0)]
+		var first_value: bool = array[xy_lrtd_to_index(x, 0)]
 		for y in range(SCREEN_HEIGHT - 1):
 			var current_index: int = xy_lrtd_to_index(x, y)
 			var next_index: int = xy_lrtd_to_index(x, y + 1)
-			display_as_boolean_array[current_index] = display_as_boolean_array[next_index]
+			array[current_index] = array[next_index]
 
 
 
-#region GODOT PART
-func _ready():
-	display_as_boolean_array.resize(SCREEN_SIZE)
-	for i in range(SCREEN_SIZE):
-		display_as_boolean_array[i] = false
-
-#endregion
 
 
 
@@ -660,3 +673,4 @@ func get_random_point_2d_lrdt() -> Vector2i:
 # func update_texture():
 # 	texture.update(image)
 # 	on_texture_updated.emit(texture)
+#endregion

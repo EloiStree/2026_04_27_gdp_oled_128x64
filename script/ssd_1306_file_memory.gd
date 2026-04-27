@@ -1,4 +1,4 @@
-class_name SensorDisplay128x64Memory
+class_name SSD1306FileMemmory
 extends Node
 
 

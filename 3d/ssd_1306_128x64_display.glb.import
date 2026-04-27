@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://d27y3ju8pgemi"
-path="res://.godot/imported/ssd_1306_128x64_dispaly.glb-064fe2e93485cd1cef0076a5763e334b.scn"
+path="res://.godot/imported/ssd_1306_128x64_display.glb-a15ef3cb65f620ed66ca962b8f649b2d.scn"
 
 [deps]
 
-source_file="res://addons/2026_04_27_gdp_oled_128x64/oled_128x64_display/3d/ssd_1306_128x64_dispaly.glb"
-dest_files=["res://.godot/imported/ssd_1306_128x64_dispaly.glb-064fe2e93485cd1cef0076a5763e334b.scn"]
+source_file="res://addons/2026_04_27_gdp_oled_128x64/3d/ssd_1306_128x64_display.glb"
+dest_files=["res://.godot/imported/ssd_1306_128x64_display.glb-a15ef3cb65f620ed66ca962b8f649b2d.scn"]
 
 [params]
 

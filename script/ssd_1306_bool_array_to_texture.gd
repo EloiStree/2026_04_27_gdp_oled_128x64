@@ -1,6 +1,5 @@
-class_name SensorViewDisplay128x64CPU
+class_name SSD1306BoolArrayToTexture
 extends Node
-
 
 signal on_texture_material_updated(index:int, material_surface:Material)
 signal on_texture_updated(texture: Texture2D)
@@ -15,6 +14,7 @@ const SCREEN_SIZE_INDEX_MAX: int = SCREEN_SIZE - 1
 
 var texture_2d: Texture2D
 
+
 @export var use_mipmaps: bool = false
 @export var material_to_duplicate: StandardMaterial3D
 @export var material_duplicated: StandardMaterial3D
@@ -22,7 +22,63 @@ var texture_2d: Texture2D
 var bool_array_clear: Array[bool] = []
 var bool_array_full: Array[bool] = []
 
+@export var color_style: ColorStyle
+
+enum ColorStyle {
+	OLED_BLUE,
+	OLED_GREEN,
+	E_INK,
+	BLACK_TRUE_ON_WHITE_FALSE,
+	WHITE_TRUE_ON_BLACK_FALSE,
+	GAMEBOY,
+	INSEPCTOR_VALUE
+}
+
+
+func set_color_style_as_oled_blue_screen():
+	# OLED blue: #007BFF
+	color_on = Color("#00ccff")  # OLED blue
+	color_off = Color("#000000")  # background
+	set_texture_with_boolean_array(bool_array_clear)
+
+func set_color_style_as_oled_green_screen():
+	# OLED green: #00bf29
+	color_on = Color("#00bf29")   # OLED green
+	color_off = Color("#000000")  # background
+	set_texture_with_boolean_array(bool_array_clear)
+
+
+func set_color_style_as_black_true_on_white_false():
+	# black true on white false
+	color_on = Color("#000000")  # black
+	color_off = Color("#FFFFFF")  # white
+	set_texture_with_boolean_array(bool_array_clear)
+
+func set_color_style_as_white_true_on_black_false():
+	# white true on black false
+	color_on = Color("#FFFFFF")  # white
+	color_off = Color("#000000")  # black
+	set_texture_with_boolean_array(bool_array_clear)
+
+func set_color_style_as_e_ink_screen():
+	# E-ink style: white for "on" pixels, light gray for "off" pixels
+	# white
+	color_off = Color("#FFFFFF")  # white	
+	# BLACK DARK GRAY #5A5A5A
+	color_on = Color("#5A5A5A")  # dark gray
+	set_texture_with_boolean_array(bool_array_clear)  
+
+
+func set_color_as_gameboy():
+	# Screen tint (unlit LCD greenish): #9BBC0F
+	# Screen dark green (active pixels): #0F380F
+	color_on = Color("#0F380F")  # dark green
+	color_off = Color("#9BBC0F")  # light green
+
+	set_texture_with_boolean_array(bool_array_clear)  
+
 func _ready():
+	
 	bool_array_clear.resize(SCREEN_SIZE)
 	bool_array_full.resize(SCREEN_SIZE)
 	for i in range(SCREEN_SIZE):
@@ -35,6 +91,19 @@ func _ready():
 	material_duplicated.albedo_texture = texture_2d
 	
 	set_texture_with_boolean_array(bool_array_clear)
+	if color_style == ColorStyle.E_INK:
+		set_color_style_as_e_ink_screen()
+	elif color_style == ColorStyle.GAMEBOY:
+		set_color_as_gameboy()
+	elif color_style == ColorStyle.OLED_GREEN:
+		set_color_style_as_oled_green_screen()
+	elif color_style == ColorStyle.OLED_BLUE:
+		set_color_style_as_oled_blue_screen()
+	elif color_style == ColorStyle.BLACK_TRUE_ON_WHITE_FALSE:
+		set_color_style_as_black_true_on_white_false()
+	elif color_style == ColorStyle.WHITE_TRUE_ON_BLACK_FALSE:
+		set_color_style_as_white_true_on_black_false()
+
 
 func set_boolean_array_to_full():
 	for i in range(SCREEN_SIZE):
@@ -75,14 +144,11 @@ func set_texture_with_bit_array(bit_pack_as_bytes:PackedByteArray):
 		result_array.append(is_on)
 	
 	set_texture_with_boolean_array(result_array)
-	
-
-	
+		
 func index_to_xy(index: int) -> Vector2i:
 	var x: int = index % SCREEN_WIDTH
 	var y: int = index / SCREEN_WIDTH
 	return Vector2i(x, y)
-
 
 func xy_to_index(x: int, y: int) -> int:
 	return y * SCREEN_WIDTH + x
