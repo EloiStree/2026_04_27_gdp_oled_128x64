@@ -441,6 +441,22 @@ func draw_bool_line_radius_v2i_lrdt(start: Vector2i, end: Vector2i, is_on: bool 
 
 
 
+func draw_bool_vertical_line_left_right(left_right: int, is_on: bool = true):
+	for y in range(SCREEN_HEIGHT):
+		set_boolean_with_2d_lrtd(left_right, y, is_on)
+
+
+func draw_bool_horizontal_line_top_down(top_down: int, is_on: bool = true):
+	for x in range(SCREEN_WIDTH):
+		set_boolean_with_2d_lrtd(x, top_down, is_on)
+
+func draw_bool_vertical_line_right_left(right_left: int, is_on: bool = true):
+	for y in range(SCREEN_HEIGHT):
+		set_boolean_with_2d_lrtd(right_left, y, is_on)
+
+func draw_bool_horizontal_line_down_top(down_top: int, is_on: bool = true):
+	for x in range(SCREEN_WIDTH):
+		set_boolean_with_2d_lrtd(x, down_top, is_on)
 
 
 
