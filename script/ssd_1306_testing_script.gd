@@ -27,6 +27,18 @@ func _ready():
 	screen.set_boolean_array_to_clear()
 	screen.emit_boolean_array_as_updated()
 
+	screen.set_boolean_with_1d(0, true)
+
+
+	for i in range(100):
+		screen.shift_1d_by_steps_right(1)
+		screen.emit_boolean_array_as_updated()
+		await wait_seconds(0.05)
+
+	for i in range(100):
+		screen.shift_1d_by_steps_left(1)
+		screen.emit_boolean_array_as_updated()
+		await wait_seconds(0.05)
 
 	#await wait_seconds(10)
 

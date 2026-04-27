@@ -289,7 +289,22 @@ func override_array_with_boolean_array_and_emit(source_array: Array[bool]):
 
 ## Move To right
 
-func shift_1d_by_steps_right(steps: int, loop_border: bool = false):
+func shift_1d_by_steps_left(steps: int, loop_border: bool = true):
+	var new_array: Array[bool] = []
+	var array := get_bool_array()
+
+	new_array.resize(SCREEN_SIZE)
+	if loop_border:
+		for i in range(SCREEN_SIZE):
+			var source_index: int = (i + steps) % SCREEN_SIZE
+			new_array[i] = array[source_index]
+	else:
+		for i in range(SCREEN_SIZE):
+			var source_index: int = i + steps
+			new_array[i] = array[source_index] if source_index < SCREEN_SIZE else false
+	override_array_with_boolean_array(new_array)
+
+func shift_1d_by_steps_right(steps: int, loop_border: bool = true):
 	var new_array: Array[bool] = []
 	var array := get_bool_array()
 
@@ -305,7 +320,7 @@ func shift_1d_by_steps_right(steps: int, loop_border: bool = false):
 	override_array_with_boolean_array(new_array)
 
 
-func shift_boolean_array_right(loop_border: bool = false):
+func shift_boolean_array_right(loop_border: bool = true):
 	var array := get_bool_array()
 
 	for y in range(SCREEN_HEIGHT):
@@ -316,7 +331,7 @@ func shift_boolean_array_right(loop_border: bool = false):
 			array[current_index] = array[previous_index]		
 		array[xy_lrtd_to_index(0, y)] = last_value if loop_border else false
 
-func shift_boolean_array_left(loop_border: bool = false):
+func shift_boolean_array_left(loop_border: bool = true):
 	var array := get_bool_array()
 
 	for y in range(SCREEN_HEIGHT):
@@ -328,7 +343,7 @@ func shift_boolean_array_left(loop_border: bool = false):
 		
 		array[xy_lrtd_to_index(SCREEN_WIDTH - 1, y)] = first_value if loop_border else false
 
-func shift_boolean_array_down(loop_border: bool = false):
+func shift_boolean_array_down(loop_border: bool = true):
 	var array := get_bool_array()
 
 	for x in range(SCREEN_WIDTH):
@@ -339,7 +354,7 @@ func shift_boolean_array_down(loop_border: bool = false):
 			array[current_index] = array[previous_index]		
 
 
-func shift_boolean_array_up(loop_border: bool = false):
+func shift_boolean_array_up(loop_border: bool = true):
 	var array := get_bool_array()	
 	for x in range(SCREEN_WIDTH):
 		var first_value: bool = array[xy_lrtd_to_index(x, 0)]
