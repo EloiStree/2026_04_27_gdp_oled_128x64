@@ -34,6 +34,7 @@ func emit():
 
 #region STATIC 
 
+
 static func index_to_xy_lrtd(index: int) -> Vector2i:
 	var x: int = index % SCREEN_WIDTH
 	var y: int = index / SCREEN_WIDTH
@@ -44,7 +45,6 @@ static func index_to_xy_lrdt(index: int) -> Vector2i:
 	var y: int = SCREEN_HEIGHT - 1 - (index / SCREEN_WIDTH)
 	return Vector2i(x, y)
 
-
 static func xy_lrtd_to_index(x: int, y: int) -> int:
 	return y * SCREEN_WIDTH + x	
 
@@ -52,22 +52,16 @@ static func xy_lrdt_to_index(x: int, y: int) -> int:
 	return (SCREEN_HEIGHT - 1 - y) * SCREEN_WIDTH + x
 
 
-
-static func vector_xy_lrtd_to_index(vec: Vector2i) -> int:
+static func vectori_xy_lrtd_to_index(vec: Vector2i) -> int:
 	return xy_lrtd_to_index(vec.x, vec.y)
 
-
-static func vector_xy_lrdt_to_index(vec: Vector2i) -> int:
+static func vectori_xy_lrdt_to_index(vec: Vector2i) -> int:
 	var y = vec.y
 	if y < 0:
 		y = 0
 	if y >= SCREEN_HEIGHT:
 		y = SCREEN_HEIGHT - 1	
 	return xy_lrdt_to_index(vec.x, y)
-
-
-
-
 #endregion
 
 #region PRIVATE
@@ -171,15 +165,15 @@ func get_bottom_left_corner_index_2d_lrtd() -> Vector2i:
 func get_bottom_right_corner_index_2d_lrtd() -> Vector2i:
 	return Vector2i(SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1)
 
-
+	
 func get_top_left_corner_index_1d() -> int:
-	return vector_xy_lrtd_to_index(get_top_left_corner_index_2d_lrtd())
+	return vectori_xy_lrtd_to_index(get_top_left_corner_index_2d_lrtd())
 func get_top_right_corner_index_1d() -> int:
-	return vector_xy_lrtd_to_index(get_top_right_corner_index_2d_lrtd())
+	return vectori_xy_lrtd_to_index(get_top_right_corner_index_2d_lrtd())
 func get_bottom_left_corner_index_1d() -> int:
-	return vector_xy_lrtd_to_index(get_bottom_left_corner_index_2d_lrtd())
+	return vectori_xy_lrtd_to_index(get_bottom_left_corner_index_2d_lrtd())
 func get_bottom_right_corner_index_1d() -> int:
-	return vector_xy_lrtd_to_index(get_bottom_right_corner_index_2d_lrtd())
+	return vectori_xy_lrtd_to_index(get_bottom_right_corner_index_2d_lrtd())
 
 #endregion
 
@@ -292,77 +286,375 @@ func override_array_with_boolean_array_and_emit(source_array: Array[bool]):
 func shift_1d_by_steps_left(steps: int, loop_border: bool = true):
 	var new_array: Array[bool] = []
 	var array := get_bool_array()
-
-	new_array.resize(SCREEN_SIZE)
-	if loop_border:
-		for i in range(SCREEN_SIZE):
-			var source_index: int = (i + steps) % SCREEN_SIZE
-			new_array[i] = array[source_index]
-	else:
-		for i in range(SCREEN_SIZE):
-			var source_index: int = i + steps
-			new_array[i] = array[source_index] if source_index < SCREEN_SIZE else false
-	override_array_with_boolean_array(new_array)
+	for i in range(steps):
+		var first_value = array[0]
+		var last_value = array[SCREEN_SIZE - 1]
+		for j in range(SCREEN_SIZE - 1):
+			array[j] = array[j + 1]
+		array[SCREEN_SIZE - 1] = first_value if loop_border else false
 
 func shift_1d_by_steps_right(steps: int, loop_border: bool = true):
 	var new_array: Array[bool] = []
 	var array := get_bool_array()
+	for i in range(steps):
+		var first_value = array[0]
+		var last_value = array[SCREEN_SIZE - 1]
+		for j in range(SCREEN_SIZE - 1, 0, -1):
+			array[j] = array[j - 1]
+		array[0] = last_value if loop_border else false
 
-	new_array.resize(SCREEN_SIZE)
+func set_boolean_as_1x1_grid(is_on: bool = true):
+	draw_bool_chessboard(0, 0, 1)
+
+func set_boolean_as_2x2_grid(is_on: bool = true):
+	draw_bool_chessboard(0, 0, 2)
+
+func set_boolean_as_3x3_grid(is_on: bool = true):
+	draw_bool_chessboard(0, 0, 3)
+
+func set_boolean_as_4x4_grid(is_on: bool = true):
+	draw_bool_chessboard(0, 0, 4)
+
+func set_boolean_as_8x8_grid(is_on: bool = true):
+	draw_bool_chessboard(0, 0, 8)
+
+func set_boolean_as_16x16_grid(is_on: bool = true):
+	draw_bool_chessboard(0, 0, 16)
+
+func set_boolean_as_32x32_grid(is_on: bool = true):
+	draw_bool_chessboard(0, 0, 32)
+
+func draw_bool_chessboard(start_x: int, start_y: int, square_size: int):
+	var row_count = SCREEN_HEIGHT / square_size
+	var col_count = SCREEN_WIDTH / square_size
+	for row in range(row_count+1):
+		for col in range(col_count+1):
+			var x = start_x + col * square_size
+			var y = start_y + row * square_size
+			var is_on = (row + col) % 2 == 0			
+			draw_bool_fill_square_lrtd(x, y, square_size, is_on)
+
+func draw_bool_chressboard_full_screen():
+	draw_bool_chessboard(0, 0, SCREEN_HEIGHT / 8)
+
+func draw_bool_chressboard_centered():
+	draw_bool_chressboard_full_screen()
+	draw_bool_fill_rectangle_lrtd(0,0,32,64, false)
+	draw_bool_fill_rectangle_lrtd(96,0,32,64, false)
+
+func draw_bool_fill_rectangle_lrtd(x_left_right: int, y_top_down: int, width: int, height: int, is_on: bool = true):
+	for j in range(x_left_right, x_left_right+width):
+		for i in range(y_top_down, y_top_down+height):
+			if j < SCREEN_WIDTH and i < SCREEN_HEIGHT:
+				set_boolean_with_2d_lrtd(j, i, is_on)
+
+
+func draw_bool_line_percent01_right(percent01:float):
+	percent01 = clamp(percent01, 0.0, 1.0)
+	var pixel_height: int = int((percent01) * SCREEN_HEIGHT)
+	draw_bool_line_up_lrdt(SCREEN_WIDTH-1, 0 , SCREEN_HEIGHT , false)
+	draw_bool_line_up_lrdt(SCREEN_WIDTH-1, 0 , pixel_height  ,  true)
+
+	# var inverse_pixel_height: int = SCREEN_HEIGHT - pixel_height
+	# draw_bool_fill_rectangle_lrtd(SCREEN_WIDTH - 2, 0, 1, SCREEN_HEIGHT, false)
+	# draw_bool_fill_rectangle_lrtd(SCREEN_WIDTH - 2, pixel_height, 1, inverse_pixel_height, true)
+	
+
+func draw_bool_line_percent11_right(percent11:float):
+	draw_bool_line_up_lrdt(SCREEN_WIDTH-1, 0, SCREEN_HEIGHT, false)
+	var half_height: int = int(SCREEN_HEIGHT / 2.0)
+	percent11 = clamp(percent11, -1.0, 1.0)
+	if percent11 >= 0:
+		draw_bool_line_up_lrdt(SCREEN_WIDTH-1, 32,half_height * percent11, true)
+	else :
+		draw_bool_line_down_lrdt(SCREEN_WIDTH-1, 32, half_height * -percent11, true)
+			
+
+func draw_bool_line_up_lrdt(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
+	for i in range(pixel + 1):
+		set_boolean_with_2d_lrdt(x_left_right, y_down_top + i, is_on)
+
+func draw_bool_line_right_lrdt(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
+	for i in range(pixel + 1):
+		set_boolean_with_2d_lrdt(x_left_right + i, y_down_top, is_on)
+
+func draw_bool_line_left_lrdt(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
+	for i in range(pixel + 1):
+		set_boolean_with_2d_lrdt(x_left_right - i, y_down_top, is_on)
+
+func draw_bool_line_down_lrdt(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
+	for i in range(pixel + 1):
+		set_boolean_with_2d_lrdt(x_left_right, y_down_top - i, is_on)
+
+func draw_bool_line_left_lrtd(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
+	var x = x_left_right;
+	for i in range(0,pixel+1):
+		set_boolean_with_2d_lrtd(x-i, y_down_top, is_on)
+
+func draw_bool_line_right_lrtd(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
+	var x = x_left_right;
+	for i in range(0,pixel+1):
+		set_boolean_with_2d_lrtd(x+i, y_down_top, is_on)
+
+func draw_bool_line_up_lrtd(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
+	var y = y_down_top;
+	for i in range(0,pixel+1):
+		set_boolean_with_2d_lrtd(x_left_right, y-i, is_on)
+
+func draw_bool_line_down_lrtd(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
+	var y = y_down_top;
+	for i in range(0,pixel+1):
+		set_boolean_with_2d_lrtd(x_left_right, y+i, is_on)
+
+
+
+
+func draw_bool_border_count(pixel_count: int, is_on: bool = true):
+	for i in range(pixel_count):
+		draw_bool_line_up_lrdt(i, 0, SCREEN_HEIGHT, is_on)
+		draw_bool_line_up_lrdt(SCREEN_WIDTH - 1 - i, 0, SCREEN_HEIGHT, is_on)
+		draw_bool_line_right_lrdt(0, i, SCREEN_WIDTH, is_on)
+		draw_bool_line_right_lrdt(0, SCREEN_HEIGHT - 1 - i, SCREEN_WIDTH, is_on)
+
+
+
+func draw_bool_byte_line_down_lrtd(x_left_right: int, y_down_top: int, byte_as_int: int):
+	##TODO: TEST LATER
+	for i in range(8):
+		var bit_is_on: bool = (byte_as_int & (1 << i)) != 0
+		set_boolean_with_2d_lrtd(x_left_right, y_down_top + i, bit_is_on)
+
+
+func draw_page(page_index_0_7:int, bytes_0_127: PackedByteArray): 
+	##TODO: TEST LATER
+	if page_index_0_7 < 0 or page_index_0_7 > 7:
+		return
+	var line_index_y_down_top: int = page_index_0_7 * 8
+	for x in range(SCREEN_WIDTH):
+		var byte_as_int: int = bytes_0_127[x]
+		draw_bool_byte_line_down_lrtd(x, line_index_y_down_top, byte_as_int)
+
+func draw_pages_with_one_packed_byte_array(bytes_0_1023: PackedByteArray):
+	##TODO: TEST LATER
+	for i in range(bytes_0_1023.size()):
+		var x_top_down: int = i % SCREEN_WIDTH
+		var page_index_0_7: int = i / SCREEN_WIDTH
+		var line_index_y_down_top: int = page_index_0_7 * 8
+		var byte_as_int: int = bytes_0_1023[i]
+		draw_bool_byte_line_down_lrtd(x_top_down, line_index_y_down_top, byte_as_int)
+
+
+
+func replace_slash_per_line_return(text:String)->String:
+	return text.replace("/","\n").replace("\\","\n").replace("|","\n") 
+
+func keep_only_01(text:String)->String:
+	var result: String = ""
+	for char in text:
+		if char == "0" or char == "1" or char == "\n":
+			result += char
+	return result
+
+	
+
+
+func draw_bool_border_rectangle_lrtd_from_to(sx:int,sy:int,ex:int,ey:int, is_on: bool = true):
+	draw_bool_border_rectangle_lrtd_from_to_vectori(Vector2i(sx,sy), Vector2i(ex,ey), is_on)
+
+func draw_bool_border_rectangle_lrtd_from_to_vectori(start:Vector2i, end:Vector2i, is_on: bool = true):
+	draw_bool_line_down_lrtd(start.x, start.y, (end.y - start.y), is_on)
+	draw_bool_line_up_lrtd(end.x, end.y, ( start.y - end.y), is_on)
+	draw_bool_line_right_lrtd(start.x, start.y, (end.x - start.x), is_on)
+	draw_bool_line_left_lrtd(end.x, end.y, (start.x - end.x), is_on)	
+
+
+func draw_bool_fill_rectangle_lrtd_from_to(sx:int,sy:int,ex:int,ey:int, is_on: bool = true):
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(Vector2i(sx,sy), Vector2i(ex,ey), is_on)
+
+
+func draw_bool_fill_rectangle_lrtd_from_to_vectori(start:Vector2i, end:Vector2i, is_on: bool = true):
+	for x in range(start.x, end.x+1):
+		for y in range(start.y, end.y+1):
+			if x < SCREEN_WIDTH and y < SCREEN_HEIGHT:
+				set_boolean_with_2d_lrtd(x, y, is_on)
+	
+
+func draw_from_text_image_lrtd( x_left_right: int, y_down_top: int, text_image:String):
+	
+	var text_cleaned: String = keep_only_01(replace_slash_per_line_return(text_image))
+	var lines:= text_cleaned.split("\n")
+	var start_x = x_left_right
+	var start_y = y_down_top
+
+	var x_counter: int = 0
+	var y_counter: int = 0
+	
+	for line in lines:
+		for char in line:
+			if char != "0" and char != "1":
+				continue
+			var is_on: bool = char == "1"
+			set_boolean_with_2d_lrtd(start_x + x_counter, start_y + y_counter, is_on)
+			x_counter += 1
+		y_counter += 1
+		x_counter = 0
+	
+		
+
+func draw_bool_progress_bar_from_to_lrdt_vectori(start_lrdt:Vector2i, end_lrdt:Vector2i, percent01:float, inversed_direction: bool = false, border: bool = true):
+	
+	var start_lrtd = Vector2i(start_lrdt.x,SCREEN_HEIGHT - 1 - start_lrdt.y)
+	var end_lrtd = Vector2i(end_lrdt.x, SCREEN_HEIGHT - 1 - end_lrdt.y)
+
+
+	var clamped_percent01: float = clamp(percent01, 0.0, 1.0)
+	var direction_horizontal: int = end_lrtd.x - start_lrtd.x 
+	var direction_vertical: int= end_lrtd.y - start_lrtd.y
+	var is_up: bool = direction_vertical < 0
+	var is_right: bool = direction_horizontal > 0
+	var is_down: bool = direction_vertical > 0
+	var is_left: bool = direction_horizontal < 0
+
+	if is_right:
+		#draw_bool_border_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, border)
+		draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, true)
+		# var pixel_length: int = abs(direction_horizontal)
+		# var filled_pixel_length: int = int(pixel_length * clamped_percent01)
+		# if inversed_direction:
+		# 	filled_pixel_length = pixel_length - filled_pixel_length
+		# var fill_end_x: int = start_lrtd.x + (filled_pixel_length if is_right else -filled_pixel_length)
+		# draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, Vector2i(fill_end_x, end_lrtd.y), true)
+
+	# if not border:
+	# 	draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, false)
+	# 	draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, start_to_direction_vector, true)
+		
+	# # if border:
+	# draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, false)
+	# draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, start_to_direction_vector, true)
+	# draw_bool_border_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, true)
+	
+
+	
+func flush():
+	set_boolean_array_to_clear()
+
+func flush_and_emit():
+	set_boolean_array_to_clear()
+	emit_boolean_array_as_updated()
+
+func fill():
+	set_boolean_array_to_full()
+
+func fill_and_emit():
+	set_boolean_array_to_full()
+	emit_boolean_array_as_updated()
+
+func draw_bool_four_center_points(is_on: bool = true):
+	var x: int = SCREEN_WIDTH / 2
+	var y: int = SCREEN_HEIGHT / 2
+	draw_bool_fill_square_lrtd(x , y , 2, is_on)
+	
+func draw_bool_fill_square_lrtd(x_left_right: int, y_top_down: int, square_width: int, is_on: bool = true):
+	for j in range(x_left_right, x_left_right+square_width):
+		for i in range(y_top_down, y_top_down+square_width):
+			if j < SCREEN_WIDTH and i < SCREEN_HEIGHT:
+				set_boolean_with_2d_lrtd(j, i, is_on)
+
+func shift_2d_boolean_array_down(loop_border: bool = true):
+	var array := get_bool_array()
+	var line_save: Array[bool] = []
+
 	if loop_border:
-		for i in range(SCREEN_SIZE):
-			var source_index: int = (i - steps) % SCREEN_SIZE
-			new_array[i] = array[source_index]
-	else:
-		for i in range(SCREEN_SIZE):
-			var source_index: int = i - steps
-			new_array[i] = array[source_index] if source_index >= 0 else false
-	override_array_with_boolean_array(new_array)
-
-
-func shift_boolean_array_right(loop_border: bool = true):
-	var array := get_bool_array()
-
-	for y in range(SCREEN_HEIGHT):
-		var last_value: bool = array[xy_lrtd_to_index(SCREEN_WIDTH - 1, y)]
-		for x in range(SCREEN_WIDTH - 1, 0, -1):
+		for x in range(SCREEN_WIDTH):
+			line_save.append(array[xy_lrtd_to_index(x, SCREEN_HEIGHT - 1)])
+	
+	for x in range(SCREEN_WIDTH):
+		for y in range(SCREEN_HEIGHT - 1, 0, -1):
 			var current_index: int = xy_lrtd_to_index(x, y)
-			var previous_index: int = xy_lrtd_to_index(x - 1, y)
-			array[current_index] = array[previous_index]		
-		array[xy_lrtd_to_index(0, y)] = last_value if loop_border else false
+			var previous_index: int = xy_lrtd_to_index(x, y - 1)
+			array[current_index] = array[previous_index]
+		
 
-func shift_boolean_array_left(loop_border: bool = true):
+	if loop_border:
+		for x in range(SCREEN_WIDTH):
+			array[xy_lrtd_to_index(x, 0)] = line_save[x]
+	else:
+		for x in range(SCREEN_WIDTH):
+			array[xy_lrtd_to_index(x, 0)] = false
+
+
+
+func shift_2d_boolean_array_left(loop_border: bool = true):
 	var array := get_bool_array()
+	var column_save: Array[bool] = []
 
+	if loop_border:
+		for y in range(SCREEN_HEIGHT):
+			column_save.append(array[xy_lrtd_to_index(0, y)])
+	
 	for y in range(SCREEN_HEIGHT):
-		var first_value: bool = array[xy_lrtd_to_index(0, y)]
 		for x in range(SCREEN_WIDTH - 1):
 			var current_index: int = xy_lrtd_to_index(x, y)
 			var next_index: int = xy_lrtd_to_index(x + 1, y)
 			array[current_index] = array[next_index]
 		
-		array[xy_lrtd_to_index(SCREEN_WIDTH - 1, y)] = first_value if loop_border else false
 
-func shift_boolean_array_down(loop_border: bool = true):
+	if loop_border:
+		for y in range(SCREEN_HEIGHT):
+			array[xy_lrtd_to_index(SCREEN_WIDTH - 1, y)] = column_save[y]
+	else:
+		for y in range(SCREEN_HEIGHT):
+			array[xy_lrtd_to_index(SCREEN_WIDTH - 1, y)] = false
+
+
+
+
+func shift_2d_boolean_array_right(loop_border: bool = true):
 	var array := get_bool_array()
+	var column_save: Array[bool] = []
 
-	for x in range(SCREEN_WIDTH):
-		var last_value: bool = 	array[xy_lrtd_to_index(x, SCREEN_HEIGHT - 1)]
-		for y in range(SCREEN_HEIGHT - 1, -1, -1):
+	if loop_border:
+		for y in range(SCREEN_HEIGHT):
+			column_save.append(array[xy_lrtd_to_index(SCREEN_WIDTH - 1, y)])
+	
+	for y in range(SCREEN_HEIGHT):
+		for x in range(SCREEN_WIDTH - 1, 0, -1):
 			var current_index: int = xy_lrtd_to_index(x, y)
-			var previous_index: int = xy_lrtd_to_index(x, y - 1)
-			array[current_index] = array[previous_index]		
+			var previous_index: int = xy_lrtd_to_index(x - 1, y)
+			array[current_index] = array[previous_index]
+		
+
+	if loop_border:
+		for y in range(SCREEN_HEIGHT):
+			array[xy_lrtd_to_index(0, y)] = column_save[y]
+	else:
+		for y in range(SCREEN_HEIGHT):
+			array[xy_lrtd_to_index(0, y)] = false
 
 
-func shift_boolean_array_up(loop_border: bool = true):
-	var array := get_bool_array()	
+		
+func shift_2d_boolean_array_up(loop_border: bool = true):
+	var array := get_bool_array()
+	var line_save: Array[bool] = []
+
+	if loop_border:
+		for x in range(SCREEN_WIDTH):
+			line_save.append(array[xy_lrtd_to_index(x, 0)])
+	
 	for x in range(SCREEN_WIDTH):
-		var first_value: bool = array[xy_lrtd_to_index(x, 0)]
 		for y in range(SCREEN_HEIGHT - 1):
 			var current_index: int = xy_lrtd_to_index(x, y)
 			var next_index: int = xy_lrtd_to_index(x, y + 1)
 			array[current_index] = array[next_index]
+		
 
+	if loop_border:
+		for x in range(SCREEN_WIDTH):
+			array[xy_lrtd_to_index(x, SCREEN_HEIGHT - 1)] = line_save[x]
+	else:
+		for x in range(SCREEN_WIDTH):
+			array[xy_lrtd_to_index(x, SCREEN_HEIGHT - 1)] = false
 
 
 

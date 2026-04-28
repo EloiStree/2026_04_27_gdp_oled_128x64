@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://c5x8qrwymu4nm"]
 
-[ext_resource type="Script" uid="uid://o8dkfuyrgoia" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_node_facade.gd" id="1_2ojm6"]
 [ext_resource type="Script" uid="uid://bew77r0unuugk" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_file_memory.gd" id="1_d2cym"]
 [ext_resource type="Script" uid="uid://1vbadktl3xyb" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_set_get_screen_state_interface_with_cpu.gd" id="2_ocpf2"]
 [ext_resource type="Script" uid="uid://bs0c808qkg4o2" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_bool_array_to_texture.gd" id="3_b4d3k"]
@@ -27,9 +26,7 @@ diffuse_mode = 3
 texture_filter = 0
 texture_repeat = false
 
-[node name="Display128x64" type="Node3D" unique_id=111730519 node_paths=PackedStringArray("boolean_state")]
-script = ExtResource("1_2ojm6")
-boolean_state = NodePath("Code/BooleanState")
+[node name="Display128x64" type="Node3D" unique_id=111730519]
 
 [node name="Code" type="Node" parent="." unique_id=148936503]
 
@@ -59,8 +56,6 @@ frame_refresh = NodePath("../FrameRefresher")
 
 [node name="FrameRefresher" type="Node" parent="Code" unique_id=2142676352]
 script = ExtResource("7_tcnyo")
-time_between_frames = 0.0
-device_max_frame_rate = 200.0
 metadata/_custom_type_script = "uid://cga1aymfpdrug"
 
 [node name="SizeAnchor" type="Node3D" parent="." unique_id=603610457]
@@ -74,7 +69,7 @@ transform = Transform3D(-1, 1.6292073e-07, -1.6292073e-07, -1.6292073e-07, -3.55
 surface_material_override/0 = SubResource("StandardMaterial3D_jq1fr")
 
 [node name="ScreenQuadDisplay" type="MeshInstance3D" parent="SizeAnchor" unique_id=1534011815]
-transform = Transform3D(0.025, 0, 0, 0, -5.6824806e-10, 0.02, 0, -0.013, -8.7422775e-10, 0, -2.7465821e-05, 0)
+transform = Transform3D(0.022, 0, 0, 0, -6.556708e-10, 0.017, 0, -0.015, -7.4309364e-10, 0, -2.7465821e-05, 0)
 mesh = SubResource("QuadMesh_jq1fr")
 surface_material_override/0 = SubResource("StandardMaterial3D_s0om5")
 

@@ -27,9 +27,10 @@ diffuse_mode = 3
 texture_filter = 0
 texture_repeat = false
 
-[node name="Display128x64" type="Node3D" unique_id=111730519 node_paths=PackedStringArray("boolean_state")]
+[node name="Display128x64" type="Node3D" unique_id=111730519]
 script = ExtResource("1_2ojm6")
-boolean_state = NodePath("Code/BooleanState")
+boolean_state = Object(Node,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","script":ExtResource("2_ocpf2"),"screen_state":SubResource("Resource_d2ew5"),"metadata/_custom_type_script":"uid://1vbadktl3xyb")
+
 
 [node name="Code" type="Node" parent="." unique_id=148936503]
 
@@ -74,7 +75,7 @@ transform = Transform3D(-1, 1.6292073e-07, -1.6292073e-07, -1.6292073e-07, -3.55
 surface_material_override/0 = SubResource("StandardMaterial3D_jq1fr")
 
 [node name="ScreenQuadDisplay" type="MeshInstance3D" parent="SizeAnchor" unique_id=1534011815]
-transform = Transform3D(0.025, 0, 0, 0, -5.6824806e-10, 0.02, 0, -0.013, -8.7422775e-10, 0, -2.7465821e-05, 0)
+transform = Transform3D(0.022, 0, 0, 0, -6.556708e-10, 0.017, 0, -0.015, -7.4309364e-10, 0, -2.7465821e-05, 0)
 mesh = SubResource("QuadMesh_jq1fr")
 surface_material_override/0 = SubResource("StandardMaterial3D_s0om5")
 
