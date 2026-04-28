@@ -64,6 +64,16 @@ func _ready():
 	screen.draw_bool_progress_bar_from_to_lrdt_vectori(Vector2i(3,3), Vector2i(100, 6), 0.5,false, true )
 
 
+
+	var list :Array[String]=screen.get_all_char_in_font_dico_6x8()
+	for character in list:
+		var image_text:String = screen.get_text_image_of_font_character(character)
+		screen.draw_from_text_image_lrtd(20, 20, image_text)
+		await wait_seconds(1)
+
+
+	await wait_seconds(2)
+
 	screen.draw_bool_line_up_lrdt(50,50,1)
 	await wait_seconds(1)
 	screen.draw_bool_line_right_lrdt(50,50,1)
