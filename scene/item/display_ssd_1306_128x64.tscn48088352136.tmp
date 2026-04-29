@@ -96,36 +96,6 @@ metadata/_custom_type_script = "uid://bd2ddrhms6hgw"
 
 [node name="NES Mockup" type="Node" parent="Code/Mod" unique_id=1578432124]
 script = ExtResource("14_hefyp")
-input_name_up = null
-input_name_right = null
-input_name_down = null
-input_name_left = null
-input_name_a = null
-input_name_b = null
-input_name_menu_left_select = null
-input_name_menu_right_restart = null
-input_gamepad_button_up = null
-input_gamepad_button_right = null
-input_gamepad_button_down = null
-input_gamepad_button_left = null
-input_gamepad_button_a = null
-input_gamepad_button_b = null
-input_gamepad_button_menu_left_select = null
-input_gamepad_button_menu_right_restart = null
-joystick_threshold = null
-use_print_keyboard_input = null
-use_print_gamepad_button_input = null
-use_print_gamepad_joystick_input = null
-button_up = null
-button_right = null
-button_down = null
-button_left = null
-button_a = null
-button_b = null
-button_menu_left_select = null
-button_menu_right_restart = null
-joystick_left_state = null
-joystick_right_state = null
 metadata/_custom_type_script = "uid://3why6y34hebw"
 
 [node name="SizeAnchor" type="Node3D" parent="." unique_id=603610457]

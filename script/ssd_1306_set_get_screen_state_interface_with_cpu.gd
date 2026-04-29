@@ -73,15 +73,12 @@ func emit_boolean_array_as_updated():
 
 #region EASY CODED
 
-func get_bool_array()->Array[bool]:
-	return screen_state.boolean_state
-
 func inverse_all_boolean_value():
 	for i in range(SCREEN_SIZE):
-		get_bool_array()[i] = not get_bool_array()[i]
+		get_value_as_1d_array_reference()[i] = not get_value_as_1d_array_reference()[i]
 
 func inverse_boolean_horizontally():
-	var array:= get_bool_array()
+	var array:= get_value_as_1d_array_reference()
 	for y in range(SCREEN_HEIGHT):
 		for x in range(SCREEN_WIDTH / 2):
 			var left_index: int = xy_lrtd_to_index(x, y)
@@ -91,7 +88,7 @@ func inverse_boolean_horizontally():
 			array[right_index] = temp
 
 func inverse_boolean_vertically():
-	var array:= get_bool_array()
+	var array:= get_value_as_1d_array_reference()
 	for x in range(SCREEN_WIDTH):
 		for y in range(SCREEN_HEIGHT / 2):
 			var top_index: int = xy_lrtd_to_index(x, y)
@@ -102,12 +99,12 @@ func inverse_boolean_vertically():
 
 
 func set_boolean_array_to_full():
-	var array:= get_bool_array()
+	var array:= get_value_as_1d_array_reference()
 	for i in range(SCREEN_SIZE):
 		array[i] = true
 
 func set_boolean_array_to_clear():
-	var array:= get_bool_array()
+	var array:= get_value_as_1d_array_reference()
 	for i in range(SCREEN_SIZE):
 		array[i] = false
 
@@ -127,32 +124,75 @@ func set_boolean_column_right_left(column_index: int, is_on: bool = true):
 #endregion
 
 
-#region SETTERS PIXEL PER PIXEL
-func set_boolean_with_1d(index: int, is_on: bool):
-	if index < 0 or index > SCREEN_SIZE_INDEX_MAX:
-		return
-	get_bool_array()[index] = is_on
 
-func set_boolean_with_2d_lrtd(x: int, y: int, is_on: bool):
-	if x < 0 or x >= SCREEN_WIDTH:
-		return
-	if y < 0:
-		y = 0
-	if y >= SCREEN_HEIGHT:
-		y = SCREEN_HEIGHT - 1
 
-	var index: int = xy_lrtd_to_index(x, y)
-	set_boolean_with_1d(index, is_on)
 
-func set_boolean_with_2d_lrdt(x: int, y: int, is_on: bool):
-	if x < 0 or x >= SCREEN_WIDTH:
+#region BASIC SHOULD NOT BE CHANGED
+
+
+func set_value_at_index_1d(index_0_8191:int, is_on:bool):
+	if index_0_8191 < 0 or index_0_8191 > SCREEN_SIZE_INDEX_MAX:
 		return
-	if y < 0 or y >= SCREEN_HEIGHT:
+	get_value_as_1d_array_reference()[index_0_8191] = is_on
+
+
+func get_value_at_index_1d(index_0_8191:int)->bool:
+	if index_0_8191 <0 or index_0_8191 > SCREEN_SIZE_INDEX_MAX:
+		return false
+	return get_value_as_1d_array_reference()[index_0_8191]
+
+func set_value_with_1d_array(array:Array[bool]):
+	for i in range(array.size()):
+		set_value_at_index_1d(i, array[i])
+
+func get_value_as_1d_array_reference()->Array[bool]:
+	return screen_state.boolean_state
+
+func get_value_as_1d_array_copy()->Array[bool]:
+	var copy :Array[bool] = []
+	for i in range(SCREEN_SIZE):
+		copy.append(get_value_at_index_1d(i))
+	return copy
+
+
+func set_value_at_x_y_lrtd(x_left_right:int,y_top_down:int, is_on:bool):
+	if x_left_right < 0 or x_left_right >= SCREEN_WIDTH:
 		return
-	var index: int = xy_lrdt_to_index(x, y)
-	set_boolean_with_1d(index, is_on)	
+	if y_top_down < 0:
+		y_top_down = 0
+	if y_top_down >= SCREEN_HEIGHT:
+		y_top_down = SCREEN_HEIGHT - 1
+
+	var index: int = xy_lrtd_to_index(x_left_right, y_top_down)
+	set_value_at_index_1d(index, is_on)
+
+func set_value_at_x_y_lrdt(x_left_right:int,y_down_top:int, is_on:bool):
+	if x_left_right < 0 or x_left_right >= SCREEN_WIDTH:
+		return
+	if y_down_top < 0 or y_down_top >= SCREEN_HEIGHT:
+		return
+	var index: int = xy_lrdt_to_index(x_left_right, y_down_top)
+	set_value_at_index_1d(index, is_on)	
+
+
+func get_value_at_x_y_lrtd(x_left_right:int,y_top_down:int)->bool:
+	var index: int = xy_lrtd_to_index(x_left_right, y_top_down)
+	return get_value_at_index_1d(index)
+	
+
+func get_value_at_x_y_lrdt(x_left_right:int,y_down_top:int)->bool:
+	var index: int = xy_lrdt_to_index(x_left_right, y_down_top)
+	return get_value_at_index_1d(index)
+
 
 #endregion
+
+
+
+
+
+
+
 
 
 #region GETTERS
@@ -181,7 +221,7 @@ func get_bottom_right_corner_index_1d() -> int:
 func set_boolean_to_random_at_1d(index: int):
 	if index < 0 or index > SCREEN_SIZE_INDEX_MAX:
 		return
-	get_bool_array()[index] = randi() % 2 == 0
+	get_value_as_1d_array_reference()[index] = randi() % 2 == 0
 
 func set_all_to_random():
 	for i in range(SCREEN_SIZE):
@@ -190,7 +230,7 @@ func set_all_to_random():
 func toggle_1d_value(index: int):
 	if index < 0 or index > SCREEN_SIZE_INDEX_MAX:
 		return
-	get_bool_array()[index] = not get_bool_array()[index]
+	get_value_as_1d_array_reference()[index] = not get_value_as_1d_array_reference()[index]
 
 func toggle_2d_lrdt_value(x: int, y: int):
 	if x < 0 or x >= SCREEN_WIDTH:
@@ -257,7 +297,7 @@ func set_boolean_diagonal_lrdt_of(x_left_right: int, y_down_top: int, is_on: boo
 			break
 		if target_y < 0 or target_y >= SCREEN_HEIGHT:
 			break
-		set_boolean_with_2d_lrtd(target_x, target_y, is_on)
+		set_value_at_x_y_lrtd(target_x, target_y, is_on)
 
 
 #region BIT OPERATIONS
@@ -270,7 +310,7 @@ func _init() -> void:
 	set_boolean_array_to_clear()
 		
 func override_array_with_boolean_array(source_array: Array[bool]):
-	var array := get_bool_array()
+	var array := get_value_as_1d_array_reference()
 	for i in range(SCREEN_SIZE):
 		if i < source_array.size():
 			array[i] = source_array[i]
@@ -285,7 +325,7 @@ func override_array_with_boolean_array_and_emit(source_array: Array[bool]):
 
 func shift_1d_by_steps_left(steps: int, loop_border: bool = true):
 	var new_array: Array[bool] = []
-	var array := get_bool_array()
+	var array := get_value_as_1d_array_reference()
 	for i in range(steps):
 		var first_value = array[0]
 		var last_value = array[SCREEN_SIZE - 1]
@@ -295,7 +335,7 @@ func shift_1d_by_steps_left(steps: int, loop_border: bool = true):
 
 func shift_1d_by_steps_right(steps: int, loop_border: bool = true):
 	var new_array: Array[bool] = []
-	var array := get_bool_array()
+	var array := get_value_as_1d_array_reference()
 	for i in range(steps):
 		var first_value = array[0]
 		var last_value = array[SCREEN_SIZE - 1]
@@ -346,7 +386,7 @@ func draw_bool_fill_rectangle_lrtd(x_left_right: int, y_top_down: int, width: in
 	for j in range(x_left_right, x_left_right+width):
 		for i in range(y_top_down, y_top_down+height):
 			if j < SCREEN_WIDTH and i < SCREEN_HEIGHT:
-				set_boolean_with_2d_lrtd(j, i, is_on)
+				set_value_at_x_y_lrtd(j, i, is_on)
 
 
 func draw_bool_line_percent01_right(percent01:float):
@@ -372,39 +412,40 @@ func draw_bool_line_percent11_right(percent11:float):
 
 func draw_bool_line_up_lrdt(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
 	for i in range(pixel + 1):
-		set_boolean_with_2d_lrdt(x_left_right, y_down_top + i, is_on)
+
+		set_value_at_x_y_lrdt(x_left_right, y_down_top + i, is_on)
 
 func draw_bool_line_right_lrdt(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
 	for i in range(pixel + 1):
-		set_boolean_with_2d_lrdt(x_left_right + i, y_down_top, is_on)
+		set_value_at_x_y_lrdt(x_left_right + i, y_down_top, is_on)
 
 func draw_bool_line_left_lrdt(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
 	for i in range(pixel + 1):
-		set_boolean_with_2d_lrdt(x_left_right - i, y_down_top, is_on)
+		set_value_at_x_y_lrdt(x_left_right - i, y_down_top, is_on)
 
 func draw_bool_line_down_lrdt(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
 	for i in range(pixel + 1):
-		set_boolean_with_2d_lrdt(x_left_right, y_down_top - i, is_on)
+		set_value_at_x_y_lrdt(x_left_right, y_down_top - i, is_on)
 
 func draw_bool_line_left_lrtd(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
 	var x = x_left_right;
 	for i in range(0,pixel+1):
-		set_boolean_with_2d_lrtd(x-i, y_down_top, is_on)
+		set_value_at_x_y_lrtd(x-i, y_down_top, is_on)
 
 func draw_bool_line_right_lrtd(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
 	var x = x_left_right;
 	for i in range(0,pixel+1):
-		set_boolean_with_2d_lrtd(x+i, y_down_top, is_on)
+		set_value_at_x_y_lrtd(x+i, y_down_top, is_on)
 
 func draw_bool_line_up_lrtd(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
 	var y = y_down_top;
 	for i in range(0,pixel+1):
-		set_boolean_with_2d_lrtd(x_left_right, y-i, is_on)
+		set_value_at_x_y_lrtd(x_left_right, y-i, is_on)
 
 func draw_bool_line_down_lrtd(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
 	var y = y_down_top;
 	for i in range(0,pixel+1):
-		set_boolean_with_2d_lrtd(x_left_right, y+i, is_on)
+		set_value_at_x_y_lrtd(x_left_right, y+i, is_on)
 
 
 
@@ -422,7 +463,7 @@ func draw_bool_byte_line_down_lrtd(x_left_right: int, y_down_top: int, byte_as_i
 	##TODO: TEST LATER
 	for i in range(8):
 		var bit_is_on: bool = (byte_as_int & (1 << i)) != 0
-		set_boolean_with_2d_lrtd(x_left_right, y_down_top + i, bit_is_on)
+		set_value_at_x_y_lrtd(x_left_right, y_down_top + i, bit_is_on)
 
 
 func draw_page(page_index_0_7:int, bytes_0_127: PackedByteArray): 
@@ -456,6 +497,15 @@ func keep_only_01(text:String)->String:
 	return result
 
 
+
+func draw_from_text_image_lrtd_at_zero(text:String):	
+	draw_from_text_image_lrtd(0,0,text)
+	
+func draw_from_text_image_lrtd_at_zero_inversed(text:String):
+	push_error("Not implemented exception")
+	pass
+	
+
 func draw_bool_image_from_1d_array_lrtd_at_zero(width: int, boolean_array: Array[bool]):
 	draw_bool_image_from_1d_array_lrtd(0, 0, width, boolean_array)
 
@@ -469,7 +519,7 @@ func draw_bool_image_from_1d_array_lrtd(x_left_right: int, y_down_top: int, widt
 			is_on = not is_on
 		var x_offset: int = i % width
 		var y_offset: int = i / width
-		set_boolean_with_2d_lrtd(x_left_right + x_offset, y_down_top + y_offset, is_on)
+		set_value_at_x_y_lrtd(x_left_right + x_offset, y_down_top + y_offset, is_on)
 
 
 func draw_bool_character_6x8_lrtd(x_left_right: int, y_down_top: int, char: String, is_on: bool = true):
@@ -510,7 +560,7 @@ func draw_bool_fill_rectangle_lrtd_from_to_vectori(start:Vector2i, end:Vector2i,
 	for x in range(start.x, end.x+1):
 		for y in range(start.y, end.y+1):
 			if x < SCREEN_WIDTH and y < SCREEN_HEIGHT:
-				set_boolean_with_2d_lrtd(x, y, is_on)
+				set_value_at_x_y_lrtd(x, y, is_on)
 	
 
 func draw_from_text_image_lrtd( x_left_right: int, y_down_top: int, text_image:String):
@@ -528,7 +578,7 @@ func draw_from_text_image_lrtd( x_left_right: int, y_down_top: int, text_image:S
 			if char != "0" and char != "1":
 				continue
 			var is_on: bool = char == "1"
-			set_boolean_with_2d_lrtd(start_x + x_counter, start_y + y_counter, is_on)
+			set_value_at_x_y_lrtd(start_x + x_counter, start_y + y_counter, is_on)
 			x_counter += 1
 		y_counter += 1
 		x_counter = 0
@@ -593,10 +643,10 @@ func draw_bool_fill_square_lrtd(x_left_right: int, y_top_down: int, square_width
 	for j in range(x_left_right, x_left_right+square_width):
 		for i in range(y_top_down, y_top_down+square_width):
 			if j < SCREEN_WIDTH and i < SCREEN_HEIGHT:
-				set_boolean_with_2d_lrtd(j, i, is_on)
+				set_value_at_x_y_lrtd(j, i, is_on)
 
 func shift_2d_boolean_array_down(loop_border: bool = true):
-	var array := get_bool_array()
+	var array := get_value_as_1d_array_reference()
 	var line_save: Array[bool] = []
 
 	if loop_border:
@@ -620,7 +670,7 @@ func shift_2d_boolean_array_down(loop_border: bool = true):
 
 
 func shift_2d_boolean_array_left(loop_border: bool = true):
-	var array := get_bool_array()
+	var array := get_value_as_1d_array_reference()
 	var column_save: Array[bool] = []
 
 	if loop_border:
@@ -645,7 +695,7 @@ func shift_2d_boolean_array_left(loop_border: bool = true):
 
 
 func shift_2d_boolean_array_right(loop_border: bool = true):
-	var array := get_bool_array()
+	var array := get_value_as_1d_array_reference()
 	var column_save: Array[bool] = []
 
 	if loop_border:
@@ -669,7 +719,7 @@ func shift_2d_boolean_array_right(loop_border: bool = true):
 
 		
 func shift_2d_boolean_array_up(loop_border: bool = true):
-	var array := get_bool_array()
+	var array := get_value_as_1d_array_reference()
 	var line_save: Array[bool] = []
 
 	if loop_border:
@@ -701,7 +751,7 @@ func draw_bool_center_diamond_v2i_lrdt(point: Vector2i, radius: int, is_on: bool
 		for x in range(SCREEN_WIDTH):
 			var distance_squared: int = (x - point.x) * (x - point.x) + (y - point.y) * (y - point.y)
 			if distance_squared <= radius * radius:
-				set_boolean_with_2d_lrtd(x, y, is_on)
+				set_value_at_x_y_lrtd(x, y, is_on)
 
 func draw_bool_center_circle_v2i_lrdt(point: Vector2i, radius: int, is_on: bool = true, fill:bool=true):
 	if fill:
@@ -709,20 +759,20 @@ func draw_bool_center_circle_v2i_lrdt(point: Vector2i, radius: int, is_on: bool 
 			for x in range(point.x - radius, point.x + radius + 1):
 				var distance_squared: int = (x - point.x) * (x - point.x) + (y - point.y) * (y - point.y)
 				if distance_squared <= radius * radius:
-					set_boolean_with_2d_lrtd(x, y, is_on)
+					set_value_at_x_y_lrtd(x, y, is_on)
 	
 	for angle in range(0, 360):
 		var rad: float = deg_to_rad(angle)
 		var x: int = round(point.x + radius * cos(rad))
 		var y: int = round(point.y + radius * sin(rad))
-		set_boolean_with_2d_lrtd(x, y, is_on)
+		set_value_at_x_y_lrtd(x, y, is_on)
 
 
 func draw_bool_center_square_v2i_lrdt(point: Vector2i, half_size: int, is_on: bool = true):
 	for y in range(SCREEN_HEIGHT):
 		for x in range(SCREEN_WIDTH):
 			if abs(x - point.x) <= half_size and abs(y - point.y) <= half_size:
-				set_boolean_with_2d_lrtd(x, y, is_on)
+				set_value_at_x_y_lrtd(x, y, is_on)
 
 func draw_bool_line_v2i_lrdt(start: Vector2i, end: Vector2i, is_on: bool = true):
 	
@@ -731,7 +781,7 @@ func draw_bool_line_v2i_lrdt(start: Vector2i, end: Vector2i, is_on: bool = true)
 	var points_on_line: Array[Vector2i] = []
 	var magnitude: float = start.distance_to(end)
 	if magnitude == 0:
-		set_boolean_with_2d_lrtd(start.x, start.y, is_on)
+		set_value_at_x_y_lrtd(start.x, start.y, is_on)
 		return
 	var direction: Vector2 = (end - start) / magnitude
 	var current_point: Vector2 = start
@@ -743,7 +793,7 @@ func draw_bool_line_v2i_lrdt(start: Vector2i, end: Vector2i, is_on: bool = true)
 		traveled_distance += direction.length()
 	
 	for point in points_on_line:
-		set_boolean_with_2d_lrtd(point.x, point.y, is_on)
+		set_value_at_x_y_lrtd(point.x, point.y, is_on)
 
 func draw_bool_line_radius_v2i_lrdt(start: Vector2i, end: Vector2i, is_on: bool = true, radius: int = 2):
 
@@ -769,20 +819,20 @@ func draw_bool_line_radius_v2i_lrdt(start: Vector2i, end: Vector2i, is_on: bool 
 
 func draw_bool_vertical_line_left_right(left_right: int, is_on: bool = true):
 	for y in range(SCREEN_HEIGHT):
-		set_boolean_with_2d_lrtd(left_right, y, is_on)
+		set_value_at_x_y_lrtd(left_right, y, is_on)
 
 
 func draw_bool_horizontal_line_top_down(top_down: int, is_on: bool = true):
 	for x in range(SCREEN_WIDTH):
-		set_boolean_with_2d_lrtd(x, top_down, is_on)
+		set_value_at_x_y_lrtd(x, top_down, is_on)
 
 func draw_bool_vertical_line_right_left(right_left: int, is_on: bool = true):
 	for y in range(SCREEN_HEIGHT):
-		set_boolean_with_2d_lrtd(right_left, y, is_on)
+		set_value_at_x_y_lrtd(right_left, y, is_on)
 
 func draw_bool_horizontal_line_down_top(down_top: int, is_on: bool = true):
 	for x in range(SCREEN_WIDTH):
-		set_boolean_with_2d_lrtd(x, down_top, is_on)
+		set_value_at_x_y_lrtd(x, down_top, is_on)
 
 #endregion
 
