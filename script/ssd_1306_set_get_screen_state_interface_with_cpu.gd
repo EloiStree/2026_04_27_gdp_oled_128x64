@@ -455,7 +455,41 @@ func keep_only_01(text:String)->String:
 			result += char
 	return result
 
-	
+
+func draw_bool_image_from_1d_array_lrtd_at_zero(width: int, boolean_array: Array[bool]):
+	draw_bool_image_from_1d_array_lrtd(0, 0, width, boolean_array)
+
+func draw_bool_image_from_1d_array_lrtd_at_zero_inversed(width: int, boolean_array: Array[bool]):
+	draw_bool_image_from_1d_array_lrtd(0, 0, width, boolean_array, true)
+
+func draw_bool_image_from_1d_array_lrtd(x_left_right: int, y_down_top: int, width: int, boolean_array: Array[bool], inverse: bool = false):
+	for i in range(boolean_array.size()):
+		var is_on: bool = boolean_array[i]
+		if inverse:
+			is_on = not is_on
+		var x_offset: int = i % width
+		var y_offset: int = i / width
+		set_boolean_with_2d_lrtd(x_left_right + x_offset, y_down_top + y_offset, is_on)
+
+
+func draw_bool_character_6x8_lrtd(x_left_right: int, y_down_top: int, char: String, is_on: bool = true):
+	var image :String=get_text_image_of_font_character(char)
+	draw_from_text_image_lrtd(x_left_right, y_down_top, image)
+
+func draw_bool_line_characters_6x8_lrtd(x_left_right: int, y_down_top: int, char: String, is_on: bool = true):
+	var right_offset: int = 6
+	var down_offset: int = 8
+	var line_count: int = 0
+	var char_count: int = 0
+
+	for c in char:
+		if c == "\n":
+			line_count += 1
+			char_count = 0
+			continue
+		var image :String=get_text_image_of_font_character(c)
+		draw_from_text_image_lrtd(x_left_right + char_count * right_offset, y_down_top + line_count * down_offset, image)
+		char_count += 1
 
 
 func draw_bool_border_rectangle_lrtd_from_to(sx:int,sy:int,ex:int,ey:int, is_on: bool = true):
@@ -750,8 +784,6 @@ func draw_bool_horizontal_line_down_top(down_top: int, is_on: bool = true):
 	for x in range(SCREEN_WIDTH):
 		set_boolean_with_2d_lrtd(x, down_top, is_on)
 
-
-
 #endregion
 
 func get_center_point_2d_lrtd() -> Vector2i:
@@ -762,8 +794,6 @@ func get_random_point_2d_lrdt() -> Vector2i:
 	var y: int = randi() % SCREEN_HEIGHT
 	return Vector2i(x, y)
 
-
- 
 
 func get_text_image_of_font_character(character: String) -> String:
 	if FONT_DICO_SSD1306_6X8.has(character):

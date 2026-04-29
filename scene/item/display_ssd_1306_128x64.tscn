@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://d363tdb6vh22o" path="res://addons/2026_04_27_gdp_oled_128x64/3d/ssd_1306_128x64_display_uv_colored.png" id="7_drid1"]
 [ext_resource type="Script" uid="uid://cga1aymfpdrug" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_frame_refresher.gd" id="7_tcnyo"]
 [ext_resource type="Script" uid="uid://cyhqcwf7ndy0o" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_set_mesh_instance_texture.gd" id="8_pf81u"]
+[ext_resource type="Texture2D" uid="uid://75tfuxy7otld" path="res://addons/2026_04_27_gdp_oled_128x64/2d/screen_128x64_image/godot_gear_128x64.png" id="8_poj6n"]
+[ext_resource type="Script" uid="uid://ctqe3wn7f4dis" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_parse_image_to_boolean.gd" id="9_4wjyu"]
 
 [sub_resource type="Resource" id="Resource_d2ew5"]
 script = ExtResource("3_j53vp")
@@ -56,12 +58,17 @@ screen = NodePath("../BooleanState")
 use_test = true
 label_for_debug = NodePath("../../SizeAnchor/ForTestDebugLabel3D")
 frame_refresh = NodePath("../FrameRefresher")
+image_logo = ExtResource("8_poj6n")
 
 [node name="FrameRefresher" type="Node" parent="Code" unique_id=2142676352]
 script = ExtResource("7_tcnyo")
 time_between_frames = 0.0
 device_max_frame_rate = 200.0
 metadata/_custom_type_script = "uid://cga1aymfpdrug"
+
+[node name="ParseImageIn" type="Node" parent="Code" unique_id=139122777]
+script = ExtResource("9_4wjyu")
+metadata/_custom_type_script = "uid://ctqe3wn7f4dis"
 
 [node name="SizeAnchor" type="Node3D" parent="." unique_id=603610457]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
@@ -92,5 +99,6 @@ text = "Test"
 [connection signal="on_boolean_array_updated" from="Code/BooleanState" to="Code/BooleanToTexture" method="set_texture_with_boolean_array"]
 [connection signal="on_texture_updated" from="Code/BooleanToTexture" to="SizeAnchor/ScreenQuadDisplay/SSD1306SetMeshInstanceTexture" method="set_texture"]
 [connection signal="call_refreshing_frame" from="Code/FrameRefresher" to="Code/BooleanState" method="emit_boolean_array_as_updated"]
+[connection signal="on_image_parsed" from="Code/ParseImageIn" to="Code/BooleanState" method="draw_bool_image_from_1d_array_lrtd_at_zero"]
 
 [editable path="SizeAnchor/ssd_1306_128x64_display"]

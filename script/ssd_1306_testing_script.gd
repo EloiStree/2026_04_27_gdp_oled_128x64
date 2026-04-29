@@ -1,11 +1,15 @@
 class_name SensorTestDisplay128x64CPU
 extends Node
 
+
+
 @export var screen: SSD1306SetGetScreenStateInterfaceWithCPU
 @export var use_test :bool =false
 @export var label_for_debug:Label3D
 
 @export var frame_refresh: SSD1306FrameRefresher
+
+@export var image_logo:Texture2D 
 
 func wait_one_second() -> void:
 	await get_tree().create_timer(1.0).timeout
@@ -57,19 +61,29 @@ func _ready():
 	# screen.draw_bool_chressboard_full_screen()
 	# await wait_seconds(1)
 	# screen.draw_bool_chressboard_centered()
-	# await wait_seconds(1)
-#endregion
+# await wait_seconds(1)
+	#endregion
 
 
 	screen.draw_bool_progress_bar_from_to_lrdt_vectori(Vector2i(3,3), Vector2i(100, 6), 0.5,false, true )
 
-
-
-	var list :Array[String]=screen.get_all_char_in_font_dico_6x8()
-	for character in list:
-		var image_text:String = screen.get_text_image_of_font_character(character)
-		screen.draw_from_text_image_lrtd(20, 20, image_text)
+	var array_bool:=SSD1306ParseImageToBoolean.convert_image_to_boolean_1d_array(image_logo)
+	for i in range(5):
+		screen.draw_bool_image_from_1d_array_lrtd_at_zero(128,array_bool)
 		await wait_seconds(1)
+		screen.draw_bool_image_from_1d_array_lrtd_at_zero_inversed(128,array_bool)
+		await wait_seconds(1)
+	
+	
+
+	screen.draw_bool_line_characters_6x8_lrtd(3, 3, "Hello World\nAnd Hello you ;)")
+
+
+	# var list :Array[String]=screen.get_all_char_in_font_dico_6x8()
+	# for character in list:
+	# 	var image_text:String = screen.get_text_image_of_font_character(character)
+	# 	screen.draw_from_text_image_lrtd(20, 20, image_text)
+	# 	await wait_seconds(1)
 
 
 	await wait_seconds(2)
