@@ -13,20 +13,33 @@ git clone https://github.com/EloiStree/2026_04_27_gdp_oled_128x64.git addons/202
 
 ----------------------------------------------
 
+# SSD1306 OLED 128×64
 
-# 2026_04_27_gdp_oled_128x64
+> Learn Godot scripting in a hands-on way using a simulated SSD1306 OLED 128×64 display.
 
-> SSD1306 OLED 128x64 to learn Godot Script with fun.
+### What is an OLED?
 
-Started in Learn with sensors:
-https://github.com/EloiStree/2026_04_11_gdp_learn_with_sensors
+* [https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/3](https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/3)
 
-For reusability in projects, I think it is better to have it isolated and stable.
+---
+
+To keep this asset clean and usable in real projects, the learning code is maintained separately.
+This repository is dedicated to experimenting and learning how the display works:
+
+* [https://github.com/EloiStree/HelloGodot128x64](https://github.com/EloiStree/HelloGodot128x64)
+
+---
+
+🍻📖 **Purpose**
+This package can be used either as a learning tool or as a debugging display within your projects.
+
+If your focus is more on learning Godot concepts such as transforms and rotations, check out:
+
+* [https://github.com/EloiStree/2026_04_11_gdp_learn_with_sensors](https://github.com/EloiStree/2026_04_11_gdp_learn_with_sensors)
+* [https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/1](https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/1)
 
 
-
-
-
+--------------------
 
 <img width="128" height="64" alt="godot_gear_128x64" src="https://github.com/user-attachments/assets/d682b1cf-4854-4cca-9860-830e4f80ddde" />
 <img width="663" height="785" alt="image" src="https://github.com/user-attachments/assets/3e00ef45-d13d-4c74-bd3d-0fdfa68b6682" />
