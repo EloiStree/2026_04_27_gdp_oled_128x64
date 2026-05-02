@@ -1,3 +1,11 @@
+- https://github.com/EloiStree/2026_04_27_gdp_oled_128x64
+- https://github.com/EloiStree/2026_04_27_gdp_oled_128x64_sample
+- https://github.com/EloiStree/HelloGodot128x64
+
+-----------
+
+
+
 <img width="642" height="577" alt="image" src="https://github.com/user-attachments/assets/1c72d440-f9fa-4544-a624-17ef8f0cd689" />
 
 
