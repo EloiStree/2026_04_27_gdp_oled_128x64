@@ -6,7 +6,7 @@ extends Node
 @export var methode_name_draw_called:String = "on_draw_was_called"
 @export var methode_name_update_position_rotation:String = "on_update_position_rotation"
 @export var methode_name_update_nes_buttons:String = "on_update_nes_buttons"
-@export var signal_name_listen_to_array_1d_upated:String = "out_push_boolean_array"
+@export var signal_name_listen_to_array_1d_upated:String = "on_screen_update_request"
 
 @export var variable_name_api_code:String = "facade"
 @export var facade_to_provide:SSD1306NodeFacade

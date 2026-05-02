@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://d27y3ju8pgemi" path="res://addons/2026_04_27_gdp_oled_128x64/3d/ssd_1306_128x64_display.glb" id="6_edshu"]
 [ext_resource type="Texture2D" uid="uid://d363tdb6vh22o" path="res://addons/2026_04_27_gdp_oled_128x64/3d/ssd_1306_128x64_display_uv_colored.png" id="7_drid1"]
 [ext_resource type="Script" uid="uid://cga1aymfpdrug" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_frame_refresher.gd" id="7_tcnyo"]
+[ext_resource type="Texture2D" uid="uid://cx1gnw5dl8vm3" path="res://addons/2026_04_27_gdp_oled_128x64/2d/screen_128x64_image/xpen_hello.png" id="8_hefyp"]
 [ext_resource type="Script" uid="uid://cyhqcwf7ndy0o" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_set_mesh_instance_texture.gd" id="8_pf81u"]
-[ext_resource type="Texture2D" uid="uid://75tfuxy7otld" path="res://addons/2026_04_27_gdp_oled_128x64/2d/screen_128x64_image/godot_gear_128x64.png" id="8_poj6n"]
 [ext_resource type="Script" uid="uid://ctqe3wn7f4dis" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_parse_image_to_boolean.gd" id="9_4wjyu"]
 [ext_resource type="Script" uid="uid://dg21ig84uy7n7" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_exporter.gd" id="11_cq0bo"]
 [ext_resource type="Script" uid="uid://bhwk2brejtwio" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/ssd_1306_mod_boolean_array_node_bridge.gd" id="12_q5plq"]
@@ -63,9 +63,10 @@ metadata/_custom_type_script = "uid://bs0c808qkg4o2"
 [node name="QuickTestingScript" type="Node" parent="Code" unique_id=290874810 node_paths=PackedStringArray("screen", "label_for_debug", "frame_refresh")]
 script = ExtResource("5_8em23")
 screen = NodePath("../BooleanState")
+use_test = true
 label_for_debug = NodePath("../../SizeAnchor/ForTestDebugLabel3D")
 frame_refresh = NodePath("../FrameRefresher")
-image_logo = ExtResource("8_poj6n")
+image_logo = ExtResource("8_hefyp")
 
 [node name="FrameRefresher" type="Node" parent="Code" unique_id=2142676352]
 script = ExtResource("7_tcnyo")
