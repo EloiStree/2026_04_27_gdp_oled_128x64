@@ -35,6 +35,8 @@ func emit():
 #region STATIC 
 
 
+
+
 static func index_to_xy_lrtd(index: int) -> Vector2i:
 	var x: int = index % SCREEN_WIDTH
 	var y: int = index / SCREEN_WIDTH
@@ -125,6 +127,57 @@ func set_boolean_column_right_left(column_index: int, is_on: bool = true):
 
 
 
+#region COMPARE
+
+
+func compare_is_equals_to_boolean_1d_array(source_array: Array[bool]) -> bool:
+	var array := get_value_as_1d_array_reference()
+	for i in range(SCREEN_SIZE):
+		if i < source_array.size():
+			if array[i] != source_array[i]:
+				return false
+		else:
+			if array[i] != false:
+				return false
+	return true
+
+func compare_is_equals_to_image_text(source_image_text: String) -> bool:
+	# remove all characters except 0,1 and \n
+	var cleaned_source: String = keep_only_01(replace_slash_per_line_return(source_image_text))
+	var array: Array[bool] = []
+	for c in cleaned_source:
+		if c == "1":
+			array.append(true)
+		elif c == "0":
+			array.append(false)
+	return compare_is_equals_to_boolean_1d_array(array)
+
+func compare_is_equals_to_image_text_at_lrtd_at_zero( source_image_text: String) -> bool:
+	return compare_is_equals_to_image_text_at_lrtd(0, 0, source_image_text)
+
+func compare_is_equals_to_image_text_at_lrtd(x_left_right: int, y_top_down: int, source_image_text: String) -> bool:
+	# remove all characters except 0,1 and \n
+	var array := get_value_as_1d_array_reference()
+	var cleaned_source: String = source_image_text.replace(" ","").replace("\t","").replace("\r","").replace("\\","").replace("/","").replace("|","\n")
+	var lines := cleaned_source.split("\n")
+	## return false if any is wrong
+	for y_offset in range(lines.size()):
+		var line: String = lines[y_offset]
+		for x_offset in range(line.length()):
+			var char: String = line[x_offset]
+			if char != "0" and char != "1":
+				continue
+			var is_on: bool = char == "1"
+			var target_x: int = x_left_right + x_offset
+			var target_y: int = y_top_down + y_offset
+			if target_x < 0 or target_x >= SCREEN_WIDTH or target_y < 0 or target_y >= SCREEN_HEIGHT:
+				continue
+			if get_value_at_x_y_lrtd(target_x, target_y) != is_on:
+				return false
+	return true
+
+#endregion
+
 
 
 #region BASIC SHOULD NOT BE CHANGED
@@ -146,7 +199,7 @@ func set_value_with_1d_array(array:Array[bool]):
 		set_value_at_index_1d(i, array[i])
 
 func get_value_as_1d_array_reference()->Array[bool]:
-	return screen_state.boolean_state
+	return screen_state.get_array_as_reference()
 
 func get_value_as_1d_array_copy()->Array[bool]:
 	var copy :Array[bool] = []

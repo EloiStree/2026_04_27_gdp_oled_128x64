@@ -6,6 +6,7 @@ extends Node
 
 @export var exporter:SSD1306Exporter
 
+
 @export var code_creator:SSD1306ModCreateCodeNode
 
 
@@ -37,7 +38,7 @@ func get_value_at_index_1d(index_0_8191:int)->bool:
 	return is_on
 
 func set_value_with_1d_array(array:Array[bool]):
-	boolean_state.set_boolean_with_1d()
+	boolean_state.override_array_with_boolean_array(array)
 	
 func get_value_as_1d_array_reference()->Array[bool]:
 	return boolean_state.get_value_as_1d_array_reference()
@@ -71,6 +72,17 @@ func set_value_at_x_y_lrdt(x_left_right:int,y_top_down:int, is_on:bool):
 
 func get_value_at_x_y_lrdt(x_left_right:int,y_top_down:int)->bool:	
 	return boolean_state.get_value_at_x_y_lrdt(x_left_right,y_top_down)
+
+#endregion
+
+
+#region COMPARE
+
+func compare_with_1d_array(array:Array[bool])->bool:
+	return boolean_state.compare_with_boolean_array(array)
+
+func compare_is_equals_to_image_text_at_lrtd_zero(text:String)->bool:
+	return boolean_state.compare_is_equals_to_image_text_at_lrtd_zero(text)
 
 #endregion
 
@@ -117,3 +129,32 @@ func get_export_as_text_image()->String:
 	var text = SSD1306Exporter.convert_booleans_to_text_image(array)
 	return text
 	
+	
+	
+#region UDP DEBUG SENDER
+
+@export var udp_sender: SSD1306UdpSendToSingleTarget	
+func start_sending_display_to_target(ip, port, timing):
+	if udp_sender:
+		udp_sender.set_target_ip(ip)
+		udp_sender.set_target_port(port)
+		udp_sender.set_time_between_sends(timing)
+		udp_sender.start_timer_pushing_bytes()
+
+func stop_sending_display_to_target():
+	if udp_sender:
+		udp_sender.stop_timer_pushing_bytes()
+
+func send_1d_boolean_array_to_udp_target(array:Array[bool]):
+	if udp_sender:
+		SSD1306UdpSendToSingleTarget.send_1d_boolean_array_to_target(udp_sender.target_ip, udp_sender.target_port, array)
+
+func send_pack_bytes_to_udp_target(array:PackedByteArray):
+	if udp_sender:
+		SSD1306UdpSendToSingleTarget.send_1d_packed_boolean_array_to_target(udp_sender.target_ip, udp_sender.target_port, array)
+
+func send_integer_to_udp_target(value:int):
+	if udp_sender:
+		SSD1306UdpSendToSingleTarget.send_integer_little_endian_to_target(udp_sender.target_ip, udp_sender.target_port, value)
+
+#endregion

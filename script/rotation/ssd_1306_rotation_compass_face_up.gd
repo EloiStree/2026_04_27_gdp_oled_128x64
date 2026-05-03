@@ -8,7 +8,7 @@ extends Node
 @export var rotation_left_right_north_node_degrees: float = 0.0
 @export var rotation_left_right_game_center_degrees: float = 0.0
 
-@export var use_debug_print: bool = false
+# @export var use_debug_print: bool = false
 
 
 
@@ -29,8 +29,8 @@ func _process(_delta: float) -> void:
 	angle= compute_compass_angle_of_of_raw_value(from_position, from_rotation, to_position)
 	rotation_left_right_game_center_degrees = angle
 
-	if use_debug_print:
-		print ("Compass Degree: ", rotation_left_right_game_center_degrees)
+	# if use_debug_print:
+	# 	print ("Compass Degree: ", rotation_left_right_game_center_degrees)
 
 	if not target_north_node:
 		return
@@ -39,8 +39,8 @@ func _process(_delta: float) -> void:
 	angle = compute_compass_angle_of_of_raw_value(from_position, from_rotation, to_position)
 	rotation_left_right_north_node_degrees = angle
 	
-	if use_debug_print:
-		print ("Compass Degree to North Node: ", rotation_left_right_north_node_degrees)
+	# if use_debug_print:
+	# 	print ("Compass Degree to North Node: ", rotation_left_right_north_node_degrees)
 
 
 func set_north_node(north_node: Node3D) -> void:

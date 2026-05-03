@@ -5,7 +5,6 @@ extends Node
 
 @export var screen: SSD1306SetGetScreenStateInterfaceWithCPU
 @export var use_test :bool =false
-@export var label_for_debug:Label3D
 
 @export var frame_refresh: SSD1306FrameRefresher
 
@@ -20,10 +19,6 @@ func wait_seconds(seconds: float) -> void:
 func wait_next_frame() -> void:
 	await get_tree().process_frame
 
-func d_print(text:String):
-	if label_for_debug:
-		label_for_debug.text = text
-
 func wait_led_frame() -> void:
 	await frame_refresh.on_after_frame_refresh
 
@@ -32,7 +27,6 @@ func _ready():
 		return 
 	
 	await wait_seconds(0.001)
-	d_print("Start")
 
 	screen.set_boolean_array_to_clear()
 	await wait_led_frame()
@@ -68,14 +62,17 @@ func _ready():
 	screen.draw_bool_progress_bar_from_to_lrdt_vectori(Vector2i(3,3), Vector2i(100, 6), 0.5,false, true )
 
 	var array_bool:=SSD1306ParseImageToBoolean.convert_image_to_boolean_1d_array(image_logo)
-	for i in range(5):
-		screen.draw_bool_image_from_1d_array_lrtd_at_zero(128,array_bool)
-		await wait_seconds(1)
-		screen.draw_bool_image_from_1d_array_lrtd_at_zero_inversed(128,array_bool)
-		await wait_seconds(1)
-	
-	
+	screen.draw_bool_image_from_1d_array_lrtd_at_zero(128,array_bool)
 
+	#for i in range(5):
+		#screen.draw_bool_image_from_1d_array_lrtd_at_zero(128,array_bool)
+		#await wait_seconds(1)
+		#screen.draw_bool_image_from_1d_array_lrtd_at_zero_inversed(128,array_bool)
+		#await wait_seconds(1)
+	#
+	
+	screen.fill()
+	await wait_seconds(1)
 	screen.draw_bool_line_characters_6x8_lrtd(3, 3, "Hello World\nAnd Hello you ;)")
 
 
@@ -85,6 +82,16 @@ func _ready():
 	# 	screen.draw_from_text_image_lrtd(20, 20, image_text)
 	# 	await wait_seconds(1)
 
+	screen.flush()
+	screen.draw_bool_fill_square_lrtd( 30,30 ,4,true)
+
+	for i in range(1024):
+		screen.shift_2d_boolean_array_left(true)
+		await wait_next_frame()
+		
+	
+	
+	
 
 	await wait_seconds(2)
 
@@ -113,19 +120,19 @@ func _ready():
 	screen.draw_bool_fill_rectangle_lrtd_from_to( 60,10,65,15, true)
 	await wait_seconds(1)
 
-
-
-	screen.draw_bool_line_percent01_right(0)
-	await wait_seconds(1)
-	screen.draw_bool_line_percent01_right(1)
-	await wait_seconds(1)
-
-
-
-	var image:String="""00000/01010/00000/10001/01110"""
-	screen.draw_from_text_image_lrtd(20, 20, image)
-
-	await wait_seconds(2)
+#
+#
+	#screen.draw_bool_line_percent01_right(0)
+	#await wait_seconds(1)
+	#screen.draw_bool_line_percent01_right(1)
+	#await wait_seconds(1)
+#
+#
+#
+	#var image:String="""00000/01010/00000/10001/01110"""
+	#screen.draw_from_text_image_lrtd(20, 20, image)
+#
+	#await wait_seconds(2)
 
 
 
@@ -279,3 +286,10 @@ func _ready():
 	# # await wait_one_second()
 	# # screen.set_boolean_line_top_down(0, true)
 	# # screen.emit_boolean_array_as_updated()
+	
+	
+		
+	while true:
+		screen.shift_2d_boolean_array_left(true)
+		await wait_next_frame()
+		

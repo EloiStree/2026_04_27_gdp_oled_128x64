@@ -6,7 +6,7 @@ extends Node
 
 func _process(delta: float) -> void:
 	wheel_rotation_left_right_in_degrees = compute_wheel_rotation_in_degrees_from_frontal_double_point(frontal_center_point)
-	print("Wheel Rotation Left Right in Degrees: ", wheel_rotation_left_right_in_degrees)
+	#print("Wheel Rotation Left Right in Degrees: ", wheel_rotation_left_right_in_degrees)
 
 
 func get_wheel_rotation_in_degrees_left_right() -> float:
