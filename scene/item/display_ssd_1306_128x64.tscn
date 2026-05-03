@@ -17,6 +17,9 @@
 [ext_resource type="Script" uid="uid://bhwk2brejtwio" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/ssd_1306_mod_boolean_array_node_bridge.gd" id="12_q5plq"]
 [ext_resource type="Script" uid="uid://bd2ddrhms6hgw" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/ssd_1306_mod_create_code_node.gd" id="13_e75sw"]
 [ext_resource type="Script" uid="uid://3why6y34hebw" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/ssd_1306_mod_fake_nes_input.gd" id="14_hefyp"]
+[ext_resource type="Script" uid="uid://feq5xgwg2owb" path="res://addons/2026_04_27_gdp_oled_128x64/script/rotation/ssd_1306_rotation_compass_face_up.gd" id="15_tvspk"]
+[ext_resource type="Script" uid="uid://1sc4j57b54h7" path="res://addons/2026_04_27_gdp_oled_128x64/script/rotation/ssd_1306_rotation_wheel_face_forward.gd" id="16_y18q0"]
+[ext_resource type="Script" uid="uid://pvgu7vs0vdqa" path="res://addons/2026_04_27_gdp_oled_128x64/script/rotation/ssd_1306_rotation_tilt_raw_face_up.gd" id="17_ge4ql"]
 
 [sub_resource type="Resource" id="Resource_d2ew5"]
 script = ExtResource("3_j53vp")
@@ -33,13 +36,19 @@ diffuse_mode = 3
 texture_filter = 0
 texture_repeat = false
 
-[node name="Display128x64" type="Node3D" unique_id=111730519 node_paths=PackedStringArray("boolean_state", "exporter", "code_creator")]
+[node name="Display128x64" type="Node3D" unique_id=111730519 node_paths=PackedStringArray("boolean_state", "exporter", "code_creator", "wheel_rotation", "tilt_raw_rotation", "compass_rotation")]
 script = ExtResource("1_2ojm6")
 boolean_state = NodePath("Code/BooleanState")
 exporter = NodePath("Code/Exporter")
 code_creator = NodePath("Code/Mod/Create Mod Code")
+wheel_rotation = NodePath("Code/Node/Wheel Face Forward")
+tilt_raw_rotation = NodePath("Code/Node/Tilt Raw Face Up")
+compass_rotation = NodePath("Code/Node/Compass Face Up")
 
 [node name="DisplayDirection" type="Node3D" parent="." unique_id=2003116942]
+
+[node name="Front Left" type="Node3D" parent="DisplayDirection" unique_id=751851861]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.26)
 
 [node name="Code" type="Node" parent="." unique_id=148936503]
 
@@ -97,37 +106,24 @@ metadata/_custom_type_script = "uid://bd2ddrhms6hgw"
 
 [node name="NES Mockup" type="Node" parent="Code/Mod" unique_id=1578432124]
 script = ExtResource("14_hefyp")
-input_name_up = null
-input_name_right = null
-input_name_down = null
-input_name_left = null
-input_name_a = null
-input_name_b = null
-input_name_menu_left_select = null
-input_name_menu_right_restart = null
-input_gamepad_button_up = null
-input_gamepad_button_right = null
-input_gamepad_button_down = null
-input_gamepad_button_left = null
-input_gamepad_button_a = null
-input_gamepad_button_b = null
-input_gamepad_button_menu_left_select = null
-input_gamepad_button_menu_right_restart = null
-joystick_threshold = null
-use_print_keyboard_input = null
-use_print_gamepad_button_input = null
-use_print_gamepad_joystick_input = null
-button_up = null
-button_right = null
-button_down = null
-button_left = null
-button_a = null
-button_b = null
-button_menu_left_select = null
-button_menu_right_restart = null
-joystick_left_state = null
-joystick_right_state = null
 metadata/_custom_type_script = "uid://3why6y34hebw"
+
+[node name="Node" type="Node" parent="Code" unique_id=1154042689]
+
+[node name="Compass Face Up" type="Node" parent="Code/Node" unique_id=865226636 node_paths=PackedStringArray("direction_node")]
+script = ExtResource("15_tvspk")
+direction_node = NodePath("../../../DisplayDirection")
+metadata/_custom_type_script = "uid://feq5xgwg2owb"
+
+[node name="Wheel Face Forward" type="Node" parent="Code/Node" unique_id=225143170 node_paths=PackedStringArray("frontal_center_point")]
+script = ExtResource("16_y18q0")
+frontal_center_point = NodePath("../../../DisplayDirection")
+metadata/_custom_type_script = "uid://1sc4j57b54h7"
+
+[node name="Tilt Raw Face Up" type="Node" parent="Code/Node" unique_id=1237233892 node_paths=PackedStringArray("direction_node")]
+script = ExtResource("17_ge4ql")
+direction_node = NodePath("../../../DisplayDirection")
+metadata/_custom_type_script = "uid://1sc4j57b54h7"
 
 [node name="SizeAnchor" type="Node3D" parent="." unique_id=603610457]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
@@ -135,7 +131,7 @@ transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
 [node name="ssd_1306_128x64_display" parent="SizeAnchor" unique_id=450529801 instance=ExtResource("6_edshu")]
 transform = Transform3D(1, 0, 0, 0, -4.3711392e-08, 1, 0, -1, -4.3711392e-08, 0, 0, 0)
 
-[node name="ssd_1306_128x64" parent="SizeAnchor/ssd_1306_128x64_display" index="0" unique_id=1230676979]
+[node name="ssd_1306_128x64" parent="SizeAnchor/ssd_1306_128x64_display" index="0" unique_id=813457216]
 transform = Transform3D(-1, 1.6292073e-07, -1.6292073e-07, -1.6292073e-07, -3.5527137e-15, 1, 1.6292071e-07, 1, 3.5527137e-15, 0, 0, 0)
 surface_material_override/0 = SubResource("StandardMaterial3D_jq1fr")
 

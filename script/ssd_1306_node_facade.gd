@@ -8,6 +8,25 @@ extends Node
 
 @export var code_creator:SSD1306ModCreateCodeNode
 
+
+@export var wheel_rotation:SSD1306RotationWheelFaceForward
+@export var tilt_raw_rotation:SSD1306RotationTiltRawFaceUp
+@export var compass_rotation:SSD1306RotationCompassFaceUp
+
+
+func get_wheel_rotation_in_degrees() -> float:
+	return wheel_rotation.get_wheel_rotation_in_degrees_left_right()
+
+func get_tilt_rotation_in_degrees_percent_11() -> float:
+	return tilt_raw_rotation.percent_tilt_front_11
+
+func get_raw_rotation_in_degrees_percent_11() -> float:
+	return tilt_raw_rotation.percent_raw_right_11
+
+func get_compass_rotation_to_godot_center_in_degrees_left_right() -> float:
+	return compass_rotation.get_compass_rotation_to_godot_center_in_degrees_left_right()
+
+
 #region ONLY ALLOWED IF YOU ARE LEARNING FROM THE SSD 1306
 func set_value_at_index_1d(index_0_8191:int, is_on:bool):
 	# Replace set_boolean_with_1d byb set_value_at_index_1d 
