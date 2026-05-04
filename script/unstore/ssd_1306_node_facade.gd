@@ -79,10 +79,10 @@ func get_value_at_x_y_lrdt(x_left_right:int,y_top_down:int)->bool:
 #region COMPARE
 
 func compare_with_1d_array(array:Array[bool])->bool:
-	return boolean_state.compare_with_boolean_array(array)
+	return boolean_state.compare_is_equals_to_boolean_1d_array(array)
 
 func compare_is_equals_to_image_text_at_lrtd_zero(text:String)->bool:
-	return boolean_state.compare_is_equals_to_image_text_at_lrtd_zero(text)
+	return boolean_state.compare_is_equals_to_image_text_at_lrtd_at_zero(text)
 
 #endregion
 

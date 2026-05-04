@@ -130,6 +130,50 @@ func set_boolean_column_right_left(column_index: int, is_on: bool = true):
 #region COMPARE
 
 
+func compare_get_similarity_percent(source_array: Array[bool]) -> bool:
+	## VIBED UNTESTED
+	push_error("This a vibed method untested")
+	var array := get_value_as_1d_array_reference()
+	var match_count: int = 0
+	var compare_count: int = 0
+	for i in range(SCREEN_SIZE):
+		if i < source_array.size():
+			compare_count += 1
+			if array[i] == source_array[i]:
+				match_count += 1
+		else:
+			compare_count += 1
+			if array[i] == false:
+				match_count += 1
+	return float(match_count) / compare_count if compare_count > 0 else 1.0
+
+func compare_get_similarity_percent_of_image_text_at_lrtd(x_left_right: int, y_top_down: int, source_image_text: String) -> float:
+	## VIBED UNTESTED
+	push_error("This a vibed method untested")
+	# remove all characters except 0,1 and \n
+	var array := get_value_as_1d_array_reference()
+	var cleaned_source: String = keep_only_01(replace_slash_per_line_return(source_image_text))
+	var lines := cleaned_source.split("\n")
+	var match_count: int = 0
+	var compare_count: int = 0
+	for y_offset in range(lines.size()):
+		var line: String = lines[y_offset]
+		for x_offset in range(line.length()):
+			var char: String = line[x_offset]
+			if char != "0" and char != "1":
+				continue
+			var is_on: bool = char == "1"
+			var target_x: int = x_left_right + x_offset
+			var target_y: int = y_top_down + y_offset
+			if target_x < 0 or target_x >= SCREEN_WIDTH or target_y < 0 or target_y >= SCREEN_HEIGHT:
+				continue
+			compare_count += 1
+			if get_value_at_x_y_lrtd(target_x, target_y) == is_on:
+				match_count += 1
+	return float(match_count) / compare_count if compare_count > 0 else 1.0	
+	
+	
+
 func compare_is_equals_to_boolean_1d_array(source_array: Array[bool]) -> bool:
 	var array := get_value_as_1d_array_reference()
 	for i in range(SCREEN_SIZE):
@@ -599,10 +643,26 @@ func draw_bool_border_rectangle_lrtd_from_to(sx:int,sy:int,ex:int,ey:int, is_on:
 	draw_bool_border_rectangle_lrtd_from_to_vectori(Vector2i(sx,sy), Vector2i(ex,ey), is_on)
 
 func draw_bool_border_rectangle_lrtd_from_to_vectori(start:Vector2i, end:Vector2i, is_on: bool = true):
-	draw_bool_line_down_lrtd(start.x, start.y, (end.y - start.y), is_on)
-	draw_bool_line_up_lrtd(end.x, end.y, ( start.y - end.y), is_on)
-	draw_bool_line_right_lrtd(start.x, start.y, (end.x - start.x), is_on)
-	draw_bool_line_left_lrtd(end.x, end.y, (start.x - end.x), is_on)	
+
+	var left_top_x: int = min(start.x, end.x)
+	var left_top_y: int = min(start.y, end.y)
+	var right_bottom_x: int = max(start.x, end.x)
+	var right_bottom_y: int = max(start.y, end.y)
+
+	var width: int = abs(right_bottom_x - left_top_x)
+	var height: int = abs(right_bottom_y - left_top_y)
+
+	draw_bool_line_up_lrtd(left_top_x, left_top_y, height, is_on)
+	draw_bool_line_down_lrtd(right_bottom_x, right_bottom_y, height, is_on)
+	draw_bool_line_right_lrtd(left_top_x, left_top_y, width, is_on)
+	draw_bool_line_left_lrtd(right_bottom_x, right_bottom_y, width, is_on)
+
+		# draw_bool_line_up_lrtd(left_top_x, left_top_y, abs(right_bottom_y - left_top_y), is_on)
+		# draw_bool_line_down_lrtd(right_bottom_x, right_bottom_y, abs(right_bottom_y - left_top_y), is_on)
+		# draw_bool_line_right_lrtd(left_top_x, left_top_y, abs(right_bottom_x - left_top_x), is_on)
+		# draw_bool_line_left_lrtd(right_bottom_x, right_bottom_y, abs(right_bottom_x - left_top_x), is_on)
+
+
 
 
 func draw_bool_fill_rectangle_lrtd_from_to(sx:int,sy:int,ex:int,ey:int, is_on: bool = true):
@@ -610,11 +670,33 @@ func draw_bool_fill_rectangle_lrtd_from_to(sx:int,sy:int,ex:int,ey:int, is_on: b
 
 
 func draw_bool_fill_rectangle_lrtd_from_to_vectori(start:Vector2i, end:Vector2i, is_on: bool = true):
-	for x in range(start.x, end.x+1):
-		for y in range(start.y, end.y+1):
+
+	var left_top_x: int = min(start.x, end.x)
+	var left_top_y: int = min(start.y, end.y)
+	var right_bottom_x: int = max(start.x, end.x)
+	var right_bottom_y: int = max(start.y, end.y)
+
+	for x in range(left_top_x, right_bottom_x+1):
+		for y in range(left_top_y, right_bottom_y+1):
 			if x < SCREEN_WIDTH and y < SCREEN_HEIGHT:
 				set_value_at_x_y_lrtd(x, y, is_on)
-	
+
+func draw_bool_fill_rectangle_lrdt_from_to(sx:int,sy:int,ex:int,ey:int, is_on: bool = true):
+	draw_bool_fill_rectangle_lrdt_from_to_vectori(Vector2i(sx,sy), Vector2i(ex,ey), is_on)
+
+
+func draw_bool_fill_rectangle_lrdt_from_to_vectori(start:Vector2i, end:Vector2i, is_on: bool = true):
+
+	var left_top_x: int = min(start.x, end.x)
+	var left_top_y: int = min(start.y, end.y)
+	var right_bottom_x: int = max(start.x, end.x)
+	var right_bottom_y: int = max(start.y, end.y)
+
+	for x in range(left_top_x, right_bottom_x+1):
+		for y in range(left_top_y, right_bottom_y+1):
+			if x < SCREEN_WIDTH and y < SCREEN_HEIGHT:
+				set_value_at_x_y_lrdt(x, y, is_on)
+
 
 func draw_from_text_image_lrtd( x_left_right: int, y_down_top: int, text_image:String):
 	
@@ -638,7 +720,120 @@ func draw_from_text_image_lrtd( x_left_right: int, y_down_top: int, text_image:S
 	
 		
 
-func draw_bool_progress_bar_from_to_lrdt_vectori(start_lrdt:Vector2i, end_lrdt:Vector2i, percent01:float, inversed_direction: bool = false, border: bool = true):
+
+func convert_lrdt_to_lrtd_vectori(vector_lrdt: Vector2i) -> Vector2i:
+	return Vector2i(vector_lrdt.x, SCREEN_HEIGHT - 1 - vector_lrdt.y)
+
+func convert_lrtd_to_lrdt_vectori(vector_lrtd: Vector2i) -> Vector2i:
+	return Vector2i(vector_lrtd.x, SCREEN_HEIGHT - 1 - vector_lrtd.y)
+
+
+
+
+func draw_bool_progress_bar_vertical_from_to_lrdt_vectori_percent_11(start_lrdt:Vector2i, end_lrdt:Vector2i, percent11:float, is_on: bool = true):
+	
+	var start_lrtd: Vector2i = convert_lrdt_to_lrtd_vectori(start_lrdt)
+	var end_lrtd: Vector2i = convert_lrdt_to_lrtd_vectori(end_lrdt)
+	draw_bool_progress_bar_vertical_from_to_lrtd_vectori_percent_11(start_lrtd, end_lrtd, percent11, is_on)
+	
+
+	
+	
+func draw_bool_progress_bar_vertical_from_to_lrtd_vectori_percent_11(start_lrtd:Vector2i, end_lrtd:Vector2i, percent11:float, is_on: bool = true):
+	var down_left_x: int = min(start_lrtd.x, end_lrtd.x)
+	var down_left_y: int = min(start_lrtd.y, end_lrtd.y)
+	var up_right_x: int = max(start_lrtd.x, end_lrtd.x)
+	var up_right_y: int = max(start_lrtd.y, end_lrtd.y)
+	var middle_y: int = int((start_lrtd.y + end_lrtd.y) / 2.0)
+	percent11 = clamp(percent11, -1.0, 1.0)
+
+	#TODO: SLEEPY CODE TO BE ADJUSTED OR RE TESTED LATER
+	if percent11 >= 0:
+		draw_bool_progress_bar_up_from_to_lrtd_vectori_percent_01(Vector2i(down_left_x, middle_y), Vector2i(up_right_x, down_left_y ), -percent11, is_on)
+	else :
+		draw_bool_progress_bar_down_from_to_lrtd_vectori_percent_01(Vector2i(down_left_x, middle_y), Vector2i(up_right_x, up_right_y), percent11, is_on)
+
+
+
+func draw_bool_progress_bar_horizontal_from_to_lrdt_vectori_percent_11(start_lrdt:Vector2i, end_lrdt:Vector2i, percent11:float, is_on: bool = true):
+	var start_lrtd: Vector2i = convert_lrdt_to_lrtd_vectori(start_lrdt)
+	var end_lrtd: Vector2i = convert_lrdt_to_lrtd_vectori(end_lrdt)
+	draw_bool_progress_bar_horizontal_from_to_lrtd_vectori_percent_11(start_lrtd, end_lrtd, percent11, is_on)
+
+func draw_bool_progress_bar_horizontal_from_to_lrtd_vectori_percent_11(start_lrtd:Vector2i, end_lrtd:Vector2i, percent11:float, is_on: bool = true):	
+	var down_left_x: int = min(start_lrtd.x, end_lrtd.x)
+	var down_left_y: int = min(start_lrtd.y, end_lrtd.y)
+	var up_right_x: int = max(start_lrtd.x, end_lrtd.x)
+	var up_right_y: int = max(start_lrtd.y, end_lrtd.y)
+	var x_middle: int = int((start_lrtd.x + end_lrtd.x) / 2.0)
+	if percent11 >= 0:
+		draw_bool_progress_bar_right_from_to_lrtd_vectori_percent_01(Vector2i(x_middle, down_left_y), Vector2i(up_right_x, up_right_y), percent11, is_on)
+	else :
+		draw_bool_progress_bar_left_from_to_lrtd_vectori_percent_01(Vector2i(x_middle, down_left_y), Vector2i(down_left_x, up_right_y), -percent11, is_on)
+	
+
+
+
+func draw_bool_progress_bar_right_from_to_lrtd_vectori_percent_01(corner_a_lrtd:Vector2i, corner_b_lrtd:Vector2i, percent01:float, is_on: bool = true):
+	percent01 = clamp(abs(percent01), 0.0, 1.0)
+	var left_down_x: int = min(corner_a_lrtd.x, corner_b_lrtd.x)
+	var left_down_y: int = min(corner_a_lrtd.y, corner_b_lrtd.y)
+	var right_up_x: int = max(corner_a_lrtd.x, corner_b_lrtd.x)
+	var right_up_y: int = max(corner_a_lrtd.y, corner_b_lrtd.y)
+	var width: int = abs(right_up_x - left_down_x)
+	var height: int = abs(left_down_y - right_up_y)
+
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(Vector2i(left_down_x, left_down_y), Vector2i(right_up_x, right_up_y), not is_on)
+	var horizontal_pixel_true: int = int(width * percent01)
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(Vector2i(left_down_x, left_down_y), Vector2i(left_down_x + horizontal_pixel_true, right_up_y), is_on)
+
+
+
+func draw_bool_progress_bar_left_from_to_lrtd_vectori_percent_01(corner_a_lrtd:Vector2i, corner_b_lrtd:Vector2i, percent01:float, is_on: bool = true):
+	percent01 = clamp(abs(percent01), 0.0, 1.0)
+	var left_down_x: int = min(corner_a_lrtd.x, corner_b_lrtd.x)
+	var left_down_y: int = min(corner_a_lrtd.y, corner_b_lrtd.y)
+	var right_up_x: int = max(corner_a_lrtd.x, corner_b_lrtd.x)
+	var right_up_y: int = max(corner_a_lrtd.y, corner_b_lrtd.y)
+	var width: int = abs(right_up_x - left_down_x)
+	var height: int = abs(left_down_y - right_up_y)
+
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(Vector2i(left_down_x, left_down_y), Vector2i(right_up_x, right_up_y), not is_on)
+	var horizontal_pixel_true: int = int(width * percent01)
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(Vector2i(right_up_x - horizontal_pixel_true, left_down_y), Vector2i(right_up_x, right_up_y), is_on)
+
+
+
+func draw_bool_progress_bar_up_from_to_lrtd_vectori_percent_01(corner_a_lrtd:Vector2i, corner_b_lrtd:Vector2i, percent01:float, is_on: bool = true):
+	percent01 = clamp(abs(percent01), 0.0, 1.0)
+	var left_down_x: int = min(corner_a_lrtd.x, corner_b_lrtd.x)
+	var left_down_y: int = min(corner_a_lrtd.y, corner_b_lrtd.y)
+	var right_up_x: int = max(corner_a_lrtd.x, corner_b_lrtd.x)
+	var right_up_y: int = max(corner_a_lrtd.y, corner_b_lrtd.y)
+	var width: int = abs(right_up_x - left_down_x)
+	var height: int = abs(left_down_y - right_up_y)
+
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(Vector2i(left_down_x, left_down_y), Vector2i(right_up_x, right_up_y), not is_on)
+	var vertical_pixel_true: int = int(height * percent01)
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(Vector2i(left_down_x, right_up_y - vertical_pixel_true), Vector2i(right_up_x, right_up_y), is_on)
+
+
+func draw_bool_progress_bar_down_from_to_lrtd_vectori_percent_01(corner_a_lrtd:Vector2i, corner_b_lrtd	:Vector2i, percent01:float, is_on: bool = true):
+	percent01 = clamp(abs(percent01), 0.0, 1.0)
+	var left_down_x: int = min(corner_a_lrtd.x, corner_b_lrtd.x)
+	var left_down_y: int = min(corner_a_lrtd.y, corner_b_lrtd.y)
+	var right_up_x: int = max(corner_a_lrtd.x, corner_b_lrtd.x)
+	var right_up_y: int = max(corner_a_lrtd.y, corner_b_lrtd.y)
+	var width: int = abs(right_up_x - left_down_x)
+	var height: int = abs(left_down_y - right_up_y)
+
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(Vector2i(left_down_x, left_down_y), Vector2i(right_up_x, right_up_y), not is_on)
+	var vertical_pixel_true: int = int(height * percent01)
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(Vector2i(left_down_x, left_down_y), Vector2i(right_up_x, left_down_y + vertical_pixel_true), is_on)
+
+
+
+func draw_bool_progress_bar_from_to_lrdt_vectori(start_lrdt:Vector2i, end_lrdt:Vector2i, percent01:float, is_on: bool = true):
 	
 	var start_lrtd = Vector2i(start_lrdt.x,SCREEN_HEIGHT - 1 - start_lrdt.y)
 	var end_lrtd = Vector2i(end_lrdt.x, SCREEN_HEIGHT - 1 - end_lrdt.y)
@@ -647,14 +842,28 @@ func draw_bool_progress_bar_from_to_lrdt_vectori(start_lrdt:Vector2i, end_lrdt:V
 	var clamped_percent01: float = clamp(percent01, 0.0, 1.0)
 	var direction_horizontal: int = end_lrtd.x - start_lrtd.x 
 	var direction_vertical: int= end_lrtd.y - start_lrtd.y
-	var is_up: bool = direction_vertical < 0
-	var is_right: bool = direction_horizontal > 0
+	var is_up: bool = direction_vertical <= 0
+	var is_right: bool = direction_horizontal >= 0
 	var is_down: bool = direction_vertical > 0
 	var is_left: bool = direction_horizontal < 0
+	var is_vertical_greater_horizontal: bool = abs(direction_vertical) > abs(direction_horizontal)
 
-	if is_right:
-		#draw_bool_border_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, border)
-		draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, true)
+	if is_vertical_greater_horizontal:
+		if is_up:
+			draw_bool_progress_bar_up_from_to_lrtd_vectori_percent_01(start_lrtd, end_lrtd, clamped_percent01, is_on)
+		if is_down:
+			draw_bool_progress_bar_down_from_to_lrtd_vectori_percent_01(start_lrtd, end_lrtd, clamped_percent01, is_on)
+	else:
+		if is_right:
+			draw_bool_progress_bar_right_from_to_lrtd_vectori_percent_01(start_lrtd, end_lrtd, clamped_percent01, is_on)
+
+		if is_left:
+			draw_bool_progress_bar_left_from_to_lrtd_vectori_percent_01(start_lrtd, end_lrtd, clamped_percent01, is_on)
+
+
+
+
+	
 		# var pixel_length: int = abs(direction_horizontal)
 		# var filled_pixel_length: int = int(pixel_length * clamped_percent01)
 		# if inversed_direction:
@@ -662,14 +871,6 @@ func draw_bool_progress_bar_from_to_lrdt_vectori(start_lrdt:Vector2i, end_lrdt:V
 		# var fill_end_x: int = start_lrtd.x + (filled_pixel_length if is_right else -filled_pixel_length)
 		# draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, Vector2i(fill_end_x, end_lrtd.y), true)
 
-	# if not border:
-	# 	draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, false)
-	# 	draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, start_to_direction_vector, true)
-		
-	# # if border:
-	# draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, false)
-	# draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, start_to_direction_vector, true)
-	# draw_bool_border_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, true)
 	
 
 	

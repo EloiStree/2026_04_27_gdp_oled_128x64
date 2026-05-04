@@ -59,7 +59,7 @@ func _ready():
 	#endregion
 
 
-	screen.draw_bool_progress_bar_from_to_lrdt_vectori(Vector2i(3,3), Vector2i(100, 6), 0.5,false, true )
+	screen.draw_bool_progress_bar_from_to_lrdt_vectori(Vector2i(3,3), Vector2i(100, 6), 0.5,false )
 
 	var array_bool:=SSD1306ParseImageToBoolean.convert_image_to_boolean_1d_array(image_logo)
 	screen.draw_bool_image_from_1d_array_lrtd_at_zero(128,array_bool)
