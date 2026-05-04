@@ -3,8 +3,31 @@ extends Node
 
 @export var display_facade: SSD1306NodeFacade
 @export var tool_draw_quad_board_facade: SSD1306ToolDrawQuadBoardFacade
-@export var is_drawer_active:bool= false
+@export var is_drawer_active:bool= true
+@export var drawing_value:bool=true
 
+
+func set_as_drawing_true():
+	drawing_value=true
+func set_as_drawing_false():
+	drawing_value=false
+func set_as_drawing_value(draw_true:bool):
+	drawing_value=draw_true
+
+func toggle_drawing_value():
+	drawing_value= not drawing_value
+	
+func set_pen_down():
+	is_drawer_active=true
+	
+func set_pen_up():
+	is_drawer_active=false
+	
+func set_pen_as_active(is_active:bool):
+	is_drawer_active=is_active
+
+func toggle_pen_active_state():
+	is_drawer_active= not is_drawer_active
 
 
 
@@ -24,7 +47,7 @@ func _process(delta: float) -> void:
 		display_facade.get_draw_interface().draw_bool_center_circle_v2i_lrdt(
 			Vector2i(cursor_lrdt_percent_01.x * 127.0, cursor_lrdt_percent_01.y * 63.0),
 			int(contact_radius_percent*64.0),
-			true
+			drawing_value
 		)
 		
 		

@@ -7,6 +7,9 @@
 [ext_resource type="Script" uid="uid://cyhqcwf7ndy0o" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_set_mesh_instance_texture.gd" id="3_t4iae"]
 [ext_resource type="Material" uid="uid://c8cogc07r4goa" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/mat_draw_quad_brush.tres" id="5_63feu"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_x0qqk"]
+size = Vector3(1, 0.022949219, 0.49768066)
+
 [sub_resource type="QuadMesh" id="QuadMesh_n3a0r"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_h7rr5"]
@@ -42,6 +45,13 @@ transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 [node name="SizeAnchorQuad" type="Node3D" parent="DrawingQuad" unique_id=22175468]
 
 [node name="QuadRoot" type="Node3D" parent="DrawingQuad/SizeAnchorQuad" unique_id=253209221]
+
+[node name="Area3D" type="Area3D" parent="DrawingQuad/SizeAnchorQuad/QuadRoot" unique_id=507806324]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DrawingQuad/SizeAnchorQuad/QuadRoot/Area3D" unique_id=668902210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008300782, -0.0001831055)
+shape = SubResource("BoxShape3D_x0qqk")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="DrawingQuad/SizeAnchorQuad/QuadRoot" unique_id=1524982985]
 transform = Transform3D(1, 0, 0, 0, -2.1855694e-08, 1, 0, -0.5, -4.371139e-08, 0, 0, 0)

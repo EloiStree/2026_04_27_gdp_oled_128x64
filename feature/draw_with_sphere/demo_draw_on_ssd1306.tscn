@@ -3,11 +3,17 @@
 [ext_resource type="PackedScene" uid="uid://c5x8qrwymu4nm" path="res://addons/2026_04_27_gdp_oled_128x64/scene/item/display_ssd_1306_128x64.tscn" id="1_8kjdd"]
 [ext_resource type="Script" uid="uid://c3b1f885bs882" path="res://addons/2026_04_27_gdp_oled_128x64_sample/mod/example/how_to_use/display_rotation/mod_ref_1306_display_rotation.gd" id="2_gvdij"]
 [ext_resource type="PackedScene" uid="uid://bmma68fvxq71m" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_drawing_quad_board.tscn" id="3_gvdij"]
+[ext_resource type="Script" uid="uid://c70uo3tu160w6" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_click_to_node_move.gd" id="4_hulm6"]
+[ext_resource type="Script" uid="uid://b6142qsb7pb07" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_scoll_to_scale.gd" id="5_0dbc3"]
+[ext_resource type="Script" uid="uid://bbvrta1247wc0" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_event_for_debug.gd" id="6_8apx5"]
 
 [node name="DemoDrawSphere" type="Node3D" unique_id=1149843414]
 
 [node name="Display128x64" parent="." unique_id=111730519 instance=ExtResource("1_8kjdd")]
 transform = Transform3D(1.0000018, 0, 0, 0, 1.0000024, 0, 0, 0, 1.0000014, 0.3092041, 0, 0.31188965)
+
+[node name="Quick Testing Script" parent="Display128x64/Code" parent_id_path=PackedInt32Array(111730519, 148936503) index="3" unique_id=290874810]
+use_test = false
 
 [node name="S1306 Example Display Rotation" type="Node" parent="." unique_id=849729373]
 script = ExtResource("2_gvdij")
@@ -22,9 +28,28 @@ transform = Transform3D(1, 0, 0, 0, 0.4929399, -0.87006336, 0, 0.87006336, 0.492
 display_facade = NodePath("../../../Display128x64")
 
 [node name="DrawingBrush" parent="SSD1306DrawingQuadBoard" index="2" unique_id=1128457906]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.046153173, -0.1313332)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17602539, -0.0068572294, 0.09430115)
+
+[node name="Code" type="Node3D" parent="." unique_id=547092331]
+
+[node name="Click To Move Sphere" type="Node3D" parent="Code" unique_id=882547310 node_paths=PackedStringArray("main_camera", "what_to_move")]
+script = ExtResource("4_hulm6")
+main_camera = NodePath("../../Camera3D")
+what_to_move = NodePath("../../SSD1306DrawingQuadBoard/DrawingBrush")
+metadata/_custom_type_script = "uid://c70uo3tu160w6"
+
+[node name="Mouse Scoll Scale" type="Node" parent="Code" unique_id=1803342267 node_paths=PackedStringArray("what_to_scale")]
+script = ExtResource("5_0dbc3")
+what_to_scale = NodePath("../../SSD1306DrawingQuadBoard/DrawingBrush/SizeAnchorBrush")
+metadata/_custom_type_script = "uid://b6142qsb7pb07"
+
+[node name="Mouse Event" type="Node" parent="Code" unique_id=2139032707]
+script = ExtResource("6_8apx5")
+metadata/_custom_type_script = "uid://bbvrta1247wc0"
 
 [connection signal="on_texture_updated" from="Display128x64/Code/BooleanToTexture" to="SSD1306DrawingQuadBoard" method="set_texture_quad"]
+[connection signal="on_middle_click" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard/Code/Default Draw With Sphere" method="toggle_pen_active_state"]
+[connection signal="on_right_click" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard/Code/Default Draw With Sphere" method="toggle_drawing_value"]
 
 [editable path="Display128x64"]
 [editable path="Display128x64/SizeAnchor/ssd_1306_128x64_display"]
