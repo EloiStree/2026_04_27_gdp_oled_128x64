@@ -30,20 +30,21 @@ enum ColorStyle {
 	E_INK,
 	BLACK_TRUE_ON_WHITE_FALSE,
 	WHITE_TRUE_ON_BLACK_FALSE,
-	GAMEBOY,
+	GAMEBOY_DARK,
+	GAMEBOY_LIGHT,
 	INSEPCTOR_VALUE
 }
 
 
 func set_color_style_as_oled_blue_screen():
 	# OLED blue: #007BFF
-	color_on = Color("#00ccff")  # OLED blue
+	color_on = Color("a2e5ffff")  # OLED blue
 	color_off = Color("#000000")  # background
 	set_texture_with_boolean_array(bool_array_clear)
 
 func set_color_style_as_oled_green_screen():
 	# OLED green: #00bf29
-	color_on = Color("#00bf29")   # OLED green
+	color_on = Color("00fa39ff")   # OLED green
 	color_off = Color("#000000")  # background
 	set_texture_with_boolean_array(bool_array_clear)
 
@@ -69,11 +70,17 @@ func set_color_style_as_e_ink_screen():
 	set_texture_with_boolean_array(bool_array_clear)  
 
 
-func set_color_as_gameboy():
+func set_color_as_gameboy_on_dark():
 	# Screen tint (unlit LCD greenish): #9BBC0F
 	# Screen dark green (active pixels): #0F380F
 	color_on = Color("#0F380F")  # dark green
 	color_off = Color("#9BBC0F")  # light green
+
+func set_color_as_gameboy_on_light():
+	# Screen tint (unlit LCD greenish): #9BBC0F
+	# Screen dark green (active pixels): #0F380F
+	color_off = Color("#0F380F")  # dark green
+	color_on = Color("#9BBC0F")  # light green
 
 	set_texture_with_boolean_array(bool_array_clear)  
 
@@ -93,8 +100,10 @@ func _ready():
 	set_texture_with_boolean_array(bool_array_clear)
 	if color_style == ColorStyle.E_INK:
 		set_color_style_as_e_ink_screen()
-	elif color_style == ColorStyle.GAMEBOY:
-		set_color_as_gameboy()
+	elif color_style == ColorStyle.GAMEBOY_DARK:
+		set_color_as_gameboy_on_dark()
+	elif color_style == ColorStyle.GAMEBOY_LIGHT:
+		set_color_as_gameboy_on_light()
 	elif color_style == ColorStyle.OLED_GREEN:
 		set_color_style_as_oled_green_screen()
 	elif color_style == ColorStyle.OLED_BLUE:
@@ -104,6 +113,12 @@ func _ready():
 	elif color_style == ColorStyle.WHITE_TRUE_ON_BLACK_FALSE:
 		set_color_style_as_white_true_on_black_false()
 
+
+
+func inverse_color_true_false():
+	var tmp :Color= color_on
+	color_on = color_off
+	color_off = tmp
 
 func set_boolean_array_to_full():
 	for i in range(SCREEN_SIZE):

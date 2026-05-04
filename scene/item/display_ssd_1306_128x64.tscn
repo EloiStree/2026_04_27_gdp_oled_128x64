@@ -68,7 +68,7 @@ script = ExtResource("3_b4d3k")
 color_on = Color(1, 1, 1, 1)
 use_mipmaps = true
 material_to_duplicate = ExtResource("4_qrond")
-color_style = 5
+color_style = 6
 metadata/_custom_type_script = "uid://bs0c808qkg4o2"
 
 [node name="Quick Testing Script" type="Node" parent="Code" unique_id=290874810 node_paths=PackedStringArray("screen", "frame_refresh")]
