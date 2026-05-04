@@ -8,17 +8,18 @@
 [ext_resource type="Material" uid="uid://c8cogc07r4goa" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/mat_draw_quad_brush.tres" id="5_63feu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_x0qqk"]
-size = Vector3(1, 0.022949219, 0.49768066)
+size = Vector3(1.9789734, 0.022949219, 1.4607849)
 
 [sub_resource type="QuadMesh" id="QuadMesh_n3a0r"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_h7rr5"]
 
-[node name="SSD1306DrawingQuadBoard" type="Node3D" unique_id=1633250035 node_paths=PackedStringArray("tool_quad_and_brush", "texture_quad", "texture_brush")]
+[node name="SSD1306DrawingQuadBoard" type="Node3D" unique_id=1633250035 node_paths=PackedStringArray("tool_quad_and_brush", "texture_quad", "texture_brush", "quad_drawer")]
 script = ExtResource("1_ec0nn")
 tool_quad_and_brush = NodePath("Code/Draw With Sphere Tool")
 texture_quad = NodePath("DrawingQuad/SizeAnchorQuad/QuadRoot/MeshInstance3D/SetQuadTexture")
 texture_brush = NodePath("DrawingBrush/SizeAnchorBrush/BrushSphereRoot/MeshInstance3D/SetSphereTexture")
+quad_drawer = NodePath("Code/Default Draw With Sphere")
 
 [node name="Code" type="Node" parent="." unique_id=477904962]
 
@@ -37,7 +38,6 @@ size_anchor_sphere_brush = NodePath("../../DrawingBrush/SizeAnchorBrush")
 [node name="Default Draw With Sphere" type="Node" parent="Code" unique_id=164076628 node_paths=PackedStringArray("tool_draw_quad_board_facade")]
 script = ExtResource("3_63feu")
 tool_draw_quad_board_facade = NodePath("../..")
-is_drawer_active = true
 
 [node name="DrawingQuad" type="Node3D" parent="." unique_id=283812390]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
@@ -48,9 +48,17 @@ transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 
 [node name="Area3D" type="Area3D" parent="DrawingQuad/SizeAnchorQuad/QuadRoot" unique_id=507806324]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DrawingQuad/SizeAnchorQuad/QuadRoot/Area3D" unique_id=668902210]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008300782, -0.0001831055)
+shape = SubResource("BoxShape3D_x0qqk")
+
+[node name="Area3D2" type="Area3D" parent="DrawingQuad/SizeAnchorQuad/QuadRoot" unique_id=197569409]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DrawingQuad/SizeAnchorQuad/QuadRoot/Area3D2" unique_id=1666025846]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02128601, -0.008300782, 0.01539612)
 shape = SubResource("BoxShape3D_x0qqk")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="DrawingQuad/SizeAnchorQuad/QuadRoot" unique_id=1524982985]

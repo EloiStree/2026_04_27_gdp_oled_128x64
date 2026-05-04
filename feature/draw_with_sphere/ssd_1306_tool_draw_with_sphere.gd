@@ -16,15 +16,15 @@ extends Node
 @export var size_anchor_sphere_brush:Node3D
 
 
-func set_size_of_brush_with_diameter(diameter:float):
-	set_size_of_brush_with_radius(diameter/2.0)
-
-
-func set_size_of_brush_with_radius(radius:float):
-	pass
 		
-func set_size_with_width(size_as_meter:float):
-	pass
+func set_brush_size_with_local_size(size:float):
+	var local_size_vector3: Vector3 = Vector3(size, size, size)
+	size_anchor_sphere_brush.scale = local_size_vector3
+
+func set_brush_size_with_local_from_percent_01( percent_01:float):
+	var width_as_meter: float = get_quad_width_as_meter()
+	var size_as_meter: float = width_as_meter * percent_01
+	set_brush_size_with_local_size(size_as_meter)
 
 
 

@@ -27,6 +27,10 @@ func _input(event: InputEvent) -> void:
 		move_to_click(event.position)
 	elif use_on_pressing_move and event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		move_to_click(event.position)
+	if use_on_click_move and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		move_to_click(event.position)
+	elif use_on_pressing_move and event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+		move_to_click(event.position)
 
 
 

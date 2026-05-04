@@ -37,7 +37,7 @@ diffuse_mode = 3
 texture_filter = 0
 texture_repeat = false
 
-[node name="Display128x64" type="Node3D" unique_id=111730519 node_paths=PackedStringArray("boolean_state", "exporter", "code_creator", "wheel_rotation", "tilt_raw_rotation", "compass_rotation", "udp_sender")]
+[node name="Display128x64" type="Node3D" unique_id=111730519 node_paths=PackedStringArray("boolean_state", "exporter", "code_creator", "wheel_rotation", "tilt_raw_rotation", "compass_rotation", "texture_builder", "udp_sender")]
 script = ExtResource("1_2ojm6")
 boolean_state = NodePath("Code/BooleanState")
 exporter = NodePath("Code/Exporter")
@@ -45,6 +45,7 @@ code_creator = NodePath("Code/Mod/Create Mod Code")
 wheel_rotation = NodePath("Code/Rotation/Wheel Face Forward")
 tilt_raw_rotation = NodePath("Code/Rotation/Tilt Raw Face Up")
 compass_rotation = NodePath("Code/Rotation/Compass Face Up")
+texture_builder = NodePath("Code/BooleanToTexture")
 udp_sender = NodePath("Code/UDP/Send To Target")
 
 [node name="DisplayDirection" type="Node3D" parent="." unique_id=2003116942]

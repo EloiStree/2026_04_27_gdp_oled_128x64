@@ -61,6 +61,7 @@ func set_color_style_as_white_true_on_black_false():
 	color_off = Color("#000000")  # black
 	set_texture_with_boolean_array(bool_array_clear)
 
+
 func set_color_style_as_e_ink_screen():
 	# E-ink style: white for "on" pixels, light gray for "off" pixels
 	# white
@@ -75,6 +76,7 @@ func set_color_as_gameboy_on_dark():
 	# Screen dark green (active pixels): #0F380F
 	color_on = Color("#0F380F")  # dark green
 	color_off = Color("#9BBC0F")  # light green
+
 
 func set_color_as_gameboy_on_light():
 	# Screen tint (unlit LCD greenish): #9BBC0F
@@ -133,7 +135,15 @@ func get_on_off_color(is_on: bool) -> Color:
 	return color_on if is_on else color_off
 
 
-
+func set_color_on_off(new_true_color:Color,new_false_color:Color):
+		color_on =new_true_color
+		color_off =new_false_color
+		
+func set_color_on(new_true_color:Color):
+	color_on =new_true_color
+	
+func set_color_off(new_false_color:Color):
+	color_off =new_false_color
 func set_texture_with_boolean_array(display_as_boolean_array: Array[bool]):
 	var image = Image.create(SCREEN_WIDTH, SCREEN_HEIGHT, false, Image.FORMAT_RGB8)
 	for i in range(SCREEN_SIZE):

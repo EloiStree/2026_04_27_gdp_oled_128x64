@@ -14,6 +14,37 @@ extends Node
 @export var tilt_raw_rotation:SSD1306RotationTiltRawFaceUp
 @export var compass_rotation:SSD1306RotationCompassFaceUp
 
+@export var texture_builder:SSD1306BoolArrayToTexture
+
+#region UNSTORE
+
+
+func inverse_display_texture_colors():
+	texture_builder.inverse_color_true_false()
+
+func set_texture_color_true_color(true_color:Color):
+	texture_builder.set_color_on(true_color)
+
+func set_texture_color_false_color(false_color:Color):
+	texture_builder.set_color_off(false_color)
+
+func set_texture_color_gameboy():
+	texture_builder.set_color_as_gameboy_on_light()
+func set_texture_color_black_and_white():
+	texture_builder.set_color_style_as_black_true_on_white_false()
+func set_texture_color_oled_blue():
+	texture_builder.set_color_style_as_oled_blue_screen()
+func set_texture_color_e_ink():
+	texture_builder.set_color_style_as_e_ink_screen()
+
+
+ 
+
+ 
+
+
+#endregion
+
 
 func get_wheel_rotation_in_degrees() -> float:
 	return wheel_rotation.get_wheel_rotation_in_degrees_left_right()

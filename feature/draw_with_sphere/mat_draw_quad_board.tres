@@ -2,3 +2,5 @@
 
 [resource]
 shading_mode = 0
+texture_filter = 0
+texture_repeat = false

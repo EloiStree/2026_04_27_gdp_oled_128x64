@@ -7,10 +7,16 @@
 [ext_resource type="Script" uid="uid://b6142qsb7pb07" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_scoll_to_scale.gd" id="5_0dbc3"]
 [ext_resource type="Script" uid="uid://bbvrta1247wc0" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_event_for_debug.gd" id="6_8apx5"]
 
+[sub_resource type="Environment" id="Environment_8apx5"]
+background_mode = 1
+background_color = Color(0.90679115, 0.99999994, 0.90977114, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.38592732, 0.9999998, 0.59651625, 1)
+
 [node name="DemoDrawSphere" type="Node3D" unique_id=1149843414]
 
 [node name="Display128x64" parent="." unique_id=111730519 instance=ExtResource("1_8kjdd")]
-transform = Transform3D(1.0000018, 0, 0, 0, 1.0000024, 0, 0, 0, 1.0000014, 0.3092041, 0, 0.31188965)
+transform = Transform3D(0.185, 0, 0, 0, 0.185, 0, 0, 0, 0.185, -0.55387694, 0.021972658, 0.2509681)
 
 [node name="Quick Testing Script" parent="Display128x64/Code" parent_id_path=PackedInt32Array(111730519, 148936503) index="3" unique_id=290874810]
 use_test = false
@@ -19,10 +25,14 @@ use_test = false
 script = ExtResource("2_gvdij")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=163170033]
-transform = Transform3D(1, 0, 0, 0, 0.90514636, 0.42510012, 0, -0.42510012, 0.90514636, 0, 1.101094, 1.7142768)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.051215976, 0.5373807, -0.004423663)
+environment = SubResource("Environment_8apx5")
+projection = 1
+size = 0.63095057
+near = 0.001
 
 [node name="SSD1306DrawingQuadBoard" parent="." unique_id=1633250035 instance=ExtResource("3_gvdij")]
-transform = Transform3D(1, 0, 0, 0, 0.4929399, -0.87006336, 0, 0.87006336, 0.4929399, 0, 0.5, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03583742, 0, 0.00046932697)
 
 [node name="Default Draw With Sphere" parent="SSD1306DrawingQuadBoard/Code" parent_id_path=PackedInt32Array(1633250035, 477904962) index="1" unique_id=164076628 node_paths=PackedStringArray("display_facade")]
 display_facade = NodePath("../../../Display128x64")
@@ -47,9 +57,112 @@ metadata/_custom_type_script = "uid://b6142qsb7pb07"
 script = ExtResource("6_8apx5")
 metadata/_custom_type_script = "uid://bbvrta1247wc0"
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1739081289]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=7355163]
+anchors_preset = -1
+anchor_left = 0.062000003
+anchor_right = 1.0
+anchor_bottom = 0.053000003
+offset_left = 10.575996
+offset_right = -1.0
+offset_bottom = 0.65599823
+
+[node name="CheckButtonPenIsActive" type="CheckButton" parent="CanvasLayer/HBoxContainer" unique_id=393582010]
+layout_mode = 2
+text = "Pen On"
+
+[node name="CheckButtonPenValue" type="CheckButton" parent="CanvasLayer/HBoxContainer" unique_id=1945276897]
+layout_mode = 2
+text = "Value"
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/HBoxContainer" unique_id=2022558704]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=134127121]
+anchors_preset = -1
+anchor_right = 0.047000002
+anchor_bottom = 1.0
+offset_right = -0.144001
+
+[node name="Button Clear" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1153831695]
+layout_mode = 2
+text = "Clear"
+
+[node name="Button Full" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=309857476]
+layout_mode = 2
+text = "Full"
+
+[node name="Button Inverse Color" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=643752838]
+layout_mode = 2
+text = "Inverse
+Color"
+
+[node name="eInk" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=123793078]
+layout_mode = 2
+text = "eInk"
+
+[node name="NES" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=209721104]
+layout_mode = 2
+text = "Game
+Boy"
+
+[node name="BlackWhite" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=2140296687]
+layout_mode = 2
+text = "Black
+White"
+
+[node name="OLED Blue" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=204835253]
+layout_mode = 2
+text = "OLED
+Blue"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer" unique_id=865249304]
+anchors_preset = -1
+anchor_left = 0.94000006
+anchor_right = 0.99700004
+anchor_bottom = 1.0
+offset_left = 0.11987305
+offset_top = 6.0
+offset_right = -0.5440674
+
+[node name="Button Toggle" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=1580042362]
+layout_mode = 2
+text = "Toggle
+Bool"
+
+[node name="Button Chess" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=391025874]
+layout_mode = 2
+text = "Chess"
+
+[node name="Button Hello" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=1332671405]
+layout_mode = 2
+text = "Hello"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=219482388]
+transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.9294999, 0, 0, 0.6529541)
+
 [connection signal="on_texture_updated" from="Display128x64/Code/BooleanToTexture" to="SSD1306DrawingQuadBoard" method="set_texture_quad"]
-[connection signal="on_middle_click" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard/Code/Default Draw With Sphere" method="toggle_pen_active_state"]
-[connection signal="on_right_click" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard/Code/Default Draw With Sphere" method="toggle_drawing_value"]
+[connection signal="on_left_click_changed" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard" method="set_pen_as_active"]
+[connection signal="on_left_click_changed" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard" method="set_pen_drawing_value_as" unbinds=1 binds= [true]]
+[connection signal="on_right_click_changed" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard" method="set_pen_as_active"]
+[connection signal="on_right_click_changed" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard" method="set_pen_drawing_value_as" unbinds=1 binds= [false]]
+[connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenIsActive" to="SSD1306DrawingQuadBoard" method="set_pen_as_active"]
+[connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenValue" to="SSD1306DrawingQuadBoard" method="set_pen_drawing_value_as"]
+[connection signal="value_changed" from="CanvasLayer/HBoxContainer/HSlider" to="SSD1306DrawingQuadBoard" method="set_brush_size_with_local_from_percent_01"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Clear" to="Display128x64" method="flush_and_draw"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Full" to="Display128x64" method="fill_and_draw"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Inverse Color" to="Display128x64" method="inverse_display_texture_colors"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/eInk" to="Display128x64" method="set_texture_color_e_ink"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/NES" to="Display128x64" method="set_texture_color_gameboy"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/BlackWhite" to="Display128x64" method="set_texture_color_black_and_white"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED Blue" to="Display128x64" method="set_texture_color_oled_blue"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Toggle" to="Display128x64/Code/BooleanState" method="toggle_all"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Chess" to="Display128x64/Code/BooleanState" method="draw_bool_chressboard_centered"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Hello" to="Display128x64/Code/BooleanState" method="draw_bool_line_characters_6x8_lrtd" binds= [0, 0, "Hello World"]]
 
 [editable path="Display128x64"]
 [editable path="Display128x64/SizeAnchor/ssd_1306_128x64_display"]

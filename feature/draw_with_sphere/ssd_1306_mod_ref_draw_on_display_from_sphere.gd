@@ -7,14 +7,14 @@ extends Node
 @export var drawing_value:bool=true
 
 
-func set_as_drawing_true():
+func set_pen_drawing_value_as_true():
 	drawing_value=true
-func set_as_drawing_false():
+func set_pen_drawing_value_as_false():
 	drawing_value=false
-func set_as_drawing_value(draw_true:bool):
+func set_pen_drawing_value_as(draw_true:bool):
 	drawing_value=draw_true
 
-func toggle_drawing_value():
+func toggle_pen_drawing_value():
 	drawing_value= not drawing_value
 	
 func set_pen_down():
@@ -46,7 +46,7 @@ func _process(delta: float) -> void:
 		
 		display_facade.get_draw_interface().draw_bool_center_circle_v2i_lrdt(
 			Vector2i(cursor_lrdt_percent_01.x * 127.0, cursor_lrdt_percent_01.y * 63.0),
-			int(contact_radius_percent*64.0),
+			int(contact_radius_percent*128),
 			drawing_value
 		)
 		
