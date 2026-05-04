@@ -721,12 +721,48 @@ func draw_from_text_image_lrtd( x_left_right: int, y_down_top: int, text_image:S
 		
 
 
+## Look for value that was removed between those two state.
+## return number of difference found
+func compare_bool_removed_values(array:Array[bool],result:Array[bool])->int:
+	return 0
+
+## Look for value that was removed between those two state.
+## return number of difference found
+func compare_bool_added_values(array:Array[bool],result:Array[bool])->int:
+	return 0
+
+
+
+
+
 func convert_lrdt_to_lrtd_vectori(vector_lrdt: Vector2i) -> Vector2i:
 	return Vector2i(vector_lrdt.x, SCREEN_HEIGHT - 1 - vector_lrdt.y)
 
 func convert_lrtd_to_lrdt_vectori(vector_lrtd: Vector2i) -> Vector2i:
 	return Vector2i(vector_lrtd.x, SCREEN_HEIGHT - 1 - vector_lrtd.y)
 
+
+func move_bool_from_to_lrdt_vectori(start_lrdt:Vector2i, end_lrdt:Vector2i, left_behind_is_on: bool = false):
+	var lrtd_start: Vector2i = convert_lrdt_to_lrtd_vectori(start_lrdt)
+	var lrtd_end: Vector2i = convert_lrdt_to_lrtd_vectori(end_lrdt)
+	move_bool_from_to_lrtd_vectori(lrtd_start, lrtd_end, left_behind_is_on)
+
+func switch_bool_from_to_lrdt_vectori(start_lrdt:Vector2i, end_lrdt:Vector2i):
+	var lrtd_start: Vector2i = convert_lrdt_to_lrtd_vectori(start_lrdt)
+	var lrtd_end: Vector2i = convert_lrdt_to_lrtd_vectori(end_lrdt)
+	switch_bool_from_to_lrtd_vectori(lrtd_start, lrtd_end)
+
+
+func move_bool_from_to_lrtd_vectori(start_lrtd:Vector2i, end_lrtd:Vector2i, left_behind_is_on: bool = false):
+	var is_on: bool = get_value_at_x_y_lrtd(start_lrtd.x, start_lrtd.y)
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, is_on)
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(end_lrtd, start_lrtd, left_behind_is_on)
+
+func switch_bool_from_to_lrtd_vectori(start_lrtd:Vector2i, end_lrtd:Vector2i):
+	var is_on_start: bool = get_value_at_x_y_lrtd(start_lrtd.x, start_lrtd.y)
+	var is_on_end: bool = get_value_at_x_y_lrtd(end_lrtd.x, end_lrtd.y)
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(start_lrtd, end_lrtd, is_on_end)
+	draw_bool_fill_rectangle_lrtd_from_to_vectori(end_lrtd, start_lrtd, is_on_start)
 
 
 
@@ -1008,18 +1044,19 @@ func draw_bool_center_diamond_v2i_lrdt(point: Vector2i, radius: int, is_on: bool
 				set_value_at_x_y_lrtd(x, y, is_on)
 
 func draw_bool_center_circle_v2i_lrdt(point: Vector2i, radius: int, is_on: bool = true, fill:bool=true):
+
 	if fill:
 		for y in range(point.y - radius, point.y + radius + 1):
 			for x in range(point.x - radius, point.x + radius + 1):
 				var distance_squared: int = (x - point.x) * (x - point.x) + (y - point.y) * (y - point.y)
 				if distance_squared <= radius * radius:
-					set_value_at_x_y_lrtd(x, y, is_on)
+					set_value_at_x_y_lrdt(x, y, is_on)
 	
 	for angle in range(0, 360):
 		var rad: float = deg_to_rad(angle)
 		var x: int = round(point.x + radius * cos(rad))
 		var y: int = round(point.y + radius * sin(rad))
-		set_value_at_x_y_lrtd(x, y, is_on)
+		set_value_at_x_y_lrdt(x, y, is_on)
 
 
 func draw_bool_center_square_v2i_lrdt(point: Vector2i, half_size: int, is_on: bool = true):

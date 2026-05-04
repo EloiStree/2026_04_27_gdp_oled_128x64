@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dnv88k2tdgj7i"]
+
+[ext_resource type="PackedScene" uid="uid://c5x8qrwymu4nm" path="res://addons/2026_04_27_gdp_oled_128x64/scene/item/display_ssd_1306_128x64.tscn" id="1_8kjdd"]
+[ext_resource type="Script" uid="uid://c3b1f885bs882" path="res://addons/2026_04_27_gdp_oled_128x64_sample/mod/example/how_to_use/display_rotation/mod_ref_1306_display_rotation.gd" id="2_gvdij"]
+[ext_resource type="PackedScene" uid="uid://bmma68fvxq71m" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_drawing_quad_board.tscn" id="3_gvdij"]
+
+[node name="DemoDrawSphere" type="Node3D" unique_id=1149843414]
+
+[node name="Display128x64" parent="." unique_id=111730519 instance=ExtResource("1_8kjdd")]
+transform = Transform3D(1.0000018, 0, 0, 0, 1.0000024, 0, 0, 0, 1.0000014, 0.3092041, 0, 0.31188965)
+
+[node name="S1306 Example Display Rotation" type="Node" parent="." unique_id=849729373]
+script = ExtResource("2_gvdij")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=163170033]
+transform = Transform3D(1, 0, 0, 0, 0.90514636, 0.42510012, 0, -0.42510012, 0.90514636, 0, 1.101094, 1.7142768)
+
+[node name="SSD1306DrawingQuadBoard" parent="." unique_id=1633250035 instance=ExtResource("3_gvdij")]
+transform = Transform3D(1, 0, 0, 0, 0.4929399, -0.87006336, 0, 0.87006336, 0.4929399, 0, 0.5, -1)
+
+[node name="Default Draw With Sphere" parent="SSD1306DrawingQuadBoard/Code" parent_id_path=PackedInt32Array(1633250035, 477904962) index="1" unique_id=164076628 node_paths=PackedStringArray("display_facade")]
+display_facade = NodePath("../../../Display128x64")
+
+[node name="DrawingBrush" parent="SSD1306DrawingQuadBoard" index="2" unique_id=1128457906]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.046153173, -0.1313332)
+
+[connection signal="on_texture_updated" from="Display128x64/Code/BooleanToTexture" to="SSD1306DrawingQuadBoard" method="set_texture_quad"]
+
+[editable path="Display128x64"]
+[editable path="Display128x64/SizeAnchor/ssd_1306_128x64_display"]
+[editable path="SSD1306DrawingQuadBoard"]

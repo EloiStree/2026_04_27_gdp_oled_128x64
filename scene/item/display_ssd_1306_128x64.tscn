@@ -154,6 +154,7 @@ mesh_instance = NodePath("..")
 metadata/_custom_type_script = "uid://cyhqcwf7ndy0o"
 
 [connection signal="on_memory_loaded" from="Code/FileMemory" to="Code/BooleanState" method="override_array_with_boolean_array"]
+[connection signal="on_boolean_array_updated" from="Code/BooleanState" to="Code/FileMemory" method="set_next_save_boolean_array"]
 [connection signal="on_boolean_array_updated" from="Code/BooleanState" to="Code/BooleanToTexture" method="set_texture_with_boolean_array"]
 [connection signal="on_boolean_array_updated" from="Code/BooleanState" to="Code/UDP/Send To Target" method="set_next_push_byte_as_array_bool"]
 [connection signal="on_texture_updated" from="Code/BooleanToTexture" to="SizeAnchor/ScreenQuadDisplay/SSD1306SetMeshInstanceTexture" method="set_texture"]
