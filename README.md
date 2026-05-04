@@ -134,3 +134,10 @@ If your focus is more on learning Godot concepts such as transforms and rotation
 
 
 
+______
+
+If you create your material:  
+<img width="455" height="116" alt="image" src="https://github.com/user-attachments/assets/0232f926-a357-420c-985c-5db38c873656" />   
+  
+
+
