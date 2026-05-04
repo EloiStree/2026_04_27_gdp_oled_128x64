@@ -1,12 +1,11 @@
+
+🚧 Linked work in progress🏗️:
 - https://github.com/EloiStree/2026_04_27_gdp_oled_128x64
 - https://github.com/EloiStree/2026_04_27_gdp_oled_128x64_sample
 - https://github.com/EloiStree/HelloGodot128x64
+- https://github.com/EloiStree/2026_04_27_esp32_oled_128x64_udp_i2c
 
 -----------
-
-
-
-<img width="642" height="577" alt="image" src="https://github.com/user-attachments/assets/1c72d440-f9fa-4544-a624-17ef8f0cd689" />
 
 
 Add to a git project:
@@ -24,6 +23,13 @@ git clone https://github.com/EloiStree/2026_04_27_gdp_oled_128x64.git addons/202
 # SSD1306 OLED 128×64
 
 > Learn Godot scripting in a hands-on way using a simulated SSD1306 OLED 128×64 display.
+
+
+
+
+<img width="642" height="577" alt="image" src="https://github.com/user-attachments/assets/1c72d440-f9fa-4544-a624-17ef8f0cd689" />    
+<img width="1352" height="661" alt="image" src="https://github.com/user-attachments/assets/25ad9c21-c00b-4bfb-a7cc-dec10f3d1a06" />  
+
 
 ### What is an OLED?
 
