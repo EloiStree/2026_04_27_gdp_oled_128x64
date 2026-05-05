@@ -124,6 +124,11 @@ func fill_circle(x: int, y: int, radius: int, is_on: bool):
 	pass
 
 
+func magic_pencil_lrtd(x: int, y: int, radius: int, is_on: bool):
+	pass
+func magic_pencil_lrtd(x: int, y: int, radius: int, is_on: bool):
+	pass
+
 #> Circles. Useful for icons, indicators, or reminding yourself geometry exists.
 
 func draw_triangle(x0: int, y0: int, x1: int, y1: int, x2: int, y2: int, is_on: bool):
