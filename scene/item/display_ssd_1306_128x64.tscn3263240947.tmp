@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://c5x8qrwymu4nm"]
+
+[ext_resource type="Script" uid="uid://bew77r0unuugk" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_file_memory.gd" id="1_d2cym"]
+[ext_resource type="Script" uid="uid://1vbadktl3xyb" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_set_get_screen_state_interface_with_cpu.gd" id="2_ocpf2"]
+[ext_resource type="Script" uid="uid://bs0c808qkg4o2" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_bool_array_to_texture.gd" id="3_b4d3k"]
+[ext_resource type="Script" uid="uid://ihf0hsq51tfy" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_boolean_state_resource.gd" id="3_j53vp"]
+[ext_resource type="Material" uid="uid://b5n3f802x5ue4" path="res://addons/2026_04_27_gdp_oled_128x64/mat_oled_128x64.tres" id="4_qrond"]
+[ext_resource type="Script" uid="uid://ctgl1q8rvx3em" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_testing_script.gd" id="5_8em23"]
+[ext_resource type="PackedScene" uid="uid://d27y3ju8pgemi" path="res://addons/2026_04_27_gdp_oled_128x64/3d/ssd_1306_128x64_display.glb" id="6_edshu"]
+[ext_resource type="Texture2D" uid="uid://d363tdb6vh22o" path="res://addons/2026_04_27_gdp_oled_128x64/3d/ssd_1306_128x64_display_uv_colored.png" id="7_drid1"]
+[ext_resource type="Script" uid="uid://cga1aymfpdrug" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_frame_refresher.gd" id="7_tcnyo"]
+[ext_resource type="Script" uid="uid://cyhqcwf7ndy0o" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_set_mesh_instance_texture.gd" id="8_pf81u"]
+
+[sub_resource type="Resource" id="Resource_d2ew5"]
+script = ExtResource("3_j53vp")
+metadata/_custom_type_script = "uid://ihf0hsq51tfy"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jq1fr"]
+albedo_texture = ExtResource("7_drid1")
+
+[sub_resource type="QuadMesh" id="QuadMesh_jq1fr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s0om5"]
+shading_mode = 0
+diffuse_mode = 3
+texture_filter = 0
+texture_repeat = false
+
+[node name="Display128x64" type="Node3D" unique_id=111730519]
+
+[node name="Code" type="Node" parent="." unique_id=148936503]
+
+[node name="FileMemory" type="Node" parent="Code" unique_id=594354358]
+script = ExtResource("1_d2cym")
+metadata/_custom_type_script = "uid://bew77r0unuugk"
+
+[node name="BooleanState" type="Node" parent="Code" unique_id=2127441784]
+script = ExtResource("2_ocpf2")
+screen_state = SubResource("Resource_d2ew5")
+metadata/_custom_type_script = "uid://1vbadktl3xyb"
+
+[node name="BooleanToTexture" type="Node" parent="Code" unique_id=1875468559]
+script = ExtResource("3_b4d3k")
+color_on = Color(1, 1, 1, 1)
+use_mipmaps = true
+material_to_duplicate = ExtResource("4_qrond")
+color_style = 5
+metadata/_custom_type_script = "uid://bs0c808qkg4o2"
+
+[node name="QuickTestingScript" type="Node" parent="Code" unique_id=290874810 node_paths=PackedStringArray("screen", "label_for_debug", "frame_refresh")]
+script = ExtResource("5_8em23")
+screen = NodePath("../BooleanState")
+use_test = true
+label_for_debug = NodePath("../../SizeAnchor/ForTestDebugLabel3D")
+frame_refresh = NodePath("../FrameRefresher")
+
+[node name="FrameRefresher" type="Node" parent="Code" unique_id=2142676352]
+script = ExtResource("7_tcnyo")
+metadata/_custom_type_script = "uid://cga1aymfpdrug"
+
+[node name="SizeAnchor" type="Node3D" parent="." unique_id=603610457]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+
+[node name="ssd_1306_128x64_display" parent="SizeAnchor" unique_id=450529801 instance=ExtResource("6_edshu")]
+transform = Transform3D(1, 0, 0, 0, -4.3711392e-08, 1, 0, -1, -4.3711392e-08, 0, 0, 0)
+
+[node name="ssd_1306_128x64" parent="SizeAnchor/ssd_1306_128x64_display" index="0" unique_id=1230676979]
+transform = Transform3D(-1, 1.6292073e-07, -1.6292073e-07, -1.6292073e-07, -3.5527137e-15, 1, 1.6292071e-07, 1, 3.5527137e-15, 0, 0, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_jq1fr")
+
+[node name="ScreenQuadDisplay" type="MeshInstance3D" parent="SizeAnchor" unique_id=1534011815]
+transform = Transform3D(0.022, 0, 0, 0, -6.556708e-10, 0.017, 0, -0.015, -7.4309364e-10, 0, -2.7465821e-05, 0)
+mesh = SubResource("QuadMesh_jq1fr")
+surface_material_override/0 = SubResource("StandardMaterial3D_s0om5")
+
+[node name="SSD1306SetMeshInstanceTexture" type="Node" parent="SizeAnchor/ScreenQuadDisplay" unique_id=223359455 node_paths=PackedStringArray("mesh_instance")]
+script = ExtResource("8_pf81u")
+mesh_instance = NodePath("..")
+metadata/_custom_type_script = "uid://cyhqcwf7ndy0o"
+
+[node name="ForTestDebugLabel3D" type="Label3D" parent="SizeAnchor" unique_id=1604147439]
+transform = Transform3D(0.05, 0, 0, 0, -2.1855695e-09, 0.05, 0, -0.05, -2.1855695e-09, -0.010729886, -9.37152e-11, 0.014606993)
+pixel_size = 0.001
+text = "Test"
+
+[connection signal="on_memory_loaded" from="Code/FileMemory" to="Code/BooleanState" method="override_array_with_boolean_array"]
+[connection signal="on_boolean_array_updated" from="Code/BooleanState" to="Code/BooleanToTexture" method="set_texture_with_boolean_array"]
+[connection signal="on_texture_updated" from="Code/BooleanToTexture" to="SizeAnchor/ScreenQuadDisplay/SSD1306SetMeshInstanceTexture" method="set_texture"]
+[connection signal="call_refreshing_frame" from="Code/FrameRefresher" to="Code/BooleanState" method="emit_boolean_array_as_updated"]
+
+[editable path="SizeAnchor/ssd_1306_128x64_display"]
