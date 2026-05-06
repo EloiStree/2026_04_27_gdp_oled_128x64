@@ -1,8 +1,9 @@
-> 🚧 USABLE BUT YOUNG AND UNCLEANED YET 🚧
+
 
 # SSD1306 OLED 128×64
 
 > A drag-and-drop SSD1306 OLED 128×64 display for use in your projects.
+> 🚧 USABLE BUT YOUNG AND UNCLEANED YET 🚧
 
 ---
 
