@@ -63,7 +63,7 @@ jobs:
           mv "${{ github.event.repository.name }}/addons/${{ github.event.repository.name }}"/* "${{ github.event.repository.name }}/addons/${{ github.event.repository.name }}/" 2>/dev/null || true
           rm -rf "${{ github.event.repository.name }}/addons/${{ github.event.repository.name }}/addons"
 
-          zip -r ${{ github.event.repository.name }}.zip ${{ github.event.repository.name }}
+          zip -r ${{ github.event.repository.name }}.zip 
     
       - name: Create Release
         uses: softprops/action-gh-release@v2
