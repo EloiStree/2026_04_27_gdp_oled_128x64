@@ -100,7 +100,8 @@ func remove_code_to_execute()
   [https://github.com/EloiStree/HelloGodot128x64](https://github.com/EloiStree/HelloGodot128x64)
 * ESP32 integration:
   [https://github.com/EloiStree/2026_04_27_esp32_oled_128x64_udp_i2c](https://github.com/EloiStree/2026_04_27_esp32_oled_128x64_udp_i2c)
-
+* R&D on menu and style for 128x64: [https://github.com/EloiStree/2026_04_27_gdp_oled_128x64_art_style_and_menu](https://github.com/EloiStree/2026_04_27_gdp_oled_128x64_art_style_and_menu)
+  
 ---
 
 # Screenshot
