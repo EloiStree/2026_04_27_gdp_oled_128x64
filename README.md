@@ -1,10 +1,9 @@
-🚧 USABLE BUT UNDER CONSTRUCTION TOOL 🚧
-
 
 # SSD1306 OLED 128×64
 
 > A drag-and-drop SSD1306 OLED 128×64 display for use in your projects.
 
+---
 
 ## 🍻📖 Purpose
 
@@ -80,15 +79,6 @@ func remove_code_to_execute()
 
 ---
 
-## What it looks like
-
-<img width="642" height="577" alt="image" src="https://github.com/user-attachments/assets/1c72d440-f9fa-4544-a624-17ef8f0cd689" />  
-<img width="1352" height="661" alt="image" src="https://github.com/user-attachments/assets/25ad9c21-c00b-4bfb-a7cc-dec10f3d1a06" />  
-<img width="1159" height="656" alt="image" src="https://github.com/user-attachments/assets/2e44dd5e-798c-47b0-9a9b-024b1c8857a3" />  
-<img width="3072" height="4080" alt="image" src="https://github.com/user-attachments/assets/cb14c083-2e30-4e29-846b-41f5b57a5661" />  
-
----
-
 ## Documentation
 
 * [https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/3](https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/3)
@@ -112,3 +102,16 @@ func remove_code_to_execute()
 
 * ESP32 integration:
   [https://github.com/EloiStree/2026_04_27_esp32_oled_128x64_udp_i2c](https://github.com/EloiStree/2026_04_27_esp32_oled_128x64_udp_i2c)
+
+---
+
+# Screenshot
+
+<p>
+  <img src="https://github.com/user-attachments/assets/1c72d440-f9fa-4544-a624-17ef8f0cd689" width="256" />
+  <img src="https://github.com/user-attachments/assets/25ad9c21-c00b-4bfb-a7cc-dec10f3d1a06" width="256" />
+  <img src="https://github.com/user-attachments/assets/2e44dd5e-798c-47b0-9a9b-024b1c8857a3" width="256" />
+  <img src="https://github.com/user-attachments/assets/cb14c083-2e30-4e29-846b-41f5b57a5661" width="256" />
+  <img src="https://github.com/user-attachments/assets/d682b1cf-4854-4cca-9860-830e4f80ddde" width="256" />
+  <img src="https://github.com/user-attachments/assets/e3051e73-4816-4542-823c-d616dbe068c6" width="256" />
+</p>
