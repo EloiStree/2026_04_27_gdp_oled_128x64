@@ -112,6 +112,5 @@ func remove_code_to_execute()
   <img src="https://github.com/user-attachments/assets/25ad9c21-c00b-4bfb-a7cc-dec10f3d1a06" width="256" />
   <img src="https://github.com/user-attachments/assets/2e44dd5e-798c-47b0-9a9b-024b1c8857a3" width="256" />
   <img src="https://github.com/user-attachments/assets/cb14c083-2e30-4e29-846b-41f5b57a5661" width="256" />
-  <img src="https://github.com/user-attachments/assets/d682b1cf-4854-4cca-9860-830e4f80ddde" width="256" />
   <img src="https://github.com/user-attachments/assets/e3051e73-4816-4542-823c-d616dbe068c6" width="256" />
 </p>
