@@ -34,7 +34,7 @@ jobs:
           find . -name "*.blend.import" -type f -delete
 
           echo -e "${{ github.event.repository.html_url }}" > git_source.md
-          echo -e "[InternetShortcut]\nURL=${{ github.event.repository.html_url }}" > /git_source.url
+          echo -e "[InternetShortcut]\nURL=${{ github.event.repository.html_url }}" > git_source.url
           echo -e "[InternetShortcut]\nURL=https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/releases/latest/download/${{ github.event.repository.name }}.zip\n" > download_latest.url
 
 
