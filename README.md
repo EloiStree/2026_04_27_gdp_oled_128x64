@@ -5,7 +5,6 @@
 
 > A drag-and-drop SSD1306 OLED 128×64 display for use in your projects.
 
----
 
 ## 🍻📖 Purpose
 
