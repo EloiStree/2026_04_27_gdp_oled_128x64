@@ -33,16 +33,17 @@ jobs:
           find . -name "*.blend" -type f -delete
           find . -name "*.blend.import" -type f -delete
 
-          echo -e "${{ github.event.repository.html_url }}" > git_source.md
-          echo -e "[InternetShortcut]\nURL=${{ github.event.repository.html_url }}" > git_source.url
-          echo -e "[InternetShortcut]\nURL=https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/releases/latest/download/${{ github.event.repository.name }}.zip\n" > download_latest.url
-
+          
 
           mkdir -p ../${{ github.event.repository.name }}_temp/addons/${{ github.event.repository.name }}
           mv {.,}* ../${{ github.event.repository.name }}_temp/addons/${{ github.event.repository.name }}
+          
+          echo -e "${{ github.event.repository.html_url }}" > ../${{ github.event.repository.name }}_temp/addons/${{ github.event.repository.name }}/git_source.md
+          echo -e "[InternetShortcut]\nURL=${{ github.event.repository.html_url }}" > ../${{ github.event.repository.name }}_temp/addons/${{ github.event.repository.name }}/git_source.url
+          echo -e "[InternetShortcut]\nURL=https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/releases/latest/download/${{ github.event.repository.name }}.zip\n" > ../${{ github.event.repository.name }}_temp/addons/${{ github.event.repository.name }}/download_latest.url
+
           mv ../${{ github.event.repository.name }}_temp/addons ../${{ github.event.repository.name }}
-          
-          
+
           
           cd ..
 
@@ -58,6 +59,9 @@ jobs:
 
           find "${{ github.event.repository.name }}/" -type d -name ".github" -exec rm -rf {} +
          
+          
+          mv "${{ github.event.repository.name }}/addons/${{ github.event.repository.name }}"/* "${{ github.event.repository.name }}/addons/${{ github.event.repository.name }}/" 2>/dev/null || true
+          rm -rf "${{ github.event.repository.name }}/addons/${{ github.event.repository.name }}/addons"
 
           zip -r ${{ github.event.repository.name }}.zip ${{ github.event.repository.name }}
     
