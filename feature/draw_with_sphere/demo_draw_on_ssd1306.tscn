@@ -67,10 +67,12 @@ offset_right = -1.0
 offset_bottom = 0.65599823
 
 [node name="CheckButtonPenIsActive" type="CheckButton" parent="CanvasLayer/HBoxContainer" unique_id=393582010]
+visible = false
 layout_mode = 2
 text = "Pen On"
 
 [node name="CheckButtonPenValue" type="CheckButton" parent="CanvasLayer/HBoxContainer" unique_id=1945276897]
+visible = false
 layout_mode = 2
 text = "Value"
 
@@ -79,6 +81,16 @@ custom_minimum_size = Vector2(100, 20)
 layout_mode = 2
 max_value = 1.0
 step = 0.001
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/HBoxContainer" unique_id=777209529]
+layout_mode = 2
+
+[node name="LineEdit2" type="LineEdit" parent="CanvasLayer/HBoxContainer" unique_id=900267790]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=94507285]
+layout_mode = 2
+text = "Emotion"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=134127121]
 anchors_preset = -1
@@ -113,15 +125,20 @@ layout_mode = 2
 text = "Black
 White"
 
-[node name="OLED Blue" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=204835253]
+[node name="OLED Blue SH1106" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=204835253]
 layout_mode = 2
 text = "OLED
 Blue"
 
-[node name="OLED Blue2" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1879463451]
+[node name="OLED White Blue SSD1306" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1879463451]
 layout_mode = 2
 text = "OLED
 SSD1306"
+
+[node name="OLED Green" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=281961597]
+layout_mode = 2
+text = "Matrix
+Green"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer" unique_id=865249304]
 anchors_preset = -1
@@ -145,6 +162,30 @@ text = "Chess"
 layout_mode = 2
 text = "Hello"
 
+[node name="Button Import" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=1659884420]
+layout_mode = 2
+text = "Import Text"
+
+[node name="Button Export" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=1923853623]
+layout_mode = 2
+text = "Export Text"
+
+[node name="Button ImportB58" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=209880673]
+layout_mode = 2
+text = "B58 In"
+
+[node name="Button ExportB85" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=1841905812]
+layout_mode = 2
+text = "B58 Out"
+
+[node name="Button ImportChina" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=259248951]
+layout_mode = 2
+text = "C In"
+
+[node name="Button ExportChina" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=524203971]
+layout_mode = 2
+text = "C Out"
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=219482388]
 transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.9294999, 0, 0, 0.6529541)
 
@@ -156,17 +197,28 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenIsActive" to="SSD1306DrawingQuadBoard" method="set_pen_as_active"]
 [connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenValue" to="SSD1306DrawingQuadBoard" method="set_pen_drawing_value_as"]
 [connection signal="value_changed" from="CanvasLayer/HBoxContainer/HSlider" to="SSD1306DrawingQuadBoard" method="set_brush_size_with_local_from_percent_01"]
+[connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit" to="Display128x64/Code/BooleanState" method="print_text_at_zero"]
+[connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit2" to="Display128x64/Code/BooleanState" method="print_text_at_zero_inversed"]
+[connection signal="button_down" from="CanvasLayer/HBoxContainer/Button" to="Display128x64/Code/BooleanState" method="flush_and_emit"]
+[connection signal="button_down" from="CanvasLayer/HBoxContainer/Button" to="Display128x64/Code/BooleanState" method="print_random_emotion_at_zero"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Clear" to="Display128x64" method="flush_and_draw"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Full" to="Display128x64" method="fill_and_draw"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Inverse Color" to="Display128x64" method="inverse_display_texture_colors"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/eInk" to="Display128x64" method="set_texture_color_e_ink"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Gameboy" to="Display128x64" method="set_texture_color_gameboy"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/BlackWhite" to="Display128x64" method="set_texture_color_black_and_white"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED Blue" to="Display128x64" method="set_texture_color_oled_blue_sh1106"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED Blue2" to="Display128x64" method="set_texture_color_oled_blue_ssd1306"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED Blue SH1106" to="Display128x64" method="set_texture_color_oled_blue_sh1106"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED White Blue SSD1306" to="Display128x64" method="set_texture_color_oled_blue_ssd1306"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED Green" to="Display128x64" method="set_texture_color_black_green_matrix"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Toggle" to="Display128x64/Code/BooleanState" method="toggle_all"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Chess" to="Display128x64/Code/BooleanState" method="draw_bool_chressboard_centered"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Hello" to="Display128x64/Code/BooleanState" method="draw_bool_line_characters_6x8_lrtd" binds= [0, 0, "Hello World"]]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Hello" to="Display128x64/Code/BooleanState" method="draw_bool_line_characters_6x8_lrtd" binds= [0, 0, "Hello World."]]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Import" to="Display128x64" method="import_state_as_image_from_clipboard"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Export" to="Display128x64" method="export_state_as_image_in_clipboard"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ImportB58" to="Display128x64/Code/Exporter/Clipboard" method="import_from_clipboard_in_base_58"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ExportB85" to="Display128x64/Code/Exporter/Clipboard" method="export_in_clipboard_in_base_58"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ImportChina" to="Display128x64/Code/Exporter/Clipboard" method="import_from_clipboard_in_base_8192"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ExportChina" to="Display128x64/Code/Exporter/Clipboard" method="export_in_clipboard_in_base_8192"]
 
 [editable path="Display128x64"]
 [editable path="Display128x64/SizeAnchor/ssd_1306_128x64_display"]

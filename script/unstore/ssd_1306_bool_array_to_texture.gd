@@ -62,6 +62,11 @@ func set_color_style_as_white_true_on_black_false():
 	color_off = Color("#000000")  # black
 	set_texture_with_boolean_array(bool_array_clear)
 
+func set_color_style_as_black_green_matrix():
+	# white true on black false
+	color_on = Color("00ff41")  # white
+	color_off = Color("#000000")  # black
+	set_texture_with_boolean_array(bool_array_clear)
 
 func set_color_style_as_e_ink_screen():
 	# E-ink style: white for "on" pixels, light gray for "off" pixels

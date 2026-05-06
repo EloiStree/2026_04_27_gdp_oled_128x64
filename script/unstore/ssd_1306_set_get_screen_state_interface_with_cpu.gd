@@ -596,10 +596,10 @@ func keep_only_01(text:String)->String:
 
 
 func draw_from_text_image_lrtd_at_zero(text:String):	
-	draw_from_text_image_lrtd(0,0,text)
+	draw_from_text_image_lrtd(0,0,text,true)
 	
 func draw_from_text_image_lrtd_at_zero_inversed(text:String):
-	push_error("Not implemented exception")
+	draw_from_text_image_lrtd(0,0,text, false)
 	pass
 	
 
@@ -619,23 +619,39 @@ func draw_bool_image_from_1d_array_lrtd(x_left_right: int, y_down_top: int, widt
 		set_value_at_x_y_lrtd(x_left_right + x_offset, y_down_top + y_offset, is_on)
 
 
-func draw_bool_character_6x8_lrtd(x_left_right: int, y_down_top: int, char: String, is_on: bool = true):
-	var image :String=get_text_image_of_font_character(char)
-	draw_from_text_image_lrtd(x_left_right, y_down_top, image)
 
-func draw_bool_line_characters_6x8_lrtd(x_left_right: int, y_down_top: int, char: String, is_on: bool = true):
+func print_text_at_zero(text:String):
+	draw_bool_line_characters_6x8_lrtd(0, 0, text, true)
+
+func print_text_at_zero_inversed(text:String):
+	draw_bool_line_characters_6x8_lrtd(0, 0, text, false)
+
+
+const EMOTIONS_TEXT:String = "joy, happiness, love, affection, contentment, satisfaction, pleasure, delight, excitement, enthusiasm, amusement, bliss, euphoria, gratitude, pride, hope, relief, sadness, sorrow, grief, despair, loneliness, disappointment, regret, guilt, shame, melancholy, anger, rage, frustration, irritation, annoyance, resentment, bitterness, jealousy, envy, hatred, fear, anxiety, worry, nervousness, panic, terror, dread, insecurity, surprise, shock, astonishment, amazement, confusion, disgust, contempt, revulsion, distaste, trust, admiration, empathy, compassion, embarrassment, curiosity, anticipation, boredom, nostalgia, awe, craving, alienation"
+func print_random_emotion_at_zero():
+	var emotions := EMOTIONS_TEXT.to_upper().split(",")
+	var random_emotion := emotions[randi() % emotions.size()].strip_edges()
+	print_text_at_zero(random_emotion)
+
+
+
+func draw_bool_character_6x8_lrtd(x_left_right: int, y_down_top: int, chars: String, is_on: bool = true, use_background: bool = false):
+	var image :String=get_text_image_of_font_character(chars)
+	draw_from_text_image_lrtd(x_left_right, y_down_top, image, is_on, use_background)
+
+func draw_bool_line_characters_6x8_lrtd(x_left_right: int, y_down_top: int, chars: String, is_on: bool = true,use_background: bool = false):
 	var right_offset: int = 6
 	var down_offset: int = 8
 	var line_count: int = 0
 	var char_count: int = 0
 
-	for c in char:
+	for c in chars:
 		if c == "\n":
 			line_count += 1
 			char_count = 0
 			continue
 		var image :String=get_text_image_of_font_character(c)
-		draw_from_text_image_lrtd(x_left_right + char_count * right_offset, y_down_top + line_count * down_offset, image)
+		draw_from_text_image_lrtd(x_left_right + char_count * right_offset, y_down_top + line_count * down_offset, image, is_on, use_background)
 		char_count += 1
 
 
@@ -698,9 +714,11 @@ func draw_bool_fill_rectangle_lrdt_from_to_vectori(start:Vector2i, end:Vector2i,
 				set_value_at_x_y_lrdt(x, y, is_on)
 
 
-func draw_from_text_image_lrtd( x_left_right: int, y_down_top: int, text_image:String):
+func draw_from_text_image_lrtd( x_left_right: int, y_down_top: int, text_image:String, is_on: bool = true, use_background =true	):
 	
 	var text_cleaned: String = keep_only_01(replace_slash_per_line_return(text_image))
+	if is_on==false:
+		text_cleaned = text_cleaned.replace("1","c").replace("0","1").replace("c","0")
 	var lines:= text_cleaned.split("\n")
 	var start_x = x_left_right
 	var start_y = y_down_top
@@ -708,16 +726,19 @@ func draw_from_text_image_lrtd( x_left_right: int, y_down_top: int, text_image:S
 	var x_counter: int = 0
 	var y_counter: int = 0
 	
+
+	
 	for line in lines:
 		for char in line:
 			if char != "0" and char != "1":
 				continue
-			var is_on: bool = char == "1"
-			set_value_at_x_y_lrtd(start_x + x_counter, start_y + y_counter, is_on)
+			var is_on_char: bool = char == "1"
+			set_value_at_x_y_lrtd(start_x + x_counter, start_y + y_counter, is_on_char)
 			x_counter += 1
 		y_counter += 1
 		x_counter = 0
 	
+
 		
 
 

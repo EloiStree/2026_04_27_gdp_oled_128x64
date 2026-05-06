@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cyhqcwf7ndy0o" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_set_mesh_instance_texture.gd" id="8_pf81u"]
 [ext_resource type="Script" uid="uid://ctqe3wn7f4dis" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_parse_image_to_boolean.gd" id="9_4wjyu"]
 [ext_resource type="Script" uid="uid://dg21ig84uy7n7" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_exporter.gd" id="11_cq0bo"]
+[ext_resource type="Script" uid="uid://vp8wq7r1wu6l" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_clipboard_from_to.gd" id="12_ml0yv"]
 [ext_resource type="Script" uid="uid://bhwk2brejtwio" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/ssd_1306_mod_boolean_array_node_bridge.gd" id="12_q5plq"]
 [ext_resource type="Script" uid="uid://bd2ddrhms6hgw" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/ssd_1306_mod_create_code_node.gd" id="13_e75sw"]
 [ext_resource type="Script" uid="uid://3why6y34hebw" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/ssd_1306_mod_fake_nes_input.gd" id="14_hefyp"]
@@ -94,6 +95,10 @@ script = ExtResource("11_cq0bo")
 direct_import_from = NodePath("../BooleanState")
 metadata/_custom_type_script = "uid://dg21ig84uy7n7"
 
+[node name="Clipboard" type="Node" parent="Code/Exporter" unique_id=691603611]
+script = ExtResource("12_ml0yv")
+metadata/_custom_type_script = "uid://vp8wq7r1wu6l"
+
 [node name="Mod" type="Node" parent="Code" unique_id=61905108]
 
 [node name="Bridge To Node" type="Node" parent="Code/Mod" unique_id=1168290346 node_paths=PackedStringArray("facade_to_provide", "default_node_position_rotation")]
@@ -158,10 +163,12 @@ metadata/_custom_type_script = "uid://cyhqcwf7ndy0o"
 [connection signal="on_boolean_array_updated" from="Code/BooleanState" to="Code/FileMemory" method="set_next_save_boolean_array"]
 [connection signal="on_boolean_array_updated" from="Code/BooleanState" to="Code/BooleanToTexture" method="set_texture_with_boolean_array"]
 [connection signal="on_boolean_array_updated" from="Code/BooleanState" to="Code/UDP/Send To Target" method="set_next_push_byte_as_array_bool"]
+[connection signal="on_boolean_array_updated" from="Code/BooleanState" to="Code/Exporter/Clipboard" method="set_reference_to_current_state_of_array"]
 [connection signal="on_texture_updated" from="Code/BooleanToTexture" to="SizeAnchor/ScreenQuadDisplay/SSD1306SetMeshInstanceTexture" method="set_texture"]
 [connection signal="call_refreshing_frame" from="Code/FrameRefresher" to="Code/BooleanState" method="emit_boolean_array_as_updated"]
 [connection signal="on_after_frame_refresh" from="Code/FrameRefresher" to="Code/Mod/Bridge To Node" method="notify_that_draw_was_called"]
 [connection signal="on_image_parsed" from="Code/ParseImageIn" to="Code/BooleanState" method="draw_bool_image_from_1d_array_lrtd_at_zero"]
+[connection signal="on_imported_array_from_clipboard" from="Code/Exporter/Clipboard" to="Code/BooleanState" method="override_array_with_boolean_array_and_emit"]
 [connection signal="mod_out_push_boolean_array" from="Code/Mod/Bridge To Node" to="Code/BooleanState" method="set_value_with_1d_array"]
 [connection signal="on_created_node_with_code" from="Code/Mod/Create Mod Code" to="Code/Mod/Bridge To Node" method="set_node_to_affect"]
 [connection signal="on_nes_input_updated" from="Code/Mod/NES Mockup" to="Code/Mod/Bridge To Node" method="set_nes_buttons"]

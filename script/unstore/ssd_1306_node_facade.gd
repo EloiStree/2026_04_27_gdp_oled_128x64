@@ -16,6 +16,7 @@ extends Node
 
 @export var texture_builder:SSD1306BoolArrayToTexture
 
+
 #region UNSTORE
 
 
@@ -38,6 +39,8 @@ func set_texture_color_oled_blue_ssd1306():
 	texture_builder.set_color_style_as_ssd1306_black_white_blue()
 func set_texture_color_e_ink():
 	texture_builder.set_color_style_as_e_ink_screen()
+func set_texture_color_black_green_matrix():
+	texture_builder.set_color_style_as_black_green_matrix()
 
 
  
