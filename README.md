@@ -83,9 +83,9 @@ func remove_code_to_execute()
 
 ## Documentation
 
-<img width="128" height="64" alt="godot_gear_128x64" src="https://github.com/user-attachments/assets/d682b1cf-4854-4cca-9860-830e4f80ddde" />  
-* [https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/3](https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/3)
-* [https://github.com/EloiStree/HelloGodot128x64](https://github.com/EloiStree/HelloGodot128x64)
+<img width="128" height="64" alt="godot_gear_128x64" src="https://github.com/user-attachments/assets/d682b1cf-4854-4cca-9860-830e4f80ddde" />    
+- https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/3
+- https://github.com/EloiStree/HelloGodot128x64
 
 
 ---
