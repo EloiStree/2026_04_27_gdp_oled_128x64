@@ -25,18 +25,19 @@ var bool_array_full: Array[bool] = []
 @export var color_style: ColorStyle
 
 enum ColorStyle {
-	OLED_BLUE,
-	OLED_GREEN,
+	INSEPCTOR_VALUE,
+	OLED_BLACK_BLUE,
+	OLED_BLACK_GREEN,
+	OLED_BLACK_WHITE_BLUE,
 	E_INK,
 	BLACK_TRUE_ON_WHITE_FALSE,
 	WHITE_TRUE_ON_BLACK_FALSE,
 	GAMEBOY_DARK,
 	GAMEBOY_LIGHT,
-	INSEPCTOR_VALUE
 }
 
 
-func set_color_style_as_oled_blue_screen():
+func set_color_style_as_sh1106_oled_blue_screen():
 	# OLED blue: #007BFF
 	color_on = Color("a2e5ffff")  # OLED blue
 	color_off = Color("#000000")  # background
@@ -71,18 +72,25 @@ func set_color_style_as_e_ink_screen():
 	set_texture_with_boolean_array(bool_array_clear)  
 
 
-func set_color_as_gameboy_on_dark():
+func set_color_style_as_gameboy_on_dark():
 	# Screen tint (unlit LCD greenish): #9BBC0F
 	# Screen dark green (active pixels): #0F380F
 	color_on = Color("#0F380F")  # dark green
 	color_off = Color("#9BBC0F")  # light green
 
 
-func set_color_as_gameboy_on_light():
+func set_color_style_as_gameboy_on_light():
 	# Screen tint (unlit LCD greenish): #9BBC0F
 	# Screen dark green (active pixels): #0F380F
 	color_off = Color("#0F380F")  # dark green
 	color_on = Color("#9BBC0F")  # light green
+
+	set_texture_with_boolean_array(bool_array_clear)  
+
+
+func set_color_style_as_ssd1306_black_white_blue():
+	color_off = Color("000000ff") 
+	color_on = Color("dfe8e1ff")  
 
 	set_texture_with_boolean_array(bool_array_clear)  
 
@@ -103,17 +111,19 @@ func _ready():
 	if color_style == ColorStyle.E_INK:
 		set_color_style_as_e_ink_screen()
 	elif color_style == ColorStyle.GAMEBOY_DARK:
-		set_color_as_gameboy_on_dark()
+		set_color_style_as_gameboy_on_dark()
 	elif color_style == ColorStyle.GAMEBOY_LIGHT:
-		set_color_as_gameboy_on_light()
-	elif color_style == ColorStyle.OLED_GREEN:
+		set_color_style_as_gameboy_on_light()
+	elif color_style == ColorStyle.OLED_BLACK_GREEN:
 		set_color_style_as_oled_green_screen()
-	elif color_style == ColorStyle.OLED_BLUE:
-		set_color_style_as_oled_blue_screen()
+	elif color_style == ColorStyle.OLED_BLACK_BLUE:
+		set_color_style_as_sh1106_oled_blue_screen()
 	elif color_style == ColorStyle.BLACK_TRUE_ON_WHITE_FALSE:
 		set_color_style_as_black_true_on_white_false()
 	elif color_style == ColorStyle.WHITE_TRUE_ON_BLACK_FALSE:
 		set_color_style_as_white_true_on_black_false()
+	elif color_style == ColorStyle.OLED_BLACK_WHITE_BLUE:
+		set_color_style_as_ssd1306_black_white_blue()
 
 
 

@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dnv88k2tdgj7i"]
 
 [ext_resource type="PackedScene" uid="uid://c5x8qrwymu4nm" path="res://addons/2026_04_27_gdp_oled_128x64/scene/item/display_ssd_1306_128x64.tscn" id="1_8kjdd"]
-[ext_resource type="Script" uid="uid://c3b1f885bs882" path="res://addons/2026_04_27_gdp_oled_128x64_sample/mod/example/how_to_use/display_rotation/mod_ref_1306_display_rotation.gd" id="2_gvdij"]
 [ext_resource type="PackedScene" uid="uid://bmma68fvxq71m" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_drawing_quad_board.tscn" id="3_gvdij"]
 [ext_resource type="Script" uid="uid://c70uo3tu160w6" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_click_to_node_move.gd" id="4_hulm6"]
 [ext_resource type="Script" uid="uid://b6142qsb7pb07" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_scoll_to_scale.gd" id="5_0dbc3"]
@@ -22,7 +21,6 @@ transform = Transform3D(0.185, 0, 0, 0, 0.185, 0, 0, 0, 0.185, -0.55387694, 0.02
 use_test = false
 
 [node name="S1306 Example Display Rotation" type="Node" parent="." unique_id=849729373]
-script = ExtResource("2_gvdij")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=163170033]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.051215976, 0.5373807, -0.004423663)
@@ -105,7 +103,7 @@ Color"
 layout_mode = 2
 text = "eInk"
 
-[node name="NES" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=209721104]
+[node name="Gameboy" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=209721104]
 layout_mode = 2
 text = "Game
 Boy"
@@ -119,6 +117,11 @@ White"
 layout_mode = 2
 text = "OLED
 Blue"
+
+[node name="OLED Blue2" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1879463451]
+layout_mode = 2
+text = "OLED
+SSD1306"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer" unique_id=865249304]
 anchors_preset = -1
@@ -157,9 +160,10 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Full" to="Display128x64" method="fill_and_draw"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Inverse Color" to="Display128x64" method="inverse_display_texture_colors"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/eInk" to="Display128x64" method="set_texture_color_e_ink"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer/NES" to="Display128x64" method="set_texture_color_gameboy"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/Gameboy" to="Display128x64" method="set_texture_color_gameboy"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/BlackWhite" to="Display128x64" method="set_texture_color_black_and_white"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED Blue" to="Display128x64" method="set_texture_color_oled_blue"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED Blue" to="Display128x64" method="set_texture_color_oled_blue_sh1106"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED Blue2" to="Display128x64" method="set_texture_color_oled_blue_ssd1306"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Toggle" to="Display128x64/Code/BooleanState" method="toggle_all"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Chess" to="Display128x64/Code/BooleanState" method="draw_bool_chressboard_centered"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Hello" to="Display128x64/Code/BooleanState" method="draw_bool_line_characters_6x8_lrtd" binds= [0, 0, "Hello World"]]

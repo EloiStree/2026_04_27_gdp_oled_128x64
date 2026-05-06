@@ -124,10 +124,10 @@ func fill_circle(x: int, y: int, radius: int, is_on: bool):
 	pass
 
 
-func magic_pencil_lrtd(x: int, y: int, radius: int, is_on: bool):
-	pass
-func magic_pencil_lrtd(x: int, y: int, radius: int, is_on: bool):
-	pass
+#func magic_pencil_lrtd(x: int, y: int, radius: int, is_on: bool):
+	#pass
+#func magic_pencil_lrtd(x: int, y: int, radius: int, is_on: bool):
+	#pass
 
 #> Circles. Useful for icons, indicators, or reminding yourself geometry exists.
 
