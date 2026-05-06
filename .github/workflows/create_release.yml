@@ -60,10 +60,9 @@ jobs:
           find "${{ github.event.repository.name }}/" -type d -name ".github" -exec rm -rf {} +
          
           
-          mv "${{ github.event.repository.name }}/addons/${{ github.event.repository.name }}"/* "${{ github.event.repository.name }}/addons/${{ github.event.repository.name }}/" 2>/dev/null || true
-          rm -rf "${{ github.event.repository.name }}/addons/${{ github.event.repository.name }}/addons"
+          mv "${{ github.event.repository.name }}/addons/${{ github.event.repository.name }}"/* "addons/${{ github.event.repository.name }}/" 2>/dev/null || true
 
-          zip -r ${{ github.event.repository.name }}.zip 
+          zip -r ${{ github.event.repository.name }}.zip addons
     
       - name: Create Release
         uses: softprops/action-gh-release@v2
