@@ -34,6 +34,7 @@ enum ColorStyle {
 	WHITE_TRUE_ON_BLACK_FALSE,
 	GAMEBOY_DARK,
 	GAMEBOY_LIGHT,
+	FLIPPER_ORANGE,
 }
 
 
@@ -83,6 +84,10 @@ func set_color_style_as_gameboy_on_dark():
 	color_on = Color("#0F380F")  # dark green
 	color_off = Color("#9BBC0F")  # light green
 
+func set_color_style_as_flipper_orange():
+	color_on = Color("232323ff")  # dark green
+	color_off = Color("ff8833ff")  # light green
+	
 
 func set_color_style_as_gameboy_on_light():
 	# Screen tint (unlit LCD greenish): #9BBC0F
@@ -129,6 +134,8 @@ func _ready():
 		set_color_style_as_white_true_on_black_false()
 	elif color_style == ColorStyle.OLED_BLACK_WHITE_BLUE:
 		set_color_style_as_ssd1306_black_white_blue()
+	elif color_style == ColorStyle.FLIPPER_ORANGE:
+		set_color_style_as_flipper_orange()
 
 
 

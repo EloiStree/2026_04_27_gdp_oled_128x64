@@ -626,6 +626,9 @@ func print_text_at_zero(text:String):
 func print_text_at_zero_inversed(text:String):
 	draw_bool_line_characters_6x8_lrtd(0, 0, text, false)
 
+func print_text_at_lrtd(x_left_right: int, y_down_top: int, text:String, is_on: bool = true):
+	draw_bool_line_characters_6x8_lrtd(x_left_right, y_down_top,text, is_on)
+
 
 const EMOTIONS_TEXT:String = "joy, happiness, love, affection, contentment, satisfaction, pleasure, delight, excitement, enthusiasm, amusement, bliss, euphoria, gratitude, pride, hope, relief, sadness, sorrow, grief, despair, loneliness, disappointment, regret, guilt, shame, melancholy, anger, rage, frustration, irritation, annoyance, resentment, bitterness, jealousy, envy, hatred, fear, anxiety, worry, nervousness, panic, terror, dread, insecurity, surprise, shock, astonishment, amazement, confusion, disgust, contempt, revulsion, distaste, trust, admiration, empathy, compassion, embarrassment, curiosity, anticipation, boredom, nostalgia, awe, craving, alienation"
 func print_random_emotion_at_zero():
@@ -1296,237 +1299,67 @@ var FONT_DICO_SSD1306_6X8 := {
 
 
 
+func draw_bool_texture_2d_lrtd(x_left_right: int, y_top_down: int, texture: Texture2D, threshold: float = 1.0):
+	if texture == null:
+		return
+	var image: Image = texture.get_image()
+	draw_bool_image_2d_lrtd(x_left_right, y_top_down, image, threshold)
 
-# func draw_frame():
-# 	for i in range(SCREEN_SIZE):
-# 		var is_on: bool = display_as_boolean_array[i]
-# 		texture_2d_data[i] = color_on if is_on else color_off
-	
-# 	var image := Image.create(SCREEN_WIDTH, SCREEN_HEIGHT, use_mipmaps, Image.FORMAT_RGBA8)
-# 	image.lock()
-# 	for i in range(SCREEN_SIZE):
-# 		var pos := index_to_xy(i)
-# 		image.set_pixel(pos.x, pos.y, texture_2d_data[i])
-# 	image.unlock()
-	
-# 	texture_2d.set_image(image)
-
-# func draw_frame_and_emit():
-# 	draw_frame()
-# 	on_texture_updated.emit(texture_2d)
-# 	on_texture_material_updated.emit(0, null)  # material_surface is not used in this example, so we pass null
-
-# # -------------------------
-# # Conversion helpers
-# # -------------------------
-	
-# func index_to_xy(index: int) -> Vector2i:
-# 	var x: int = index % SCREEN_WIDTH
-# 	var y: int = index / SCREEN_WIDTH
-# 	return Vector2i(x, y)
+func draw_bool_image_texture_2d_lrtd(x_left_right: int, y_top_down: int, image_texture: ImageTexture, threshold: float = 1.0):
+	if image_texture == null:
+		return 
+	var image: Image = image_texture.get_image()
+	draw_bool_image_2d_lrtd(x_left_right, y_top_down, image, threshold)
 
 
-# func xy_to_index(x: int, y: int) -> int:
-# 	return y * SCREEN_WIDTH + x
+func is_color_white_threshold(color:Color, threshold:float):
+	return color.r >= threshold and color.g >= threshold and color.b >= threshold
 
+func is_color_white(color: Color) -> bool:
+	return color.r >= 0.5 and color.g >= 0.5 and color.b >= 0.5
 
-# # -------------------------
-# # Pixel control
-# # -------------------------
-
-# func set_boolean_of_pixel(index: int, is_on: bool):
-# 	if index < 0 or index > SCREEN_SIZE_INDEX_MAX:
-# 		return
-# 	display_as_boolean_array[index] = is_on
-
-
-# func set_boolean_of_pixel_xy(x: int, y: int, is_on: bool):
-# 	if x < 0 or x >= SCREEN_WIDTH:
-# 		return
-# 	if y < 0 or y >= SCREEN_HEIGHT:
-# 		return
-	
-# 	var index: int = xy_to_index(x, y)
-# 	set_boolean_of_pixel(index, is_on)
+func is_color_transparent(color: Color, alpha_threshold: float) -> bool:
+	return color.a < alpha_threshold
 
 
 
 
-
-# func clear_and_emit():
-# 	for i in range(SCREEN_SIZE):
-# 		display_as_boolean_array[i] = false
-# 		texture_2d_data[i] = color_off
-# 	on_texture_updated.emit(texture_2d)
-
-
-# func fill_and_emit():
-# 	for i in range(SCREEN_SIZE):
-# 		display_as_boolean_array[i] = true
-# 		texture_2d_data[i] = color_on	
-# 	on_texture_updated.emit(texture_2d)
+func draw_bool_image_2d_lrtd(x_left_right: int, y_top_down: int, image: Image, threshold: float = 1.0):
+	var width: int = image.get_width()
+	var height: int = image.get_height()
+	for y in range(height):
+		for x in range(width):
+			var color: Color = image.get_pixel(x, y)
+			var is_white_not_transparent: bool = is_color_white_threshold(color,threshold) #and not is_color_transparent(color, alpha)
+			set_value_at_x_y_lrtd(x_left_right + x, y_top_down + y, is_white_not_transparent)
+	image = null
 
 
 
-# func get_on_off_color(is_on:bool) -> Color:
-# 	return color_on if is_on else color_off
+
+func draw_bool_image_2d_center_at_point_lrtd(x_left_right: int, y_top_down: int, image: Image, threshold: float = 1.0):
+	if image == null:
+		return 
+	var width: int = image.get_width()
+	var height: int = image.get_height()
+	var offset_x: float = width / 2.0
+	var offset_y: float = height / 2.0
+	var top_left_x: int = x_left_right - offset_x
+	var top_left_y: int = y_top_down - offset_y
+	draw_bool_image_2d_lrtd(top_left_x, top_left_y, image, threshold)
 
 
-# func set_boolean_of_vertical_line(x: int, is_on: bool = true):
-# 	if x < 0 or x >= SCREEN_WIDTH:
-# 		return
-	
-# 	for y in range(SCREEN_HEIGHT):
-# 		set_boolean_of_pixel_xy(x, y, is_on)
+func draw_bool_image_2d_at_center(image: Image, threshold: float = 1.0):
+	if image == null:
+		return 
+	draw_bool_image_2d_center_at_point_lrtd(64,32, image, threshold)
 
-# func set_boolean_of_horizontal_line(y: int, is_on: bool = true):
-# 	if y < 0 or y >= SCREEN_HEIGHT:
-# 		return
-	
-# 	for x in range(SCREEN_WIDTH):
-# 		set_boolean_of_pixel_xy(x, y, is_on)
+func draw_bool_image_2d_at_center_left(image: Image, threshold: float = 1.0):
+	if image == null:
+		return 
+	draw_bool_image_2d_center_at_point_lrtd(32,32, image, threshold)
 
-# func set_boolean_of_diagonal_line_left_to_right(x, y, is_on: bool = true):
-# 	set_boolean_of_diagonal_line(x, y, true, is_on)
-
-# func set_boolean_of_diagonal_line_right_to_left(x, y, is_on: bool = true):
-# 	set_boolean_of_diagonal_line(x, y, false, is_on)
-
-# func set_boolean_of_diagonal_line(x, y, left_to_right: bool = true, is_on: bool = true):
-# 	if left_to_right:
-# 		for i in range(SCREEN_HEIGHT):
-# 			var px = x + i
-# 			var py = y + i
-# 			if px < 0 or px >= SCREEN_WIDTH:
-# 				continue
-# 			if py < 0 or py >= SCREEN_HEIGHT:
-# 				continue
-# 			set_boolean_of_pixel_xy(px, py, is_on)
-# 		for i in range(SCREEN_HEIGHT):
-# 			var px = x - i
-# 			var py = y + i
-# 			if px < 0 or px >= SCREEN_WIDTH:
-# 				continue
-# 			if py < 0 or py >= SCREEN_HEIGHT:
-# 				continue
-# 			set_boolean_of_pixel_xy(px, py, is_on)
-# 	else:
-# 		for i in range(SCREEN_HEIGHT):
-# 			var px = x - i
-# 			var py = y + i
-# 			if px < 0 or px >= SCREEN_WIDTH:
-# 				continue
-# 			if py < 0 or py >= SCREEN_HEIGHT:
-# 				continue
-# 			set_boolean_of_pixel_xy(px, py, is_on)
-
-# 		for i in range(SCREEN_HEIGHT):
-# 			var px = x + i
-# 			var py = y + i
-# 			if px < 0 or px >= SCREEN_WIDTH:
-# 				continue
-# 			if py < 0 or py >= SCREEN_HEIGHT:
-# 				continue
-# 			set_boolean_of_pixel_xy(px, py, is_on)
-
-
-# func shift_boolean_right(loop_border: bool = false):
-# 	for y in range(SCREEN_HEIGHT):
-# 		var last_value: bool = display_as_boolean_array[xy_to_index(SCREEN_WIDTH - 1, y)]
-# 		for x in range(SCREEN_WIDTH - 1, 0, -1):
-# 			var current_index: int = xy_to_index(x, y)
-# 			var previous_index: int = xy_to_index(x - 1, y)
-# 			display_as_boolean_array[current_index] = display_as_boolean_array[previous_index]
-		
-# 		display_as_boolean_array[xy_to_index(0, y)] = last_value if loop_border else false
-
-# func shift_boolean_left(loop_border: bool = false):
-# 	for y in range(SCREEN_HEIGHT):
-# 		var first_value: bool = display_as_boolean_array[xy_to_index(0, y)]
-# 		for x in range(SCREEN_WIDTH - 1):
-# 			var current_index: int = xy_to_index(x, y)
-# 			var next_index: int = xy_to_index(x + 1, y)
-# 			display_as_boolean_array[current_index] = display_as_boolean_array[next_index]
-		
-# 		display_as_boolean_array[xy_to_index(SCREEN_WIDTH - 1, y)] = first_value if loop_border else false	
-
-# func shift_boolean_down(loop_border: bool = false):
-# 	for x in range(SCREEN_WIDTH):
-# 		var last_value: bool = display_as_boolean_array[xy_to_index(x, SCREEN_HEIGHT - 1)]
-# 		for y in range(SCREEN_HEIGHT - 1, 0, -1):
-# 			var current_index: int = xy_to_index(x, y)
-# 			var previous_index: int = xy_to_index(x, y - 1)
-# 			display_as_boolean_array[current_index] = display_as_boolean_array[previous_index]
-		
-# 		display_as_boolean_array[xy_to_index(x, 0)] = last_value if loop_border else false
-
-# func shift_boolean_up(loop_border: bool = false):
-# 	for x in range(SCREEN_WIDTH):
-# 		var first_value: bool = display_as_boolean_array[xy_to_index(x, 0)]
-# 		for y in range(SCREEN_HEIGHT - 1):
-# 			var current_index: int = xy_to_index(x, y)
-# 			var next_index: int = xy_to_index(x, y + 1)
-# 			display_as_boolean_array[current_index] = display_as_boolean_array[next_index]
-
-# func shift_boolean_diagonal_up_right(loop_border: bool = false):
-# 	for y in range(SCREEN_HEIGHT):
-# 		var first_value: bool = display_as_boolean_array[xy_to_index(0, y)]
-# 		for x in range(SCREEN_WIDTH - 1):
-# 			var current_index: int = xy_to_index(x, y)
-# 			var next_index: int = xy_to_index(x + 1, (y + 1) % SCREEN_HEIGHT)
-# 			display_as_boolean_array[current_index] = display_as_boolean_array[next_index]
-		
-# 		display_as_boolean_array[xy_to_index(SCREEN_WIDTH - 1, y)] = first_value if loop_border else false
-
-
-# func shift_boolean_diagonal_up_left(loop_border: bool = false):
-# 	for y in range(SCREEN_HEIGHT):
-# 		var first_value: bool = display_as_boolean_array[xy_to_index(SCREEN_WIDTH - 1, y)]
-# 		for x in range(SCREEN_WIDTH - 1, 0, -1):
-# 			var current_index: int = xy_to_index(x, y)
-# 			var next_index: int = xy_to_index(x - 1, (y + 1) % SCREEN_HEIGHT)
-# 			display_as_boolean_array[current_index] = display_as_boolean_array[next_index]
-		
-# 		display_as_boolean_array[xy_to_index(0, y)] = first_value if loop_border else false
-
-# func shift_boolean_diagonal_down_right(loop_border: bool = false):
-# 	for y in range(SCREEN_HEIGHT):
-# 		var first_value: bool = display_as_boolean_array[xy_to_index(0, y)]
-# 		for x in range(SCREEN_WIDTH - 1):
-# 			var current_index: int = xy_to_index(x, y)
-# 			var next_index: int = xy_to_index(x + 1, (y - 1 + SCREEN_HEIGHT) % SCREEN_HEIGHT)
-# 			display_as_boolean_array[current_index] = display_as_boolean_array[next_index]
-		
-# 		display_as_boolean_array[xy_to_index(SCREEN_WIDTH - 1, y)] = first_value if loop_border else false
-
-# func shift_boolean_diagonal_down_left(loop_border: bool = false):
-# 	for y in range(SCREEN_HEIGHT):
-# 		var first_value: bool = display_as_boolean_array[xy_to_index(SCREEN_WIDTH - 1, y)]
-# 		for x in range(SCREEN_WIDTH - 1, 0, -1):
-# 			var current_index: int = xy_to_index(x, y)
-# 			var next_index: int = xy_to_index(x - 1, (y - 1 + SCREEN_HEIGHT) % SCREEN_HEIGHT)
-# 			display_as_boolean_array[current_index] = display_as_boolean_array[next_index]	
-# 		display_as_boolean_array[xy_to_index(0, y)] = first_value if loop_border else false
-
-# # -------------------------
-# # Bulk update (fast)
-# # -------------------------
-
-# func set_from_bool_array(data: Array):
-# 	# expects width * height elements
-# 	var max_size = min(data.size(), width * height)
-	
-# 	for i in range(max_size):
-# 		var pos := index_to_xy(i)
-# 		var is_on: bool = data[i]
-# 		image.set_pixel(pos.x, pos.y, get_on_off_color(is_on))
-
-
-# # -------------------------
-# # Apply changes to GPU
-# # -------------------------
-
-# func update_texture():
-# 	texture.update(image)
-# 	on_texture_updated.emit(texture)
-#endregion
+func draw_bool_image_2d_at_center_right(image: Image, threshold: float = 1.0):
+	if image == null:
+		return 
+	draw_bool_image_2d_center_at_point_lrtd(96,32, image, threshold)

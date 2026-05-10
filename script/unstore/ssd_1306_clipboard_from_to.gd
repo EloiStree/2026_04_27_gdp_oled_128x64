@@ -172,3 +172,47 @@ func import_from_clipboard_in_base_8192() -> void:
 	var array_from_clipboard := ChinaBase.convert_from_base_8192(base8192_string)
 	on_imported_text_from_clipboard.emit( base8192_string)
 	on_imported_array_from_clipboard.emit( array_from_clipboard)
+
+
+
+@export var texture_to_export:Texture2D
+func set_texture_to_export(texture:Texture2D):
+	texture_to_export = texture
+
+
+func export_texture_to_markdown_base64_from_inspector():
+	var text= convert_texture_to_svg_for_markdown(texture_to_export)
+	DisplayServer.clipboard_set(text)
+	on_exported_text_in_clipboard.emit( text)
+
+
+func convert_texture_to_markdown_base64(texture: Texture2D) -> String:
+	var image: Image = texture.get_image()
+	var png_buffer: PackedByteArray = image.save_png_to_buffer()
+	var b64 := Marshalls.raw_to_base64(png_buffer)
+	var html := '<img width="128" height="64" src="data:image/png;base64,%s" />' % b64
+	return html
+
+
+func convert_texture_to_svg_for_markdown(image: Texture2D) -> String:
+	var width := 128
+	var height := 64
+
+	var svg := ""
+	svg += '<?xml version="1.0" encoding="UTF-8"?>\n'
+	svg += '<svg xmlns="http://www.w3.org/2000/svg" width="128" height="64" viewBox="0 0 128 64">\n'
+
+	var color_true := "#000000"
+	var color_false := "#FFA500"
+
+	for i in range(current_state_of_array.size()):
+		var x := i % width
+		var y := i / width
+
+		var is_true := current_state_of_array[i]
+		var color := color_true if is_true else color_false
+
+		svg += '<rect x="%d" y="%d" width="1" height="1" fill="%s"/>\n' % [x, y, color]
+
+	svg += "</svg>"
+	return svg

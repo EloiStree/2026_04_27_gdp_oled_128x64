@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://c70uo3tu160w6" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_click_to_node_move.gd" id="4_hulm6"]
 [ext_resource type="Script" uid="uid://b6142qsb7pb07" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_scoll_to_scale.gd" id="5_0dbc3"]
 [ext_resource type="Script" uid="uid://bbvrta1247wc0" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_event_for_debug.gd" id="6_8apx5"]
+[ext_resource type="Script" uid="uid://c5mjxpyp13vrg" path="res://addons/2026_04_27_gdp_oled_128x64/oled_128x64_display/script/ssd_1306_text_edit_to_string.gd" id="6_m2j7y"]
 
 [sub_resource type="Environment" id="Environment_8apx5"]
 background_mode = 1
@@ -30,10 +31,13 @@ size = 0.63095057
 near = 0.001
 
 [node name="SSD1306DrawingQuadBoard" parent="." unique_id=1633250035 instance=ExtResource("3_gvdij")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03583742, 0, 0.00046932697)
+transform = Transform3D(0.765, 0, 0, 0, 0.765, 0, 0, 0, 0.765, -0.03583742, 0, 0.00046932697)
 
 [node name="Default Draw With Sphere" parent="SSD1306DrawingQuadBoard/Code" parent_id_path=PackedInt32Array(1633250035, 477904962) index="1" unique_id=164076628 node_paths=PackedStringArray("display_facade")]
 display_facade = NodePath("../../../Display128x64")
+
+[node name="MeshInstance3D" parent="SSD1306DrawingQuadBoard/DrawingQuad/SizeAnchorQuad/QuadRoot" parent_id_path=PackedInt32Array(1633250035, 253209221) index="2" unique_id=1524982985]
+transform = Transform3D(1, 0, 0, 0, -2.1899405e-08, 1, 0, -0.501, -4.371139e-08, 0, 0, 0)
 
 [node name="DrawingBrush" parent="SSD1306DrawingQuadBoard" index="2" unique_id=1128457906]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17602539, -0.0068572294, 0.09430115)
@@ -76,6 +80,12 @@ visible = false
 layout_mode = 2
 text = "Value"
 
+[node name="LineEdit3" type="LineEdit" parent="CanvasLayer/HBoxContainer" unique_id=878463258]
+custom_minimum_size = Vector2(200, 20)
+layout_mode = 2
+text = "192.168.137."
+placeholder_text = "IP 127.0.0.1"
+
 [node name="HSlider" type="HSlider" parent="CanvasLayer/HBoxContainer" unique_id=2022558704]
 custom_minimum_size = Vector2(100, 20)
 layout_mode = 2
@@ -91,6 +101,24 @@ layout_mode = 2
 [node name="Button" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=94507285]
 layout_mode = 2
 text = "Emotion"
+
+[node name="TextEdit" type="TextEdit" parent="CanvasLayer/HBoxContainer" unique_id=261038945]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+
+[node name="SSD1306TextEditToString" type="Node" parent="CanvasLayer/HBoxContainer/TextEdit" unique_id=748420102 node_paths=PackedStringArray("text_editor")]
+script = ExtResource("6_m2j7y")
+text_editor = NodePath("..")
+metadata/_custom_type_script = "uid://c5mjxpyp13vrg"
+
+[node name="TextEdit2" type="TextEdit" parent="CanvasLayer/HBoxContainer" unique_id=1538084614]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+
+[node name="SSD1306TextEditToString" type="Node" parent="CanvasLayer/HBoxContainer/TextEdit2" unique_id=732654765 node_paths=PackedStringArray("text_editor")]
+script = ExtResource("6_m2j7y")
+text_editor = NodePath("..")
+metadata/_custom_type_script = "uid://c5mjxpyp13vrg"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=134127121]
 anchors_preset = -1
@@ -140,6 +168,11 @@ layout_mode = 2
 text = "Matrix
 Green"
 
+[node name="Flipper Orange" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=2067359472]
+layout_mode = 2
+text = "Flipper
+Orange"
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer" unique_id=865249304]
 anchors_preset = -1
 anchor_left = 0.94000006
@@ -186,6 +219,10 @@ text = "C In"
 layout_mode = 2
 text = "C Out"
 
+[node name="Button Export B64 IMG" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=1376630627]
+layout_mode = 2
+text = "B64 IMG"
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=219482388]
 transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.9294999, 0, 0, 0.6529541)
 
@@ -196,11 +233,14 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="on_right_click_changed" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard" method="set_pen_drawing_value_as" unbinds=1 binds= [false]]
 [connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenIsActive" to="SSD1306DrawingQuadBoard" method="set_pen_as_active"]
 [connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenValue" to="SSD1306DrawingQuadBoard" method="set_pen_drawing_value_as"]
+[connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit3" to="Display128x64" method="set_udp_target_ipv4"]
 [connection signal="value_changed" from="CanvasLayer/HBoxContainer/HSlider" to="SSD1306DrawingQuadBoard" method="set_brush_size_with_local_from_percent_01"]
 [connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit" to="Display128x64/Code/BooleanState" method="print_text_at_zero"]
 [connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit2" to="Display128x64/Code/BooleanState" method="print_text_at_zero_inversed"]
 [connection signal="button_down" from="CanvasLayer/HBoxContainer/Button" to="Display128x64/Code/BooleanState" method="flush_and_emit"]
 [connection signal="button_down" from="CanvasLayer/HBoxContainer/Button" to="Display128x64/Code/BooleanState" method="print_random_emotion_at_zero"]
+[connection signal="on_text_changed" from="CanvasLayer/HBoxContainer/TextEdit/SSD1306TextEditToString" to="Display128x64/Code/Builder/Six Objectifs" method="push_in_text"]
+[connection signal="on_text_changed" from="CanvasLayer/HBoxContainer/TextEdit2/SSD1306TextEditToString" to="Display128x64/Code/Builder/QR Code" method="display_at_left_top_corner_lrtd"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Clear" to="Display128x64" method="flush_and_draw"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Full" to="Display128x64" method="fill_and_draw"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Inverse Color" to="Display128x64" method="inverse_display_texture_colors"]
@@ -210,6 +250,7 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED Blue SH1106" to="Display128x64" method="set_texture_color_oled_blue_sh1106"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED White Blue SSD1306" to="Display128x64" method="set_texture_color_oled_blue_ssd1306"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED Green" to="Display128x64" method="set_texture_color_black_green_matrix"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer/Flipper Orange" to="Display128x64" method="set_texture_color_flipper_orange"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Toggle" to="Display128x64/Code/BooleanState" method="toggle_all"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Chess" to="Display128x64/Code/BooleanState" method="draw_bool_chressboard_centered"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Hello" to="Display128x64/Code/BooleanState" method="draw_bool_line_characters_6x8_lrtd" binds= [0, 0, "Hello World."]]
@@ -219,6 +260,7 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ExportB85" to="Display128x64/Code/Exporter/Clipboard" method="export_in_clipboard_in_base_58"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ImportChina" to="Display128x64/Code/Exporter/Clipboard" method="import_from_clipboard_in_base_8192"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ExportChina" to="Display128x64/Code/Exporter/Clipboard" method="export_in_clipboard_in_base_8192"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Export B64 IMG" to="Display128x64/Code/Exporter/Clipboard" method="export_texture_to_markdown_base64_from_inspector"]
 
 [editable path="Display128x64"]
 [editable path="Display128x64/SizeAnchor/ssd_1306_128x64_display"]

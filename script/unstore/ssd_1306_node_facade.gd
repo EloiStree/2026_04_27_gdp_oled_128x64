@@ -42,7 +42,8 @@ func set_texture_color_e_ink():
 func set_texture_color_black_green_matrix():
 	texture_builder.set_color_style_as_black_green_matrix()
 
-
+func set_texture_color_flipper_orange():
+	texture_builder.set_color_style_as_flipper_orange()
  
 
  
@@ -176,6 +177,16 @@ func start_sending_display_to_target(ip, port, timing):
 		udp_sender.set_target_port(port)
 		udp_sender.set_time_between_sends(timing)
 		udp_sender.start_timer_pushing_bytes()
+		
+func set_udp_target_ipv4(ip:String):
+	if udp_sender:
+		udp_sender.set_target_ip(ip)
+func set_udp_target_port_from_string(port:String):
+	if udp_sender:
+		udp_sender.set_target_port(int(port))
+func set_udp_target_port(port:int):
+	if udp_sender:
+		udp_sender.set_target_port(port)
 
 func stop_sending_display_to_target():
 	if udp_sender:
