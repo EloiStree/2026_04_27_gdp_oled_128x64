@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://b6142qsb7pb07" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_scoll_to_scale.gd" id="5_0dbc3"]
 [ext_resource type="Script" uid="uid://bbvrta1247wc0" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_event_for_debug.gd" id="6_8apx5"]
 [ext_resource type="Script" uid="uid://c5mjxpyp13vrg" path="res://addons/2026_04_27_gdp_oled_128x64/oled_128x64_display/script/ssd_1306_text_edit_to_string.gd" id="6_m2j7y"]
+[ext_resource type="Script" uid="uid://48jcpn17e656" path="res://addons/2026_04_27_gdp_oled_128x64/oled_128x64_display/script/ssd_1306_load_scene.gd" id="7_disnu"]
+[ext_resource type="PackedScene" uid="uid://cbt8xvf1tpip5" path="res://addons/2026_04_27_gdp_oled_128x64/oled_128x64_display/scene/demo_oled_128x64_udp_display.tscn" id="8_uw8io"]
 
 [sub_resource type="Environment" id="Environment_8apx5"]
 background_mode = 1
@@ -20,6 +22,9 @@ transform = Transform3D(0.185, 0, 0, 0, 0.185, 0, 0, 0, 0.185, -0.55387694, 0.02
 
 [node name="Quick Testing Script" parent="Display128x64/Code" parent_id_path=PackedInt32Array(111730519, 148936503) index="3" unique_id=290874810]
 use_test = false
+
+[node name="Send To Target" parent="Display128x64/Code/UDP" parent_id_path=PackedInt32Array(111730519, 1007706168) index="0" unique_id=1334365415]
+target_ip = "169.254.208.106"
 
 [node name="S1306 Example Display Rotation" type="Node" parent="." unique_id=849729373]
 
@@ -223,6 +228,16 @@ text = "C Out"
 layout_mode = 2
 text = "B64 IMG"
 
+[node name="Button Load Scene UDP" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=923508823]
+layout_mode = 2
+text = "UDP
+Listen"
+
+[node name="SSD1306LoadScene" type="Node" parent="CanvasLayer/VBoxContainer2/Button Load Scene UDP" unique_id=1196709884]
+script = ExtResource("7_disnu")
+scene_to_load = ExtResource("8_uw8io")
+metadata/_custom_type_script = "uid://48jcpn17e656"
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=219482388]
 transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.9294999, 0, 0, 0.6529541)
 
@@ -234,13 +249,14 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenIsActive" to="SSD1306DrawingQuadBoard" method="set_pen_as_active"]
 [connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenValue" to="SSD1306DrawingQuadBoard" method="set_pen_drawing_value_as"]
 [connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit3" to="Display128x64" method="set_udp_target_ipv4"]
+[connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit3" to="Display128x64/Code/UDP/Send To Target" method="start_timer_pushing_bytes"]
 [connection signal="value_changed" from="CanvasLayer/HBoxContainer/HSlider" to="SSD1306DrawingQuadBoard" method="set_brush_size_with_local_from_percent_01"]
 [connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit" to="Display128x64/Code/BooleanState" method="print_text_at_zero"]
 [connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit2" to="Display128x64/Code/BooleanState" method="print_text_at_zero_inversed"]
-[connection signal="button_down" from="CanvasLayer/HBoxContainer/Button" to="Display128x64/Code/BooleanState" method="flush_and_emit"]
 [connection signal="button_down" from="CanvasLayer/HBoxContainer/Button" to="Display128x64/Code/BooleanState" method="print_random_emotion_at_zero"]
+[connection signal="button_down" from="CanvasLayer/HBoxContainer/Button" to="Display128x64/Code/BooleanState" method="flush_and_emit"]
 [connection signal="on_text_changed" from="CanvasLayer/HBoxContainer/TextEdit/SSD1306TextEditToString" to="Display128x64/Code/Builder/Six Objectifs" method="push_in_text"]
-[connection signal="on_text_changed" from="CanvasLayer/HBoxContainer/TextEdit2/SSD1306TextEditToString" to="Display128x64/Code/Builder/QR Code" method="display_at_left_top_corner_lrtd"]
+[connection signal="on_text_changed" from="CanvasLayer/HBoxContainer/TextEdit2/SSD1306TextEditToString" to="Display128x64/Code/Builder/QR Code" method="display_at_left_center"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Clear" to="Display128x64" method="flush_and_draw"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Full" to="Display128x64" method="fill_and_draw"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Inverse Color" to="Display128x64" method="inverse_display_texture_colors"]
@@ -261,6 +277,7 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ImportChina" to="Display128x64/Code/Exporter/Clipboard" method="import_from_clipboard_in_base_8192"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ExportChina" to="Display128x64/Code/Exporter/Clipboard" method="export_in_clipboard_in_base_8192"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Export B64 IMG" to="Display128x64/Code/Exporter/Clipboard" method="export_texture_to_markdown_base64_from_inspector"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Load Scene UDP" to="CanvasLayer/VBoxContainer2/Button Load Scene UDP/SSD1306LoadScene" method="change_to_scene_in_inspector"]
 
 [editable path="Display128x64"]
 [editable path="Display128x64/SizeAnchor/ssd_1306_128x64_display"]

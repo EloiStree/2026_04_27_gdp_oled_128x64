@@ -90,8 +90,7 @@ func _ready():
 		await wait_next_frame()
 		
 	
-	
-	
+
 
 	await wait_seconds(2)
 

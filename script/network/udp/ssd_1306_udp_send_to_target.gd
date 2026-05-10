@@ -1,6 +1,11 @@
 class_name SSD1306UdpSendToSingleTarget
 extends Node
 
+
+
+
+signal on_target_set_valide_ipv4(is_valide:bool)
+
 @export var target_ip: String = "192.168.178.122"
 @export var target_port: int = 3615
 @export var use_timer_send: bool = true
@@ -26,6 +31,8 @@ func _ready() -> void:
 
 
 func set_target_ip(ip: String) -> void:
+	var is_valid: bool = is_valid_ipv4(ip)
+	on_target_set_valide_ipv4.emit(is_valid)
 	target_ip = ip
 
 func set_target_port(port: int) -> void:
@@ -81,25 +88,25 @@ func send_integer_42() -> void:
 func send_integer_2501() -> void:
 	send_integer_value_as_little_endian(2501)
 
-func send_integer_value_as_little_endian(value: int) -> void:
+func send_integer_value_as_little_endian(value: int) -> bool:
 	var byte_array: PackedByteArray = PackedByteArray()
 	byte_array.append(value & 0xFF)
 	byte_array.append((value >> 8) & 0xFF)
 	byte_array.append((value >> 16) & 0xFF)
 	byte_array.append((value >> 24) & 0xFF)
-	send_bytes_to_target(target_ip, target_port, byte_array)
+	return send_bytes_to_target(target_ip, target_port, byte_array)
 
 
 
-static func send_integer_little_endian_to_target(ip:String, port:int, integer:int)->void:
+static func send_integer_little_endian_to_target(ip:String, port:int, integer:int)->bool:
 	var byte_array: PackedByteArray = PackedByteArray()
 	byte_array.append(integer & 0xFF)
 	byte_array.append((integer >> 8) & 0xFF)
 	byte_array.append((integer >> 16) & 0xFF)
 	byte_array.append((integer >> 24) & 0xFF)
-	send_bytes_to_target(ip, port, byte_array)
+	return send_bytes_to_target(ip, port, byte_array)
 
-static func send_1d_boolean_array_to_target(ip:String, port:int, array:Array[bool])->void:
+static func send_1d_boolean_array_to_target(ip:String, port:int, array:Array[bool])->bool:
 	var byte_array: PackedByteArray = PackedByteArray()
 	for i in range(0, array.size(), 8):
 		var byte_value: int = 0
@@ -107,15 +114,32 @@ static func send_1d_boolean_array_to_target(ip:String, port:int, array:Array[boo
 			if i + j < array.size() and array[i + j]:
 				byte_value |= (1 << (7 - j))
 		byte_array.append(byte_value)
-	send_bytes_to_target(ip, port, byte_array)
+	return send_bytes_to_target(ip, port, byte_array)
 
-static func send_1d_packed_boolean_array_to_target(ip:String, port:int, array:PackedByteArray)->void:
-	send_bytes_to_target(ip, port, array)
+static func send_1d_packed_boolean_array_to_target(ip:String, port:int, array:PackedByteArray)->bool:
+	return send_bytes_to_target(ip, port, array)
 
-static func send_bytes_to_target(ip:String, port:int, array:PackedByteArray)->void:
+static func is_valid_ipv4(ip: String) -> bool:
+	var parts = ip.split(".")
+	if parts.size() != 4:
+		return false
+	for part in parts:
+		if not part.is_valid_int():
+			return false
+		var num = int(part)
+		if num < 0 or num > 255:
+			return false
+	return true
+
+static func send_bytes_to_target(ip:String, port:int, array:PackedByteArray)->bool:
+
+	if not is_valid_ipv4(ip):
+		return false
+
 	var udp_packet := PacketPeerUDP.new()
 	udp_packet.set_dest_address(ip, port)
 	udp_packet.put_packet(array)	
 	udp_packet.close()
+	return true
 	
 	

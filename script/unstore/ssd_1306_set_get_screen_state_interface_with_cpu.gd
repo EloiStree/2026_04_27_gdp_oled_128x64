@@ -1363,3 +1363,14 @@ func draw_bool_image_2d_at_center_right(image: Image, threshold: float = 1.0):
 	if image == null:
 		return 
 	draw_bool_image_2d_center_at_point_lrtd(96,32, image, threshold)
+
+
+
+func draw_bool_ellipsis_in_rectangle_lrtd_from_to_vectori(v_start:Vector2i,v_end:Vector2i,is_on:bool):
+	push_error("Not implemented")
+	pass
+
+
+func draw_bool_ellipsis_border_in_rectangle_lrtd_from_to_vectori(v_start:Vector2i,v_end:Vector2i,is_on:bool):
+	push_error("Not implemented")
+	pass
