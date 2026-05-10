@@ -83,9 +83,10 @@ func remove_code_to_execute()
 
 ## Documentation
 
-<img width="128" height="64" alt="godot_gear_128x64" src="https://github.com/user-attachments/assets/d682b1cf-4854-4cca-9860-830e4f80ddde" />  
-* [https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/3](https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/3)
-* [https://github.com/EloiStree/HelloGodot128x64](https://github.com/EloiStree/HelloGodot128x64)
+[<img width="128" height="64" alt="godot_gear_128x64" src="https://github.com/user-attachments/assets/d682b1cf-4854-4cca-9860-830e4f80ddde" />](https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/3)       
+  
+- https://github.com/EloiStree/2026_03_23_doc_micro_bit_sensor/issues/3  
+- https://github.com/EloiStree/HelloGodot128x64  
 
 
 ---
@@ -100,7 +101,8 @@ func remove_code_to_execute()
   [https://github.com/EloiStree/HelloGodot128x64](https://github.com/EloiStree/HelloGodot128x64)
 * ESP32 integration:
   [https://github.com/EloiStree/2026_04_27_esp32_oled_128x64_udp_i2c](https://github.com/EloiStree/2026_04_27_esp32_oled_128x64_udp_i2c)
-
+* R&D on menu and style for 128x64: [https://github.com/EloiStree/2026_04_27_gdp_oled_128x64_art_style_and_menu](https://github.com/EloiStree/2026_04_27_gdp_oled_128x64_art_style_and_menu)
+  
 ---
 
 # Screenshot
