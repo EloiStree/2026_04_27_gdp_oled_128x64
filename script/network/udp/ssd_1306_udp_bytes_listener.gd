@@ -17,6 +17,9 @@ var is_running: bool = false
 @export var poll_interval_msec: int = 5  # Lower = more responsive, higher = less CPU
 
 
+signal on_bytes_received_count_changed(byte:int)
+signal on_bytes_received_count_changed_as_string(byte:int)
+
 func _ready() -> void:
 	start_listening()
 
@@ -52,7 +55,7 @@ func _listen_thread_function() -> void:
 		else:
 			OS.delay_msec(poll_interval_msec)
 
-
+@export var bytes_count:int
 func _process(_delta: float) -> void:
 	# Drain the queue in batches to avoid holding the mutex too long
 	while true:
@@ -65,6 +68,9 @@ func _process(_delta: float) -> void:
 		queue_mutex.unlock()
 		
 		on_bytes_received.emit(data)
+		bytes_count+=data.size()
+		on_bytes_received_count_changed.emit(bytes_count)
+		on_bytes_received_count_changed_as_string.emit(str(bytes_count))
 
 		var array_of_bools: Array[bool] = []
 		for byte in data:

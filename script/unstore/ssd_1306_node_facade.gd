@@ -16,6 +16,7 @@ extends Node
 
 @export var texture_builder:SSD1306BoolArrayToTexture
 
+
 #region UNSTORE
 
 
@@ -29,15 +30,20 @@ func set_texture_color_false_color(false_color:Color):
 	texture_builder.set_color_off(false_color)
 
 func set_texture_color_gameboy():
-	texture_builder.set_color_as_gameboy_on_light()
+	texture_builder.set_color_style_as_gameboy_on_light()
 func set_texture_color_black_and_white():
-	texture_builder.set_color_style_as_black_true_on_white_false()
-func set_texture_color_oled_blue():
-	texture_builder.set_color_style_as_oled_blue_screen()
+	texture_builder.set_color_style_as_white_true_on_black_false()
+func set_texture_color_oled_blue_sh1106():
+	texture_builder.set_color_style_as_sh1106_oled_blue_screen()
+func set_texture_color_oled_blue_ssd1306():
+	texture_builder.set_color_style_as_ssd1306_black_white_blue()
 func set_texture_color_e_ink():
 	texture_builder.set_color_style_as_e_ink_screen()
+func set_texture_color_black_green_matrix():
+	texture_builder.set_color_style_as_black_green_matrix()
 
-
+func set_texture_color_flipper_orange():
+	texture_builder.set_color_style_as_flipper_orange()
  
 
  
@@ -171,6 +177,16 @@ func start_sending_display_to_target(ip, port, timing):
 		udp_sender.set_target_port(port)
 		udp_sender.set_time_between_sends(timing)
 		udp_sender.start_timer_pushing_bytes()
+		
+func set_udp_target_ipv4(ip:String):
+	if udp_sender:
+		udp_sender.set_target_ip(ip)
+func set_udp_target_port_from_string(port:String):
+	if udp_sender:
+		udp_sender.set_target_port(int(port))
+func set_udp_target_port(port:int):
+	if udp_sender:
+		udp_sender.set_target_port(port)
 
 func stop_sending_display_to_target():
 	if udp_sender:
