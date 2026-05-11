@@ -59,6 +59,16 @@ metadata/_custom_type_script = "uid://bbvrta1247wc0"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1739081289]
 
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=817217757]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -3.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 3
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=7355163]
 anchors_preset = -1
 anchor_left = 0.062000003
@@ -81,6 +91,10 @@ custom_minimum_size = Vector2(100, 20)
 layout_mode = 2
 max_value = 1.0
 step = 0.001
+
+[node name="CheckButtonPenValue2" type="CheckButton" parent="CanvasLayer/HBoxContainer" unique_id=41884536]
+layout_mode = 2
+text = "Fullscreen"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=134127121]
 anchors_preset = -1
@@ -146,6 +160,7 @@ text = "Hello"
 transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.9294999, 0, 0, 0.6529541)
 
 [connection signal="on_texture_updated" from="Display128x64/Code/BooleanToTexture" to="SSD1306DrawingQuadBoard" method="set_texture_quad"]
+[connection signal="on_texture_updated" from="Display128x64/Code/BooleanToTexture" to="CanvasLayer/TextureRect" method="set_texture"]
 [connection signal="on_left_click_changed" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard" method="set_pen_as_active"]
 [connection signal="on_left_click_changed" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard" method="set_pen_drawing_value_as" unbinds=1 binds= [true]]
 [connection signal="on_right_click_changed" from="Code/Mouse Event" to="SSD1306DrawingQuadBoard" method="set_pen_as_active"]
@@ -153,6 +168,7 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenIsActive" to="SSD1306DrawingQuadBoard" method="set_pen_as_active"]
 [connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenValue" to="SSD1306DrawingQuadBoard" method="set_pen_drawing_value_as"]
 [connection signal="value_changed" from="CanvasLayer/HBoxContainer/HSlider" to="SSD1306DrawingQuadBoard" method="set_brush_size_with_local_from_percent_01"]
+[connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenValue2" to="CanvasLayer/TextureRect" method="set_visible"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Clear" to="Display128x64" method="flush_and_draw"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Full" to="Display128x64" method="fill_and_draw"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Button Inverse Color" to="Display128x64" method="inverse_display_texture_colors"]
