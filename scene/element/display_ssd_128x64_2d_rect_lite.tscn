@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://bh81u2g7tk0cr"]
+
+[ext_resource type="Texture2D" uid="uid://75tfuxy7otld" path="res://addons/2026_04_27_gdp_oled_128x64/2d/screen_128x64_image/godot_gear_128x64.png" id="1_f0qdx"]
+[ext_resource type="Script" uid="uid://deq07e1a68cyl" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_node_facade_lite.gd" id="1_rf8on"]
+[ext_resource type="Script" uid="uid://1vbadktl3xyb" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_set_get_screen_state_interface_with_cpu.gd" id="3_injdv"]
+[ext_resource type="Script" uid="uid://ihf0hsq51tfy" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_boolean_state_resource.gd" id="4_rnbj5"]
+[ext_resource type="Script" uid="uid://bs0c808qkg4o2" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_bool_array_to_texture.gd" id="5_lk43j"]
+
+[sub_resource type="Resource" id="Resource_viiev"]
+script = ExtResource("4_rnbj5")
+metadata/_custom_type_script = "uid://ihf0hsq51tfy"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rf8on"]
+shading_mode = 0
+texture_filter = 0
+texture_repeat = false
+
+[node name="DisplaySsd128x64dRectLite" type="Control" unique_id=769472649 node_paths=PackedStringArray("boolean_state", "texture_builder")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rf8on")
+boolean_state = NodePath("Node/SSD1306SetGetScreenStateInterfaceWithCPU")
+texture_builder = NodePath("Node/SSD1306BoolArrayToTexture")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=473329845]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1148968, 0.11489681, 0.1148968, 1)
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="." unique_id=205927957]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+ratio = 2.0
+
+[node name="TextureRect" type="TextureRect" parent="AspectRatioContainer" unique_id=1098295798]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("1_f0qdx")
+expand_mode = 2
+
+[node name="Node" type="Node" parent="." unique_id=1374040954]
+
+[node name="SSD1306SetGetScreenStateInterfaceWithCPU" type="Node" parent="Node" unique_id=1425941607]
+script = ExtResource("3_injdv")
+screen_state = SubResource("Resource_viiev")
+metadata/_custom_type_script = "uid://1vbadktl3xyb"
+
+[node name="SSD1306BoolArrayToTexture" type="Node" parent="Node" unique_id=102866700]
+script = ExtResource("5_lk43j")
+material_to_duplicate = SubResource("StandardMaterial3D_rf8on")
+color_style = 9
+metadata/_custom_type_script = "uid://bs0c808qkg4o2"
+
+[connection signal="on_boolean_array_updated" from="Node/SSD1306SetGetScreenStateInterfaceWithCPU" to="Node/SSD1306BoolArrayToTexture" method="set_texture_with_boolean_array"]
+[connection signal="on_texture_updated" from="Node/SSD1306BoolArrayToTexture" to="AspectRatioContainer/TextureRect" method="set_texture"]

@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://dnv88k2tdgj7i"]
 
-[ext_resource type="PackedScene" uid="uid://c5x8qrwymu4nm" path="res://addons/2026_04_27_gdp_oled_128x64/scene/item/display_ssd_1306_128x64.tscn" id="1_8kjdd"]
+[ext_resource type="PackedScene" uid="uid://c5x8qrwymu4nm" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_1306_128x64_3d_full.tscn" id="1_8kjdd"]
 [ext_resource type="PackedScene" uid="uid://bmma68fvxq71m" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_drawing_quad_board.tscn" id="3_gvdij"]
 [ext_resource type="Script" uid="uid://c70uo3tu160w6" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_click_to_node_move.gd" id="4_hulm6"]
 [ext_resource type="Script" uid="uid://b6142qsb7pb07" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_scoll_to_scale.gd" id="5_0dbc3"]
 [ext_resource type="Script" uid="uid://bbvrta1247wc0" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_event_for_debug.gd" id="6_8apx5"]
-[ext_resource type="Script" uid="uid://c5mjxpyp13vrg" path="res://addons/2026_04_27_gdp_oled_128x64/oled_128x64_display/script/ssd_1306_text_edit_to_string.gd" id="6_m2j7y"]
-[ext_resource type="Script" uid="uid://48jcpn17e656" path="res://addons/2026_04_27_gdp_oled_128x64/oled_128x64_display/script/ssd_1306_load_scene.gd" id="7_disnu"]
-[ext_resource type="PackedScene" uid="uid://cbt8xvf1tpip5" path="res://addons/2026_04_27_gdp_oled_128x64/oled_128x64_display/scene/demo_oled_128x64_udp_display.tscn" id="8_uw8io"]
+[ext_resource type="Script" uid="uid://c5mjxpyp13vrg" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_text_edit_to_string.gd" id="6_m2j7y"]
+[ext_resource type="Script" uid="uid://48jcpn17e656" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_load_scene.gd" id="7_disnu"]
+[ext_resource type="PackedScene" uid="uid://cbt8xvf1tpip5" path="res://addons/2026_04_27_gdp_oled_128x64/scene/demo/demo_oled_128x64_udp_display.tscn" id="8_uw8io"]
 
 [sub_resource type="Environment" id="Environment_8apx5"]
 background_mode = 1

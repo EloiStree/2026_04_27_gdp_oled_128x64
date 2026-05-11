@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cbt8xvf1tpip5"]
 
-[ext_resource type="PackedScene" uid="uid://c5x8qrwymu4nm" path="res://addons/2026_04_27_gdp_oled_128x64/scene/item/display_ssd_1306_128x64.tscn" id="1_jg8b2"]
+[ext_resource type="PackedScene" uid="uid://c5x8qrwymu4nm" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_1306_128x64_3d_full.tscn" id="1_jg8b2"]
 [ext_resource type="Script" uid="uid://cx2vemldbpxkt" path="res://addons/2026_04_27_gdp_oled_128x64/script/network/udp/ssd_1306_udp_bytes_listener.gd" id="2_3k0ll"]
 [ext_resource type="Script" uid="uid://cuk58qd20p2gp" path="res://addons/2026_04_27_gdp_oled_128x64/script/network/ipv4/ssd_1306_get_ip_as_string.gd" id="3_5lrg2"]
 [ext_resource type="Script" uid="uid://cjyaqcs3vm8ss" path="res://addons/2026_04_27_gdp_oled_128x64/script/network/handler/ssd_1306_bytes_received_to_drawing.gd" id="3_dsocp"]

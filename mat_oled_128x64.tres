@@ -1,4 +1,4 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://duial2di4q510"]
 
 [resource]
-emission = Color(1, 1, 1, 1)
+shading_mode = 0
