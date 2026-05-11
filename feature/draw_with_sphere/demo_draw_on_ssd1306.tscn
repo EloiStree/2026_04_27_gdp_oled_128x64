@@ -99,9 +99,11 @@ step = 0.001
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/HBoxContainer" unique_id=777209529]
 layout_mode = 2
+placeholder_text = "Text True"
 
 [node name="LineEdit2" type="LineEdit" parent="CanvasLayer/HBoxContainer" unique_id=900267790]
 layout_mode = 2
+placeholder_text = "Text False"
 
 [node name="Button" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=94507285]
 layout_mode = 2
@@ -180,12 +182,13 @@ Orange"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer" unique_id=865249304]
 anchors_preset = -1
-anchor_left = 0.94000006
+anchor_left = 0.88400006
+anchor_top = 0.009000001
 anchor_right = 0.99700004
 anchor_bottom = 1.0
-offset_left = 0.11987305
-offset_top = 6.0
-offset_right = -0.5440674
+offset_left = 16.631958
+offset_top = 0.16799974
+offset_right = -1.5440674
 
 [node name="Button Toggle" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=1580042362]
 layout_mode = 2
@@ -208,25 +211,13 @@ text = "Import Text"
 layout_mode = 2
 text = "Export Text"
 
-[node name="Button ImportB58" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=209880673]
-layout_mode = 2
-text = "B58 In"
-
-[node name="Button ExportB85" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=1841905812]
-layout_mode = 2
-text = "B58 Out"
-
-[node name="Button ImportChina" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=259248951]
-layout_mode = 2
-text = "C In"
-
-[node name="Button ExportChina" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=524203971]
-layout_mode = 2
-text = "C Out"
-
 [node name="Button Export B64 IMG" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=1376630627]
 layout_mode = 2
-text = "B64 IMG"
+text = "MD IMG"
+
+[node name="Button Export B64 SVG" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=161994900]
+layout_mode = 2
+text = "MD SVG"
 
 [node name="Button Load Scene UDP" type="Button" parent="CanvasLayer/VBoxContainer2" unique_id=923508823]
 layout_mode = 2
@@ -237,6 +228,34 @@ Listen"
 script = ExtResource("7_disnu")
 scene_to_load = ExtResource("8_uw8io")
 metadata/_custom_type_script = "uid://48jcpn17e656"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer2" unique_id=625263272]
+layout_mode = 2
+
+[node name="Button ImportChina" type="Button" parent="CanvasLayer/VBoxContainer2/HBoxContainer" unique_id=259248951]
+layout_mode = 2
+text = "C In"
+
+[node name="Button ExportChina" type="Button" parent="CanvasLayer/VBoxContainer2/HBoxContainer" unique_id=524203971]
+layout_mode = 2
+text = "Out"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/VBoxContainer2" unique_id=1277888461]
+layout_mode = 2
+
+[node name="Button ImportB58" type="Button" parent="CanvasLayer/VBoxContainer2/HBoxContainer2" unique_id=209880673]
+layout_mode = 2
+text = "B58 In"
+
+[node name="Button ExportB85" type="Button" parent="CanvasLayer/VBoxContainer2/HBoxContainer2" unique_id=1841905812]
+layout_mode = 2
+text = "Out"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/VBoxContainer2" unique_id=774370785]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="CanvasLayer/VBoxContainer2" unique_id=657010105]
+layout_mode = 2
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=219482388]
 transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.9294999, 0, 0, 0.6529541)
@@ -253,7 +272,6 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="value_changed" from="CanvasLayer/HBoxContainer/HSlider" to="SSD1306DrawingQuadBoard" method="set_brush_size_with_local_from_percent_01"]
 [connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit" to="Display128x64/Code/BooleanState" method="print_text_at_zero"]
 [connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit2" to="Display128x64/Code/BooleanState" method="print_text_at_zero_inversed"]
-[connection signal="button_down" from="CanvasLayer/HBoxContainer/Button" to="Display128x64/Code/BooleanState" method="print_random_emotion_at_zero"]
 [connection signal="button_down" from="CanvasLayer/HBoxContainer/Button" to="Display128x64/Code/BooleanState" method="flush_and_emit"]
 [connection signal="on_text_changed" from="CanvasLayer/HBoxContainer/TextEdit/SSD1306TextEditToString" to="Display128x64/Code/Builder/Six Objectifs" method="push_in_text"]
 [connection signal="on_text_changed" from="CanvasLayer/HBoxContainer/TextEdit2/SSD1306TextEditToString" to="Display128x64/Code/Builder/QR Code" method="display_at_left_center"]
@@ -272,12 +290,13 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Hello" to="Display128x64/Code/BooleanState" method="draw_bool_line_characters_6x8_lrtd" binds= [0, 0, "Hello World."]]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Import" to="Display128x64" method="import_state_as_image_from_clipboard"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Export" to="Display128x64" method="export_state_as_image_in_clipboard"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ImportB58" to="Display128x64/Code/Exporter/Clipboard" method="import_from_clipboard_in_base_58"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ExportB85" to="Display128x64/Code/Exporter/Clipboard" method="export_in_clipboard_in_base_58"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ImportChina" to="Display128x64/Code/Exporter/Clipboard" method="import_from_clipboard_in_base_8192"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button ExportChina" to="Display128x64/Code/Exporter/Clipboard" method="export_in_clipboard_in_base_8192"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Export B64 IMG" to="Display128x64/Code/Exporter/Clipboard" method="export_texture_to_markdown_base64_from_inspector"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Export B64 IMG" to="Display128x64/Code/Exporter/Clipboard" method="export_texture_to_markdown_base_64_image_from_inspector"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Export B64 SVG" to="Display128x64/Code/Exporter/Clipboard" method="export_texture_to_markdown_svg_image_from_inspector"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Load Scene UDP" to="CanvasLayer/VBoxContainer2/Button Load Scene UDP/SSD1306LoadScene" method="change_to_scene_in_inspector"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/HBoxContainer/Button ImportChina" to="Display128x64/Code/Exporter/Clipboard" method="import_from_clipboard_in_base_8192"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/HBoxContainer/Button ExportChina" to="Display128x64/Code/Exporter/Clipboard" method="export_in_clipboard_in_base_8192"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/HBoxContainer2/Button ImportB58" to="Display128x64/Code/Exporter/Clipboard" method="import_from_clipboard_in_base_58"]
+[connection signal="button_down" from="CanvasLayer/VBoxContainer2/HBoxContainer2/Button ExportB85" to="Display128x64/Code/Exporter/Clipboard" method="export_in_clipboard_in_base_58"]
 
 [editable path="Display128x64"]
 [editable path="Display128x64/SizeAnchor/ssd_1306_128x64_display"]

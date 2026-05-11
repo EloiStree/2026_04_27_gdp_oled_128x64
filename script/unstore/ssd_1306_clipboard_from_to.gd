@@ -180,19 +180,22 @@ func set_texture_to_export(texture:Texture2D):
 	texture_to_export = texture
 
 
-func export_texture_to_markdown_base64_from_inspector():
+func export_texture_to_markdown_base_64_image_from_inspector():
+	var text= convert_texture_to_svg_for_markdown(texture_to_export)
+	DisplayServer.clipboard_set(text)
+	on_exported_text_in_clipboard.emit( text)
+	
+func export_texture_to_markdown_svg_image_from_inspector():
 	var text= convert_texture_to_svg_for_markdown(texture_to_export)
 	DisplayServer.clipboard_set(text)
 	on_exported_text_in_clipboard.emit( text)
 
-
-func convert_texture_to_markdown_base64(texture: Texture2D) -> String:
+func convert_texture_to_markdown_base64_image(texture: Texture2D) -> String:
 	var image: Image = texture.get_image()
 	var png_buffer: PackedByteArray = image.save_png_to_buffer()
 	var b64 := Marshalls.raw_to_base64(png_buffer)
 	var html := '<img width="128" height="64" src="data:image/png;base64,%s" />' % b64
 	return html
-
 
 func convert_texture_to_svg_for_markdown(image: Texture2D) -> String:
 	var width := 128
