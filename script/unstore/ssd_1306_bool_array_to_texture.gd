@@ -104,7 +104,7 @@ func set_color_style_as_ssd1306_black_white_blue():
 
 	set_texture_with_boolean_array(bool_array_clear)  
 
-func _ready():
+func _init() -> void:
 	
 	bool_array_clear.resize(SCREEN_SIZE)
 	bool_array_full.resize(SCREEN_SIZE)

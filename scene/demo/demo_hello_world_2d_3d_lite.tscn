@@ -63,7 +63,7 @@ metadata/_custom_type_script = "uid://b86cxxyu84ps6"
 
 [connection signal="button_down" from="2D Example/CanvasLayer/Button X" to="2D Example/CanvasLayer" method="hide"]
 [connection signal="button_down" from="2D Example/CanvasLayer/Button Restart" to="Code/Hello SSD1306 Lite" method="reload_current_scene"]
-[connection signal="on_debug_print_requested" from="Code/Hello SSD1306 Lite" to="3D Example/Label3D Debug Log" method="set_text"]
 [connection signal="on_debug_print_requested" from="Code/Hello SSD1306 Lite" to="2D Example/CanvasLayer/Label Debug Log" method="set_text"]
-[connection signal="on_set_and_draw_array_requested" from="Code/Hello SSD1306 Lite" to="3D Example/Display128x64Lite" method="set_value_with_1d_array_and_draw"]
+[connection signal="on_debug_print_requested" from="Code/Hello SSD1306 Lite" to="3D Example/Label3D Debug Log" method="set_text"]
 [connection signal="on_set_and_draw_array_requested" from="Code/Hello SSD1306 Lite" to="2D Example/CanvasLayer/DisplaySsd128x64dRectLite" method="set_value_with_1d_array_and_draw"]
+[connection signal="on_set_and_draw_array_requested" from="Code/Hello SSD1306 Lite" to="3D Example/Display128x64Lite" method="set_value_with_1d_array_and_draw"]
