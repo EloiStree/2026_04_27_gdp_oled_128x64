@@ -104,8 +104,18 @@ func set_color_style_as_ssd1306_black_white_blue():
 
 	set_texture_with_boolean_array(bool_array_clear)  
 
-func _init() -> void:
-	
+var is_init=false
+func _ready() -> void:
+	if is_init==false:
+		_setup_the_texture_check()
+
+
+func _setup_the_texture_check():
+	if is_init:
+		return
+	is_init=true
+	print("dd")
+
 	bool_array_clear.resize(SCREEN_SIZE)
 	bool_array_full.resize(SCREEN_SIZE)
 	for i in range(SCREEN_SIZE):
@@ -116,8 +126,11 @@ func _init() -> void:
 	var image = Image.create(SCREEN_WIDTH, SCREEN_HEIGHT, false, Image.FORMAT_RGB8)
 	texture_2d = ImageTexture.create_from_image(image)
 	material_duplicated.albedo_texture = texture_2d
+
 	
 	set_texture_with_boolean_array(bool_array_clear)
+	
+	
 	if color_style == ColorStyle.E_INK:
 		set_color_style_as_e_ink_screen()
 	elif color_style == ColorStyle.GAMEBOY_DARK:
@@ -136,19 +149,22 @@ func _init() -> void:
 		set_color_style_as_ssd1306_black_white_blue()
 	elif color_style == ColorStyle.FLIPPER_ORANGE:
 		set_color_style_as_flipper_orange()
-
+	print("TEST")
 
 
 func inverse_color_true_false():
+	_setup_the_texture_check()
 	var tmp :Color= color_on
 	color_on = color_off
 	color_off = tmp
 
 func set_boolean_array_to_full():
+	_setup_the_texture_check()
 	for i in range(SCREEN_SIZE):
 		bool_array_full[i] = true
 
 func set_boolean_array_to_clear():
+	_setup_the_texture_check()
 	for i in range(SCREEN_SIZE):
 		bool_array_clear[i] = false
 
@@ -167,18 +183,19 @@ func set_color_on(new_true_color:Color):
 func set_color_off(new_false_color:Color):
 	color_off =new_false_color
 func set_texture_with_boolean_array(display_as_boolean_array: Array[bool]):
+	_setup_the_texture_check()
 	var image = Image.create(SCREEN_WIDTH, SCREEN_HEIGHT, false, Image.FORMAT_RGB8)
 	for i in range(SCREEN_SIZE):
 		var pos := index_to_xy(i)
 		var is_on: bool = display_as_boolean_array[i]
 		var color = get_on_off_color(is_on)
 		image.set_pixel(pos.x, pos.y, color)
-
 	texture_2d = ImageTexture.create_from_image(image)
 	on_texture_updated.emit(texture_2d)
 	on_texture_material_updated.emit(0, material_duplicated)
 
 func set_texture_with_bit_array(bit_pack_as_bytes:PackedByteArray):
+	_setup_the_texture_check()
 	# expects width * height bits, packed as bytes (8 bits per byte)
 	var total_bits = bit_pack_as_bytes.size() * 8
 	var max_size = min(total_bits, SCREEN_SIZE)
