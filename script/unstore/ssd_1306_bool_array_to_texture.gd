@@ -167,6 +167,11 @@ func set_color_on(new_true_color:Color):
 func set_color_off(new_false_color:Color):
 	color_off =new_false_color
 func set_texture_with_boolean_array(display_as_boolean_array: Array[bool]):
+	if display_as_boolean_array==null:
+		return 
+	if display_as_boolean_array.size()<SCREEN_SIZE:
+		return 
+	
 	var image = Image.create(SCREEN_WIDTH, SCREEN_HEIGHT, false, Image.FORMAT_RGB8)
 	for i in range(SCREEN_SIZE):
 		var pos := index_to_xy(i)

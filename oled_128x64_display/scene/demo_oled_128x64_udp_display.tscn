@@ -1,9 +1,18 @@
 [gd_scene format=3 uid="uid://cbt8xvf1tpip5"]
 
-[ext_resource type="PackedScene" uid="uid://c5x8qrwymu4nm" path="res://addons/2026_04_27_gdp_oled_128x64/scene/item/display_ssd_1306_128x64.tscn" id="1_jg8b2"]
+[ext_resource type="Script" uid="uid://1vbadktl3xyb" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_set_get_screen_state_interface_with_cpu.gd" id="1_nh6pj"]
+[ext_resource type="Script" uid="uid://ihf0hsq51tfy" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_boolean_state_resource.gd" id="2_0r4rt"]
 [ext_resource type="Script" uid="uid://cx2vemldbpxkt" path="res://addons/2026_04_27_gdp_oled_128x64/script/network/udp/ssd_1306_udp_bytes_listener.gd" id="2_3k0ll"]
 [ext_resource type="Script" uid="uid://cuk58qd20p2gp" path="res://addons/2026_04_27_gdp_oled_128x64/script/network/ipv4/ssd_1306_get_ip_as_string.gd" id="3_5lrg2"]
 [ext_resource type="Script" uid="uid://cjyaqcs3vm8ss" path="res://addons/2026_04_27_gdp_oled_128x64/script/network/handler/ssd_1306_bytes_received_to_drawing.gd" id="3_dsocp"]
+[ext_resource type="Script" uid="uid://bs0c808qkg4o2" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_bool_array_to_texture.gd" id="3_lfkhu"]
+[ext_resource type="Material" uid="uid://duial2di4q510" path="res://addons/2026_04_27_gdp_oled_128x64/mat_oled_128x64.tres" id="4_gnpbx"]
+[ext_resource type="Script" uid="uid://cga1aymfpdrug" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_frame_refresher.gd" id="5_efrsb"]
+[ext_resource type="Script" uid="uid://ctqe3wn7f4dis" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_parse_image_to_boolean.gd" id="6_607ne"]
+
+[sub_resource type="Resource" id="Resource_d2ew5"]
+script = ExtResource("2_0r4rt")
+metadata/_custom_type_script = "uid://ihf0hsq51tfy"
 
 [node name="DemoOled128x64UdpDisplay" type="Node3D" unique_id=255200459]
 
@@ -53,16 +62,29 @@ horizontal_alignment = 2
 [node name="Camera3D" type="Camera3D" parent="." unique_id=198847332]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.3821411, -1.6703918e-08)
 
-[node name="Display128x64" parent="." unique_id=111730519 instance=ExtResource("1_jg8b2")]
+[node name="Code" type="Node" parent="." unique_id=148936503]
 
-[node name="Quick Testing Script" parent="Display128x64/Code" parent_id_path=PackedInt32Array(111730519, 148936503) index="3" unique_id=290874810]
-use_test = false
+[node name="BooleanState" type="Node" parent="Code" unique_id=2127441784]
+script = ExtResource("1_nh6pj")
+screen_state = SubResource("Resource_d2ew5")
+metadata/_custom_type_script = "uid://1vbadktl3xyb"
 
-[node name="FrameRefresher" parent="Display128x64/Code" parent_id_path=PackedInt32Array(111730519, 148936503) index="4" unique_id=2142676352]
-time_between_frames = 0.1
+[node name="BooleanToTexture" type="Node" parent="Code" unique_id=1875468559]
+script = ExtResource("3_lfkhu")
+color_on = Color(1, 1, 1, 1)
+use_mipmaps = true
+material_to_duplicate = ExtResource("4_gnpbx")
+color_style = 9
+metadata/_custom_type_script = "uid://bs0c808qkg4o2"
 
-[node name="Send To Target" parent="Display128x64/Code/UDP" parent_id_path=PackedInt32Array(111730519, 1007706168) index="0" unique_id=1334365415]
-use_timer_send = false
+[node name="FrameRefresher" type="Node" parent="Code" unique_id=2142676352]
+script = ExtResource("5_efrsb")
+device_max_frame_rate = 200.0
+metadata/_custom_type_script = "uid://cga1aymfpdrug"
+
+[node name="ParseImageIn" type="Node" parent="Code" unique_id=139122777]
+script = ExtResource("6_607ne")
+metadata/_custom_type_script = "uid://ctqe3wn7f4dis"
 
 [node name="UDP Byte Listener" type="Node" parent="." unique_id=1714369082]
 script = ExtResource("2_3k0ll")
@@ -70,7 +92,7 @@ metadata/_custom_type_script = "uid://cx2vemldbpxkt"
 
 [node name="Bytes Received To Drawing" type="Node" parent="UDP Byte Listener" unique_id=2067698364 node_paths=PackedStringArray("drawer")]
 script = ExtResource("3_dsocp")
-drawer = NodePath("../../Display128x64/Code/BooleanState")
+drawer = NodePath("../../Code/BooleanState")
 metadata/_custom_type_script = "uid://cjyaqcs3vm8ss"
 
 [node name="Display IP" type="Node" parent="." unique_id=984037294]
@@ -78,10 +100,10 @@ script = ExtResource("3_5lrg2")
 spliter = "  |  "
 metadata/_custom_type_script = "uid://cuk58qd20p2gp"
 
-[connection signal="on_texture_updated" from="Display128x64/Code/BooleanToTexture" to="CanvasLayer/AspectRatioContainer/TextureRect" method="set_texture"]
-[connection signal="on_bit_8196_received" from="UDP Byte Listener" to="Display128x64/Code/BooleanState" method="set_value_with_1d_array"]
+[connection signal="on_boolean_array_updated" from="Code/BooleanState" to="Code/BooleanToTexture" method="set_texture_with_boolean_array"]
+[connection signal="on_texture_updated" from="Code/BooleanToTexture" to="CanvasLayer/AspectRatioContainer/TextureRect" method="set_texture"]
+[connection signal="call_refreshing_frame" from="Code/FrameRefresher" to="Code/BooleanState" method="emit_boolean_array_as_updated"]
+[connection signal="on_image_parsed" from="Code/ParseImageIn" to="Code/BooleanState" method="draw_bool_image_from_1d_array_lrtd_at_zero"]
+[connection signal="on_bit_8196_received" from="UDP Byte Listener" to="Code/BooleanState" method="set_value_with_1d_array"]
 [connection signal="on_bytes_received_count_changed_as_string" from="UDP Byte Listener" to="CanvasLayer/Label2" method="set_text"]
 [connection signal="on_ipv4_group_found_join" from="Display IP" to="CanvasLayer/Label" method="set_text"]
-
-[editable path="Display128x64"]
-[editable path="Display128x64/SizeAnchor/ssd_1306_128x64_display"]

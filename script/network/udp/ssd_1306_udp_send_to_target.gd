@@ -58,8 +58,12 @@ func set_timer_pushing_bytes_active(active: bool) -> void:
 	else:
 		stop_timer_pushing_bytes()
 
+var changed_since_last_set=false
+
+var previously_pushed : Array[bool] =[]
 	
 func set_next_push_byte_as_array_bool(array:Array[bool]) -> void:
+	
 	next_byte_array = array
 	next_byte_array_packed = PackedByteArray()
 	for i in range(0, next_byte_array.size(), 8):

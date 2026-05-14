@@ -249,7 +249,7 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenIsActive" to="SSD1306DrawingQuadBoard" method="set_pen_as_active"]
 [connection signal="toggled" from="CanvasLayer/HBoxContainer/CheckButtonPenValue" to="SSD1306DrawingQuadBoard" method="set_pen_drawing_value_as"]
 [connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit3" to="Display128x64" method="set_udp_target_ipv4"]
-[connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit3" to="Display128x64/Code/UDP/Send To Target" method="start_timer_pushing_bytes"]
+[connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit3" to="Display128x64/Code/UDP/Send To Target" method="start_timer_pushing_bytes" unbinds=1]
 [connection signal="value_changed" from="CanvasLayer/HBoxContainer/HSlider" to="SSD1306DrawingQuadBoard" method="set_brush_size_with_local_from_percent_01"]
 [connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit" to="Display128x64/Code/BooleanState" method="print_text_at_zero"]
 [connection signal="text_changed" from="CanvasLayer/HBoxContainer/LineEdit2" to="Display128x64/Code/BooleanState" method="print_text_at_zero_inversed"]
