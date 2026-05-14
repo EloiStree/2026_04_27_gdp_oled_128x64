@@ -86,6 +86,8 @@ func set_layer(array_128x64: Array[bool],fill_value=false):
 # the provided buffer.
 # -------------------------------------------------------------------
 func append_layer(array_128x64: Array[bool]) -> void:
+	if not is_layer_enabled:
+		return
 	if array_128x64.size() != 128 * 64:
 		push_error(
 			"append_layer() expected array size 8192, got %d"

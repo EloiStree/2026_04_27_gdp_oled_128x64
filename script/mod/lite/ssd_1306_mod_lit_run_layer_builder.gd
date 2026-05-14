@@ -24,6 +24,7 @@ func _init() -> void:
 		array_128x64.resize(8192)
 	if run_layers_at_ready:
 		call_append_layer_with_signal_and_time()
+		
 func _ready() -> void:
 	if run_layers_at_ready:
 		call_append_layer_with_signal_and_time()
@@ -32,6 +33,7 @@ func _process(delta: float) -> void:
 	if _next_frame_in<=0.0:
 		_next_frame_in=time_between_refresh
 		call_append_layer_with_signal_and_time()
+	_next_frame_in-=delta
 
 func call_append_layer_with_signal_and_time():
 	_next_frame_in = time_between_refresh
