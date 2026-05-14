@@ -1,5 +1,7 @@
-class_name SSD1306ModLitLayerWithTagName
+class_name SSD1306ModLiteLayerWithTagName
 extends Node
+
+@export var is_layer_enabled:bool=true
 
 @export_group("Description")
 
@@ -18,6 +20,15 @@ var short_description: String = ""
 
 ## Use it as a unique id to be called.
 @export var unique_id: String = ""
+
+func set_enabled_as(is_enabled:bool):
+	is_enabled=true
+
+func set_disabled():
+	set_enabled_as(false)
+
+func set_enabled():
+	set_enabled_as(true)
 
 # -------------------------------------------------------------------
 # Description Getters
@@ -60,6 +71,11 @@ func open_documentation_url() -> void:
 			"No documentation URL defined for layer: %s" % name
 		)
 		
+	
+func set_layer(array_128x64: Array[bool],fill_value=false):
+	array_128x64.fill(fill_value)
+	append_layer(array_128x64)
+	
 # -------------------------------------------------------------------
 # Display Layer
 # -------------------------------------------------------------------

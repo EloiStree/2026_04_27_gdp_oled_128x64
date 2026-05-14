@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://cvvhceqgtyx1d"]
+
+[ext_resource type="Script" uid="uid://deq07e1a68cyl" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_node_facade_lite.gd" id="1_k4s40"]
+[ext_resource type="Script" uid="uid://1vbadktl3xyb" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_set_get_screen_state_interface_with_cpu.gd" id="2_yt54s"]
+[ext_resource type="Script" uid="uid://ihf0hsq51tfy" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_boolean_state_resource.gd" id="3_4ehnf"]
+[ext_resource type="Script" uid="uid://bs0c808qkg4o2" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_bool_array_to_texture.gd" id="4_xk0k1"]
+[ext_resource type="Material" uid="uid://duial2di4q510" path="res://addons/2026_04_27_gdp_oled_128x64/mat_oled_128x64.tres" id="5_ndg1a"]
+[ext_resource type="Script" uid="uid://cyhqcwf7ndy0o" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_set_mesh_instance_texture.gd" id="6_o1ujh"]
+
+[sub_resource type="Resource" id="Resource_d2ew5"]
+script = ExtResource("3_4ehnf")
+metadata/_custom_type_script = "uid://ihf0hsq51tfy"
+
+[sub_resource type="QuadMesh" id="QuadMesh_jq1fr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s0om5"]
+shading_mode = 0
+diffuse_mode = 3
+texture_filter = 0
+texture_repeat = false
+
+[node name="QuadDisplay128x64Lite" type="Node3D" unique_id=451418815 node_paths=PackedStringArray("boolean_state", "texture_builder")]
+script = ExtResource("1_k4s40")
+boolean_state = NodePath("Code/BooleanState")
+texture_builder = NodePath("Code/BooleanToTexture")
+
+[node name="DisplayDirection" type="Node3D" parent="." unique_id=457836481]
+
+[node name="Front Left" type="Node3D" parent="DisplayDirection" unique_id=1692644620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.26)
+
+[node name="Code" type="Node" parent="." unique_id=1453245989]
+
+[node name="BooleanState" type="Node" parent="Code" unique_id=1465193268]
+script = ExtResource("2_yt54s")
+screen_state = SubResource("Resource_d2ew5")
+metadata/_custom_type_script = "uid://1vbadktl3xyb"
+
+[node name="BooleanToTexture" type="Node" parent="Code" unique_id=198135509]
+script = ExtResource("4_xk0k1")
+color_on = Color(1, 1, 1, 1)
+use_mipmaps = true
+material_to_duplicate = ExtResource("5_ndg1a")
+color_style = 9
+metadata/_custom_type_script = "uid://bs0c808qkg4o2"
+
+[node name="SizeAnchor" type="Node3D" parent="." unique_id=937325259]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+
+[node name="ScreenQuadDisplay" type="MeshInstance3D" parent="SizeAnchor" unique_id=1251401040]
+transform = Transform3D(0.025, 0, 0, 0, -5.6824806e-10, 0.02, 0, -0.013, -8.7422775e-10, 0, -2.7465821e-05, 0)
+mesh = SubResource("QuadMesh_jq1fr")
+surface_material_override/0 = SubResource("StandardMaterial3D_s0om5")
+
+[node name="SSD1306SetMeshInstanceTexture" type="Node" parent="SizeAnchor/ScreenQuadDisplay" unique_id=1483757912 node_paths=PackedStringArray("mesh_instance")]
+script = ExtResource("6_o1ujh")
+mesh_instance = NodePath("..")
+metadata/_custom_type_script = "uid://cyhqcwf7ndy0o"
+
+[connection signal="on_boolean_array_updated" from="Code/BooleanState" to="Code/BooleanToTexture" method="set_texture_with_boolean_array"]
+[connection signal="on_texture_updated" from="Code/BooleanToTexture" to="SizeAnchor/ScreenQuadDisplay/SSD1306SetMeshInstanceTexture" method="set_texture"]
