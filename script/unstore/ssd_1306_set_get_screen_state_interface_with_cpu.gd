@@ -544,9 +544,6 @@ func draw_bool_line_down_lrtd(x_left_right: int, y_down_top: int, pixel: int, is
 	for i in range(0,pixel+1):
 		set_value_at_x_y_lrtd(x_left_right, y+i, is_on)
 
-
-
-
 func draw_bool_border_count(pixel_count: int, is_on: bool = true):
 	for i in range(pixel_count):
 		draw_bool_line_up_lrdt(i, 0, SCREEN_HEIGHT, is_on)
