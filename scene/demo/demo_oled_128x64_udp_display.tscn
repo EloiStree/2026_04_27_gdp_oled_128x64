@@ -1,7 +1,11 @@
 [gd_scene format=3 uid="uid://cbt8xvf1tpip5"]
 
+<<<<<<< HEAD:oled_128x64_display/scene/demo_oled_128x64_udp_display.tscn
 [ext_resource type="Script" uid="uid://1vbadktl3xyb" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_set_get_screen_state_interface_with_cpu.gd" id="1_nh6pj"]
 [ext_resource type="Script" uid="uid://ihf0hsq51tfy" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_boolean_state_resource.gd" id="2_0r4rt"]
+=======
+[ext_resource type="PackedScene" uid="uid://c5x8qrwymu4nm" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_1306_128x64_3d_full.tscn" id="1_jg8b2"]
+>>>>>>> 1178205c727809215f51f300430422ed4bf4c5e3:scene/demo/demo_oled_128x64_udp_display.tscn
 [ext_resource type="Script" uid="uid://cx2vemldbpxkt" path="res://addons/2026_04_27_gdp_oled_128x64/script/network/udp/ssd_1306_udp_bytes_listener.gd" id="2_3k0ll"]
 [ext_resource type="Script" uid="uid://cuk58qd20p2gp" path="res://addons/2026_04_27_gdp_oled_128x64/script/network/ipv4/ssd_1306_get_ip_as_string.gd" id="3_5lrg2"]
 [ext_resource type="Script" uid="uid://cjyaqcs3vm8ss" path="res://addons/2026_04_27_gdp_oled_128x64/script/network/handler/ssd_1306_bytes_received_to_drawing.gd" id="3_dsocp"]

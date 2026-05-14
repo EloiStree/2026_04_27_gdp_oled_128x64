@@ -1,33 +1,15 @@
 class_name SSD1306NodeFacade
-extends Node
-
-
-@export var boolean_state:SSD1306SetGetScreenStateInterfaceWithCPU
+extends SSD1306NodeFacadeLite
 
 @export var exporter:SSD1306Exporter
-
-
 @export var code_creator:SSD1306ModCreateCodeNode
-
-
 @export var wheel_rotation:SSD1306RotationWheelFaceForward
 @export var tilt_raw_rotation:SSD1306RotationTiltRawFaceUp
 @export var compass_rotation:SSD1306RotationCompassFaceUp
 
-@export var texture_builder:SSD1306BoolArrayToTexture
 
 
 #region UNSTORE
-
-
-func inverse_display_texture_colors():
-	texture_builder.inverse_color_true_false()
-
-func set_texture_color_true_color(true_color:Color):
-	texture_builder.set_color_on(true_color)
-
-func set_texture_color_false_color(false_color:Color):
-	texture_builder.set_color_off(false_color)
 
 func set_texture_color_gameboy():
 	texture_builder.set_color_style_as_gameboy_on_light()
@@ -41,16 +23,10 @@ func set_texture_color_e_ink():
 	texture_builder.set_color_style_as_e_ink_screen()
 func set_texture_color_black_green_matrix():
 	texture_builder.set_color_style_as_black_green_matrix()
-
 func set_texture_color_flipper_orange():
 	texture_builder.set_color_style_as_flipper_orange()
  
-
- 
-
-
 #endregion
-
 
 func get_wheel_rotation_in_degrees() -> float:
 	return wheel_rotation.get_wheel_rotation_in_degrees_left_right()
@@ -65,27 +41,6 @@ func get_compass_rotation_to_godot_center_in_degrees_left_right() -> float:
 	return compass_rotation.get_compass_rotation_to_godot_center_in_degrees_left_right()
 
 
-#region ONLY ALLOWED IF YOU ARE LEARNING FROM THE SSD 1306
-func set_value_at_index_1d(index_0_8191:int, is_on:bool):
-	# Replace set_boolean_with_1d byb set_value_at_index_1d 
-	boolean_state.set_value_at_index_1d(index_0_8191, is_on)
-	
-func get_value_at_index_1d(index_0_8191:int)->bool:
-	var is_on := boolean_state.get_value_at_index_1d(index_0_8191)
-	return is_on
-
-func set_value_with_1d_array(array:Array[bool]):
-	boolean_state.override_array_with_boolean_array(array)
-	
-func get_value_as_1d_array_reference()->Array[bool]:
-	return boolean_state.get_value_as_1d_array_reference()
-	
-func get_value_as_1d_array_copy()->Array[bool]:
-	return boolean_state.get_value_as_1d_array_copy()
-	
-func draw():
-	boolean_state.emit_boolean_array_as_updated()
-
 func push_code_to_execute(text:String):
 	code_creator.try_to_execute_code(text)
 
@@ -94,23 +49,6 @@ func remove_code_to_execute():
 	
 #endregion
 
-
-
-
-#region ONLY ALLOWED IF YOU LEARNED TO USE 1D INDEX AS TOP DOWN / DOWN TOP
-func set_value_at_x_y_lrtd(x_left_right:int,y_top_down:int, is_on:bool):
-	boolean_state.set_value_at_x_y_lrtd(x_left_right,y_top_down,is_on)
-
-func get_value_at_x_y_lrtd(x_left_right:int,y_top_down:int)->bool:
-	return boolean_state.get_value_at_x_y_lrtd(x_left_right,y_top_down)
-
-func set_value_at_x_y_lrdt(x_left_right:int,y_top_down:int, is_on:bool):
-	boolean_state.set_value_at_x_y_lrdt(x_left_right,y_top_down,is_on)
-
-func get_value_at_x_y_lrdt(x_left_right:int,y_top_down:int)->bool:	
-	return boolean_state.get_value_at_x_y_lrdt(x_left_right,y_top_down)
-
-#endregion
 
 
 #region COMPARE
