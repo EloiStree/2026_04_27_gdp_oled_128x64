@@ -73,6 +73,10 @@ func set_next_push_byte_as_array_bool(array:Array[bool]) -> void:
 				byte_value |= (1 << (7 - j))
 		next_byte_array_packed.append(byte_value)
 
+func set_next_push_byte_as_array_bool_and_send(array:Array[bool]) -> void:
+	set_next_push_byte_as_array_bool(array)
+	send_byte_in_memory()
+
 func send_byte_in_memory():
 	send_byte_in_memory_pack(next_byte_array_packed)
 

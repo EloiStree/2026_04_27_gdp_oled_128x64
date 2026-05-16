@@ -7,25 +7,20 @@ signal on_append_layer_end()
 signal on_append_layer_end_with_execute_time(milliseconds:float)
 
 @export var screens:Array[SSD1306NodeFacadeLite]
-@export var array_128x64:Array[bool]
+var array_128x64:Array[bool]=[]
 
 @export var use_await:bool=true
-@export var run_layers_at_init:bool=false
 @export var run_layers_at_ready:bool=true
 @export var use_default_refresher:bool=true
 @export var time_between_refresh:float=0.05
 
 @export var last_executed_time:float
-
+ 	
 var _next_frame_in:float=0
-
-func _init() -> void:
-	if array_128x64.size()!=8192:
-		array_128x64.resize(8192)
-	if run_layers_at_ready:
-		call_append_layer_with_signal_and_time()
 		
 func _ready() -> void:
+	if array_128x64.size()!=8192:
+		array_128x64.resize(8192)
 	if run_layers_at_ready:
 		call_append_layer_with_signal_and_time()
 			
