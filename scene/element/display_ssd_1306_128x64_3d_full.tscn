@@ -22,8 +22,7 @@
 [ext_resource type="Script" uid="uid://1sc4j57b54h7" path="res://addons/2026_04_27_gdp_oled_128x64/script/rotation/ssd_1306_rotation_wheel_face_forward.gd" id="16_y18q0"]
 [ext_resource type="Script" uid="uid://pvgu7vs0vdqa" path="res://addons/2026_04_27_gdp_oled_128x64/script/rotation/ssd_1306_rotation_tilt_raw_face_up.gd" id="17_ge4ql"]
 [ext_resource type="Script" uid="uid://cvjghelprvg1u" path="res://addons/2026_04_27_gdp_oled_128x64/script/network/udp/ssd_1306_udp_send_to_target.gd" id="18_nr1r5"]
-[ext_resource type="Script" uid="uid://b07qm7tcyrbev" path="res://addons/2026_04_27_gdp_oled_128x64/oled_128x64_display/script/ssd_1306_builder_six_objectifs.gd" id="20_agwhi"]
-[ext_resource type="Script" uid="uid://dgkvp1rrfkdwn" path="res://addons/2026_04_27_gdp_oled_128x64/oled_128x64_display/script/qr_code/ssd_1306_builder_qr_code.gd" id="21_meilu"]
+[ext_resource type="Script" uid="uid://dgkvp1rrfkdwn" path="res://addons/2026_04_27_gdp_oled_128x64/script/qr_code/ssd_1306_builder_qr_code.gd" id="21_meilu"]
 
 [sub_resource type="Resource" id="Resource_d2ew5"]
 script = ExtResource("3_j53vp")
@@ -40,16 +39,7 @@ diffuse_mode = 3
 texture_filter = 0
 texture_repeat = false
 
-[node name="Display128x64" type="Node3D" unique_id=111730519 node_paths=PackedStringArray("boolean_state", "exporter", "code_creator", "wheel_rotation", "tilt_raw_rotation", "compass_rotation", "texture_builder", "udp_sender")]
-script = ExtResource("1_2ojm6")
-boolean_state = NodePath("Code/BooleanState")
-exporter = NodePath("Code/Exporter")
-code_creator = NodePath("Code/Mod/Create Mod Code")
-wheel_rotation = NodePath("Code/Rotation/Wheel Face Forward")
-tilt_raw_rotation = NodePath("Code/Rotation/Tilt Raw Face Up")
-compass_rotation = NodePath("Code/Rotation/Compass Face Up")
-texture_builder = NodePath("Code/BooleanToTexture")
-udp_sender = NodePath("Code/UDP/Send To Target")
+[node name="Display128x64" type="Node3D" unique_id=111730519]
 
 [node name="DisplayDirection" type="Node3D" parent="." unique_id=2003116942]
 
@@ -57,6 +47,18 @@ udp_sender = NodePath("Code/UDP/Send To Target")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.26)
 
 [node name="Code" type="Node" parent="." unique_id=148936503]
+
+[node name="Facade" type="Node" parent="Code" unique_id=1312085161 node_paths=PackedStringArray("exporter", "code_creator", "wheel_rotation", "tilt_raw_rotation", "compass_rotation", "udp_sender", "boolean_state", "texture_builder")]
+script = ExtResource("1_2ojm6")
+exporter = NodePath("../Exporter")
+code_creator = NodePath("../Mod/Create Mod Code")
+wheel_rotation = NodePath("../Rotation/Wheel Face Forward")
+tilt_raw_rotation = NodePath("../Rotation/Tilt Raw Face Up")
+compass_rotation = NodePath("../Rotation/Compass Face Up")
+udp_sender = NodePath("../UDP/Send To Target")
+boolean_state = NodePath("../BooleanState")
+texture_builder = NodePath("../BooleanToTexture")
+metadata/_custom_type_script = "uid://o8dkfuyrgoia"
 
 [node name="FileMemory" type="Node" parent="Code" unique_id=594354358]
 script = ExtResource("1_d2cym")
@@ -143,9 +145,7 @@ send_interval_ms = 15
 
 [node name="Builder" type="Node" parent="Code" unique_id=1513146903]
 
-[node name="Six Objectifs" type="Node" parent="Code/Builder" unique_id=1387561527 node_paths=PackedStringArray("drawer")]
-script = ExtResource("20_agwhi")
-drawer = NodePath("../../BooleanState")
+[node name="Six Objectifs" type="Node" parent="Code/Builder" unique_id=1387561527]
 metadata/_custom_type_script = "uid://b07qm7tcyrbev"
 
 [node name="QR Code" type="Node" parent="Code/Builder" unique_id=649044351 node_paths=PackedStringArray("drawer")]

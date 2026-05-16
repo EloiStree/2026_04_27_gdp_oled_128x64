@@ -19,10 +19,7 @@ diffuse_mode = 3
 texture_filter = 0
 texture_repeat = false
 
-[node name="QuadDisplay128x64Lite" type="Node3D" unique_id=451418815 node_paths=PackedStringArray("boolean_state", "texture_builder")]
-script = ExtResource("1_k4s40")
-boolean_state = NodePath("Code/BooleanState")
-texture_builder = NodePath("Code/BooleanToTexture")
+[node name="QuadDisplay128x64Lite" type="Node3D" unique_id=451418815]
 
 [node name="DisplayDirection" type="Node3D" parent="." unique_id=457836481]
 
@@ -30,6 +27,12 @@ texture_builder = NodePath("Code/BooleanToTexture")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.26)
 
 [node name="Code" type="Node" parent="." unique_id=1453245989]
+
+[node name="FacadeLite" type="Node" parent="Code" unique_id=1751070932 node_paths=PackedStringArray("boolean_state", "texture_builder")]
+script = ExtResource("1_k4s40")
+boolean_state = NodePath("../BooleanState")
+texture_builder = NodePath("../BooleanToTexture")
+metadata/_custom_type_script = "uid://deq07e1a68cyl"
 
 [node name="BooleanState" type="Node" parent="Code" unique_id=1465193268]
 script = ExtResource("2_yt54s")

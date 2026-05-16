@@ -3,9 +3,15 @@
 class_name SSD1306NodeFacadeLite
 extends Node
 
+signal on_texture_updated(texture:Texture2D)
+
 @export var boolean_state:SSD1306SetGetScreenStateInterfaceWithCPU
 @export var texture_builder:SSD1306BoolArrayToTexture
 
+
+func _ready() -> void:
+	if texture_builder:
+		texture_builder.on_texture_updated.connect(on_texture_updated.emit)
 #region To Change the Color Style
 
 ## EN:

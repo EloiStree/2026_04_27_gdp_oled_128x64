@@ -6,6 +6,7 @@ const WIDTH:int=64
 const PIXEL_COUNT_128x64:int = 8192
 
 @export var boolean_state:Array[bool]=[PIXEL_COUNT_128x64]
+
 func resize():
 	if boolean_state==null:
 		boolean_state = [PIXEL_COUNT_128x64]

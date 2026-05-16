@@ -15,16 +15,13 @@ shading_mode = 0
 texture_filter = 0
 texture_repeat = false
 
-[node name="DisplaySsd128x64dRectLite" type="Control" unique_id=769472649 node_paths=PackedStringArray("boolean_state", "texture_builder")]
+[node name="DisplaySsd128x64dRectLite" type="Control" unique_id=769472649]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_rf8on")
-boolean_state = NodePath("Node/SSD1306SetGetScreenStateInterfaceWithCPU")
-texture_builder = NodePath("Node/SSD1306BoolArrayToTexture")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=473329845]
 layout_mode = 1
@@ -49,18 +46,24 @@ layout_mode = 2
 texture = ExtResource("1_f0qdx")
 expand_mode = 2
 
-[node name="Node" type="Node" parent="." unique_id=1374040954]
+[node name="Code" type="Node" parent="." unique_id=1374040954]
 
-[node name="SSD1306SetGetScreenStateInterfaceWithCPU" type="Node" parent="Node" unique_id=1425941607]
+[node name="Facade Lite" type="Node" parent="Code" unique_id=1078194046 node_paths=PackedStringArray("boolean_state", "texture_builder")]
+script = ExtResource("1_rf8on")
+boolean_state = NodePath("../SSD1306SetGetScreenStateInterfaceWithCPU")
+texture_builder = NodePath("../SSD1306BoolArrayToTexture")
+metadata/_custom_type_script = "uid://deq07e1a68cyl"
+
+[node name="SSD1306SetGetScreenStateInterfaceWithCPU" type="Node" parent="Code" unique_id=1425941607]
 script = ExtResource("3_injdv")
 screen_state = SubResource("Resource_viiev")
 metadata/_custom_type_script = "uid://1vbadktl3xyb"
 
-[node name="SSD1306BoolArrayToTexture" type="Node" parent="Node" unique_id=102866700]
+[node name="SSD1306BoolArrayToTexture" type="Node" parent="Code" unique_id=102866700]
 script = ExtResource("5_lk43j")
 material_to_duplicate = SubResource("StandardMaterial3D_rf8on")
 color_style = 9
 metadata/_custom_type_script = "uid://bs0c808qkg4o2"
 
-[connection signal="on_boolean_array_updated" from="Node/SSD1306SetGetScreenStateInterfaceWithCPU" to="Node/SSD1306BoolArrayToTexture" method="set_texture_with_boolean_array"]
-[connection signal="on_texture_updated" from="Node/SSD1306BoolArrayToTexture" to="AspectRatioContainer/TextureRect" method="set_texture"]
+[connection signal="on_boolean_array_updated" from="Code/SSD1306SetGetScreenStateInterfaceWithCPU" to="Code/SSD1306BoolArrayToTexture" method="set_texture_with_boolean_array"]
+[connection signal="on_texture_updated" from="Code/SSD1306BoolArrayToTexture" to="AspectRatioContainer/TextureRect" method="set_texture"]

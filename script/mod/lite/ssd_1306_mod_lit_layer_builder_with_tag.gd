@@ -1,6 +1,8 @@
 class_name SSD1306ModLiteLayerBuilderWithTagName
 extends SSD1306ModLiteLayerWithTagName
 
+
+@export var layers: Array[SSD1306ModLiteLayerWithTagName] = []
 @export_group("Add script of childrens")
 @export var add_layer_in_childrens_at_ready:bool=true
 @export var add_layer_in_childrens_recursively:bool=true
@@ -58,7 +60,6 @@ func append_layer(array_128x64: Array[bool]) -> void:
 			layer.append_layer(array_128x64)
 			
 	
-@export var layers: Array[SSD1306ModLiteLayerWithTagName] = []
 
 
 func _init() -> void:
