@@ -183,7 +183,6 @@ metadata/_custom_type_script = "uid://cyhqcwf7ndy0o"
 [connection signal="call_refreshing_frame" from="Code/FrameRefresher" to="Code/BooleanState" method="emit_boolean_array_as_updated"]
 [connection signal="on_after_frame_refresh" from="Code/FrameRefresher" to="Code/Mod/Bridge To Node" method="notify_that_draw_was_called"]
 [connection signal="on_image_parsed" from="Code/ParseImageIn" to="Code/BooleanState" method="draw_bool_image_from_1d_array_lrtd_at_zero"]
-[connection signal="on_imported_array_from_clipboard" from="Code/Exporter/Clipboard" to="Code/BooleanState" method="override_array_with_boolean_array_and_emit"]
 [connection signal="mod_out_push_boolean_array" from="Code/Mod/Bridge To Node" to="Code/BooleanState" method="set_value_with_1d_array"]
 [connection signal="on_created_node_with_code" from="Code/Mod/Create Mod Code" to="Code/Mod/Bridge To Node" method="set_node_to_affect"]
 [connection signal="on_nes_input_updated" from="Code/Mod/NES Mockup" to="Code/Mod/Bridge To Node" method="set_nes_buttons"]

@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://c70uo3tu160w6" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_click_to_node_move.gd" id="4_hulm6"]
 [ext_resource type="Script" uid="uid://b6142qsb7pb07" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_scoll_to_scale.gd" id="5_0dbc3"]
 [ext_resource type="Script" uid="uid://bbvrta1247wc0" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_event_for_debug.gd" id="6_8apx5"]
-[ext_resource type="Script" uid="uid://c5mjxpyp13vrg" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_text_edit_to_string.gd" id="6_m2j7y"]
-[ext_resource type="Script" uid="uid://48jcpn17e656" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_load_scene.gd" id="7_disnu"]
+[ext_resource type="Script" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_text_edit_to_string.gd" id="6_m2j7y"]
+[ext_resource type="Script" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_load_scene.gd" id="7_disnu"]
 [ext_resource type="PackedScene" uid="uid://cbt8xvf1tpip5" path="res://addons/2026_04_27_gdp_oled_128x64/scene/demo/demo_oled_128x64_udp_display.tscn" id="8_uw8io"]
 
 [sub_resource type="Environment" id="Environment_8apx5"]
@@ -20,7 +20,7 @@ ambient_light_color = Color(0.38592732, 0.9999998, 0.59651625, 1)
 [node name="Display128x64" parent="." unique_id=111730519 instance=ExtResource("1_8kjdd")]
 transform = Transform3D(0.185, 0, 0, 0, 0.185, 0, 0, 0, 0.185, -0.55387694, 0.021972658, 0.2509681)
 
-[node name="Quick Testing Script" parent="Display128x64/Code" parent_id_path=PackedInt32Array(111730519, 148936503) index="3" unique_id=290874810]
+[node name="Quick Testing Script" parent="Display128x64/Code" parent_id_path=PackedInt32Array(111730519, 148936503) index="4" unique_id=290874810]
 use_test = false
 
 [node name="Send To Target" parent="Display128x64/Code/UDP" parent_id_path=PackedInt32Array(111730519, 1007706168) index="0" unique_id=1334365415]
@@ -116,7 +116,6 @@ layout_mode = 2
 [node name="SSD1306TextEditToString" type="Node" parent="CanvasLayer/HBoxContainer/TextEdit" unique_id=748420102 node_paths=PackedStringArray("text_editor")]
 script = ExtResource("6_m2j7y")
 text_editor = NodePath("..")
-metadata/_custom_type_script = "uid://c5mjxpyp13vrg"
 
 [node name="TextEdit2" type="TextEdit" parent="CanvasLayer/HBoxContainer" unique_id=1538084614]
 custom_minimum_size = Vector2(200, 40)
@@ -125,7 +124,6 @@ layout_mode = 2
 [node name="SSD1306TextEditToString" type="Node" parent="CanvasLayer/HBoxContainer/TextEdit2" unique_id=732654765 node_paths=PackedStringArray("text_editor")]
 script = ExtResource("6_m2j7y")
 text_editor = NodePath("..")
-metadata/_custom_type_script = "uid://c5mjxpyp13vrg"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=134127121]
 anchors_preset = -1
@@ -227,7 +225,6 @@ Listen"
 [node name="SSD1306LoadScene" type="Node" parent="CanvasLayer/VBoxContainer2/Button Load Scene UDP" unique_id=1196709884]
 script = ExtResource("7_disnu")
 scene_to_load = ExtResource("8_uw8io")
-metadata/_custom_type_script = "uid://48jcpn17e656"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer2" unique_id=625263272]
 layout_mode = 2

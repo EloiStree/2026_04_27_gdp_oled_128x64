@@ -194,6 +194,7 @@ func set_texture_with_boolean_array(display_as_boolean_array: Array[bool]):
 		var is_on: bool = display_as_boolean_array[i]
 		var color = get_on_off_color(is_on)
 		image.set_pixel(pos.x, pos.y, color)
+		
 	texture_2d = ImageTexture.create_from_image(image)
 	on_texture_updated.emit(texture_2d)
 	on_texture_material_updated.emit(0, material_duplicated)
