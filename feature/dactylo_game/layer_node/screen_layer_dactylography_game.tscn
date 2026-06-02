@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b2i8ch2e5b6r8"]
+
+[ext_resource type="Script" uid="uid://b5xvdx7ldil0q" path="res://addons/2026_04_27_gdp_oled_128x64/feature/dactylo_game/script/screen_layer_dactylography_game.gd" id="1_w2b4t"]
+
+[node name="Screen Layer Dactylography Game" type="Node" unique_id=886793185]
+script = ExtResource("1_w2b4t")
+metadata/_custom_type_script = "uid://b5xvdx7ldil0q"

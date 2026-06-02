@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://d2eh5fipmae4o"]
+
+[ext_resource type="Script" uid="uid://brk7gvkqao23b" path="res://addons/2026_04_27_gdp_oled_128x64/feature/telecran_game/script/screen_layer_telecran_game.gd" id="1_q8kdk"]
+
+[sub_resource type="Curve" id="Curve_jgg5u"]
+_data = [Vector2(0, 0.2332986), 0.0, 0.0, 0, 0, Vector2(0.11142061, 0.6675366), 1.141978, 1.141978, 0, 0, Vector2(1, 0.98580784), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="E13ScreenLayerTelecranGame" type="Node" unique_id=2119559756]
+script = ExtResource("1_q8kdk")
+curve_value = SubResource("Curve_jgg5u")
+title = "Telecran Game"
+one_liner = "Old Telecran game"
+short_description = "Allows to play the telecran game where your draw in one line with two wheels."
+tag_name = "TELECRAN"
+unique_id = "03346a2b-aa53-447f-b038-e1333146a522"
+metadata/_custom_type_script = "uid://brk7gvkqao23b"

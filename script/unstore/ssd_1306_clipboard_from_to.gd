@@ -161,18 +161,6 @@ static func convert_from_base_58(base58_string: String) -> Array[bool]:
 
 
 
-func export_in_clipboard_in_base_8192() -> void:
-	var base8192_string := ChinaBase.convert_to_base_8192(current_state_of_array)
-	DisplayServer.clipboard_set(base8192_string)
-	on_exported_text_in_clipboard.emit( base8192_string)
-	on_exported_array_in_clipboard.emit( current_state_of_array)
-
-func import_from_clipboard_in_base_8192() -> void:
-	var base8192_string := DisplayServer.clipboard_get()
-	var array_from_clipboard := ChinaBase.convert_from_base_8192(base8192_string)
-	on_imported_text_from_clipboard.emit( base8192_string)
-	on_imported_array_from_clipboard.emit( array_from_clipboard)
-
 
 
 @export var texture_to_export:Texture2D

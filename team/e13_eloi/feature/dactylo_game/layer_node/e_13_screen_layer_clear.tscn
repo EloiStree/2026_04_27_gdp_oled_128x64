@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://38f7in6gu2wh"]
-
-[ext_resource type="Script" uid="uid://d2qqc0cpkf4m8" path="res://addons/2026_04_27_gdp_oled_128x64_charleroi_xr/team/e13_eloi/feature/basic/layer_node/e13_screen_layer_clear.gd" id="1_iop3m"]
-
-[node name="E13ScreenLayerClear" type="Node" unique_id=1458758596]
-script = ExtResource("1_iop3m")
-value_to_draw = false
-metadata/_custom_type_script = "uid://d2qqc0cpkf4m8"
