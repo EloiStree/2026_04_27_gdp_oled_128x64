@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://bvhfj50b5eoy0"]
+
+[ext_resource type="PackedScene" uid="uid://dcb1i4wbf2wyo" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_1306_128x64_3d_lite.tscn" id="1_8v8o0"]
+[ext_resource type="Script" uid="uid://bq8fsmcgcluu2" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/lite/ssd_1306_mod_lit_run_layer_builder.gd" id="2_gdk5r"]
+[ext_resource type="Script" uid="uid://by2xcdjhmexr3" path="res://addons/2026_04_27_gdp_oled_128x64_charleroi_xr/team/e13_eloi/feature/runtime_mod_layer/script/ssd_1306_screen_layer_mod_code_abstract.gd" id="3_bpvl1"]
+[ext_resource type="Script" uid="uid://c57fgqfb4xr7p" path="res://addons/2026_04_27_gdp_oled_128x64_charleroi_xr/team/e13_eloi/feature/runtime_mod_layer/script/load_text/e13_download_text_from_paste_bin.gd" id="4_sd5o7"]
+[ext_resource type="Script" uid="uid://xpkuk5doqm0u" path="res://addons/2026_04_27_gdp_oled_128x64_charleroi_xr/team/e13_eloi/feature/debug/transform/e13_screen_layer_debug_global_transform_3d.gd" id="4_vcgxt"]
+[ext_resource type="Script" uid="uid://b4vvacuaqwti0" path="res://addons/2026_04_27_gdp_oled_128x64_charleroi_xr/team/e13_eloi/feature/runtime_mod_layer/script/load_text/e13_download_text_from_gist.gd.gd" id="5_sd5o7"]
+[ext_resource type="Script" uid="uid://65o347dh0hwv" path="res://addons/2026_04_27_gdp_oled_128x64_charleroi_xr/team/e13_eloi/feature/runtime_mod_layer/script/load_text/e13_download_text_from_web_page.gd" id="6_4bf81"]
+[ext_resource type="Script" uid="uid://tmoubqio5vi0" path="res://addons/2026_04_27_gdp_oled_128x64_charleroi_xr/team/e13_eloi/feature/runtime_mod_layer/script/load_text/e13_download_text_from_code_edit_forms.gd" id="7_vcgxt"]
+[ext_resource type="Script" uid="uid://bfsag3nmhtakc" path="res://addons/2026_04_27_gdp_oled_128x64_charleroi_xr/team/e13_eloi/feature/runtime_mod_layer/script/load_text/e13_download_text_from_clipboard.gd" id="8_xj02p"]
+
+[node name="E13ModYourEsp1306" type="Node3D" unique_id=1335173719]
+
+[node name="Display128x64Lite" parent="." unique_id=1860853132 instance=ExtResource("1_8v8o0")]
+transform = Transform3D(0.8866579, 0.32335594, -0.3305733, -0.30298313, 0.9462774, 0.11296143, 0.34934077, 0, 0.93699574, 0.13512993, -0.04617575, -0.36193848)
+
+[node name="SSD1306ModLiteRunLayerBuilder" type="Node" parent="Display128x64Lite" unique_id=1921695565 node_paths=PackedStringArray("screens", "layers")]
+script = ExtResource("2_gdk5r")
+screens = [NodePath("../Code/Facade Lite")]
+layers = [NodePath("E13ScreenLayerModCodeAbstract"), NodePath("E13ScreenLayerDebugGlobalTransform3D")]
+metadata/_custom_type_script = "uid://bq8fsmcgcluu2"
+
+[node name="E13ScreenLayerModCodeAbstract" type="Node" parent="Display128x64Lite/SSD1306ModLiteRunLayerBuilder" unique_id=2097096689 node_paths=PackedStringArray("where_to_create_node")]
+script = ExtResource("3_bpvl1")
+where_to_create_node = NodePath("../..")
+metadata/_custom_type_script = "uid://bhvhsni8og87s"
+
+[node name="E13ScreenLayerDebugGlobalTransform3D" type="Node3D" parent="Display128x64Lite/SSD1306ModLiteRunLayerBuilder" unique_id=743610959 node_paths=PackedStringArray("observed")]
+script = ExtResource("4_vcgxt")
+observed = NodePath("../..")
+metadata/_custom_type_script = "uid://xpkuk5doqm0u"
+
+[node name="Load Code" type="Node" parent="Display128x64Lite" unique_id=1560337599]
+
+[node name="Load Code From Paste Bin" type="Node" parent="Display128x64Lite/Load Code" unique_id=2041188935]
+script = ExtResource("4_sd5o7")
+paste_url = "https://pastebin.com/mM31mCWU"
+
+[node name="Load Code From Gist" type="Node" parent="Display128x64Lite/Load Code" unique_id=1763263048]
+script = ExtResource("5_sd5o7")
+
+[node name="Load Code From Webpage" type="Node" parent="Display128x64Lite/Load Code" unique_id=764572048]
+script = ExtResource("6_4bf81")
+url = "https://eloistree.github.io/2026_04_27_gdp_oled_128x64_layer_gist_mod/test/hello_world.gd"
+
+[node name="Load Code From Code Edits" type="Node" parent="Display128x64Lite/Load Code" unique_id=1733871835 node_paths=PackedStringArray("code_editors", "text_editors")]
+script = ExtResource("7_vcgxt")
+code_editors = [NodePath("../../../CanvasLayer/Panel/CodeEdit")]
+text_editors = [NodePath("../../../CanvasLayer/Panel/TextEdit")]
+
+[node name="Load Code From Clipboard" type="Node" parent="Display128x64Lite/Load Code" unique_id=473963956]
+script = ExtResource("8_xj02p")
+metadata/_custom_type_script = "uid://bfsag3nmhtakc"
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1754238260]
+transform = Transform3D(1, 0, 0, 0, 0.14140233, 0.9899522, 0, -0.9899522, 0.14140233, -0.3661499, 0.5987463, 0.026144052)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=756807834]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4244995, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1545500001]
+
+[node name="Panel" type="Panel" parent="CanvasLayer" unique_id=1707515242]
+anchors_preset = -1
+anchor_right = 0.43100002
+anchor_bottom = 1.0
+offset_right = -0.5120239
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CodeEdit" type="CodeEdit" parent="CanvasLayer/Panel" unique_id=442177432]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_right = -15.0
+offset_bottom = -15.0
+text = "extends Node
+
+func append_layer(array:Array[bool]):
+	for i in range(8192):
+		array[i]= i%5==0
+"
+
+[node name="TextEdit" type="TextEdit" parent="CanvasLayer/Panel" unique_id=436384757]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.021000002
+anchor_top = 0.49400002
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -12.171001
+offset_top = -0.12402344
+offset_right = -14.0
+offset_bottom = -7.0
+
+[node name="Button" type="Button" parent="CanvasLayer/Panel" unique_id=1145566418]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.68
+anchor_top = 0.91400003
+anchor_right = 0.98200005
+anchor_bottom = 0.97800004
+offset_left = 3.7200012
+offset_top = -11.444031
+offset_right = -0.072021484
+offset_bottom = 0.2119751
+text = "Push Code"
+
+[connection signal="text_downloaded" from="Display128x64Lite/Load Code/Load Code From Paste Bin" to="Display128x64Lite/SSD1306ModLiteRunLayerBuilder/E13ScreenLayerModCodeAbstract" method="load_in_godot_code"]
+[connection signal="on_text_downloaded" from="Display128x64Lite/Load Code/Load Code From Gist" to="Display128x64Lite/SSD1306ModLiteRunLayerBuilder/E13ScreenLayerModCodeAbstract" method="load_in_godot_code"]
+[connection signal="on_text_downloaded" from="Display128x64Lite/Load Code/Load Code From Webpage" to="Display128x64Lite/SSD1306ModLiteRunLayerBuilder/E13ScreenLayerModCodeAbstract" method="load_in_godot_code"]
+[connection signal="on_combined_text_requested" from="Display128x64Lite/Load Code/Load Code From Code Edits" to="Display128x64Lite/SSD1306ModLiteRunLayerBuilder/E13ScreenLayerModCodeAbstract" method="load_in_godot_code"]
+[connection signal="on_text_downloaded_from_clipboard" from="Display128x64Lite/Load Code/Load Code From Clipboard" to="Display128x64Lite/SSD1306ModLiteRunLayerBuilder/E13ScreenLayerModCodeAbstract" method="load_in_godot_code"]
+[connection signal="button_down" from="CanvasLayer/Panel/Button" to="Display128x64Lite/Load Code/Load Code From Code Edits" method="combine_and_emit"]
+
+[editable path="Display128x64Lite"]
+[editable path="Display128x64Lite/SizeAnchor/ssd_1306_128x64_display"]

@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dirnsphidfh8x"]
+
+[ext_resource type="PackedScene" uid="uid://bh81u2g7tk0cr" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_128x64_2d_rect_lite.tscn" id="2_4nghn"]
+[ext_resource type="Script" uid="uid://bq8fsmcgcluu2" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/lite/ssd_1306_mod_lit_run_layer_builder.gd" id="2_yg2le"]
+[ext_resource type="Script" uid="uid://bb2gb1kdmju3j" path="res://addons/2026_04_27_gdp_oled_128x64_charleroi_xr/team/e13_eloi/feature/screen_builder/print_text_6x8/script/e13_screen_builder_print_6x8_demo.gd" id="3_4nghn"]
+
+[node name="Control" type="Control" unique_id=1770716119]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DisplaySsd128x64dRectLite" parent="." unique_id=769472649 instance=ExtResource("2_4nghn")]
+layout_mode = 1
+
+[node name="SSD1306ModLiteRunLayerBuilder" type="Node" parent="." unique_id=1043786389 node_paths=PackedStringArray("screens", "layers")]
+script = ExtResource("2_yg2le")
+screens = [NodePath("../DisplaySsd128x64dRectLite/Code/Facade Lite")]
+use_await = false
+layers = [NodePath("Demo Print 6x8")]
+metadata/_custom_type_script = "uid://bq8fsmcgcluu2"
+
+[node name="Demo Print 6x8" type="Node" parent="SSD1306ModLiteRunLayerBuilder" unique_id=257789489]
+script = ExtResource("3_4nghn")
+offset_x_left_right = 2
+offset_y_top_down = 2
+value_text_color = false
+dot_random_on_percentage = 1.0
+
+[editable path="DisplaySsd128x64dRectLite"]

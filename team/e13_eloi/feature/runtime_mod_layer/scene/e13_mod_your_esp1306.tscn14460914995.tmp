@@ -1,0 +1,121 @@
+[gd_scene format=3 uid="uid://bvhfj50b5eoy0"]
+
+[ext_resource type="PackedScene" uid="uid://dcb1i4wbf2wyo" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_1306_128x64_3d_lite.tscn" id="1_8v8o0"]
+[ext_resource type="Script" uid="uid://bq8fsmcgcluu2" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/lite/ssd_1306_mod_lit_run_layer_builder.gd" id="2_gdk5r"]
+
+[sub_resource type="GDScript" id="GDScript_3msea"]
+script/source = "class_name E13ScreenLayerModCodeAbstract
+extends SSD1306ModLiteLayerWithTagName
+
+signal on_created_node(node_created:Node)
+signal on_created_node_with_code(node_created:Node, code:String)
+signal on_fail_to_load_code(code:String)
+
+@export_multiline() 
+var given_godot_code_to_execute:String
+@export var where_to_create_node:Node3D
+@export var created_node_holding_code:Node
+@export var unique_code_file_name:String =\"code_file_name_change_me_mod_layer.gd\"
+
+
+func append_layer(array_128x64: Array[bool]) -> void:
+	if created_node_holding_code and created_node_holding_code.has_method(\"append_layer\"):
+		created_node_holding_code.call(\"append_layer\",array_128x64)
+
+
+	
+
+
+## When it is created. Our future code will need to know what node existe
+
+
+		
+
+func load_code_from_file_script_in_project(script: Script):
+	var local_path = script.resource_path
+	var text = FileAccess.get_file_as_string(local_path)
+	load_in_godot_code(text)
+
+func load_in_godot_code(code:String):
+	## When we start we need to destroy the previous one.
+	if created_node_holding_code:
+		## if it existe. kill it. I means... lets is free 
+		created_node_holding_code.queue_free()
+		created_node_holding_code = null
+
+	## code cant be loaded like that. you need to load from file
+	## we can create the file in folde of our application
+	var script_path: String = \"user://\"+unique_code_file_name
+	## print(script_path)
+	## to see where it is store in the end
+	print(ProjectSettings.globalize_path(script_path))
+	var file_connection =FileAccess.open(script_path, FileAccess.WRITE)
+	if file_connection:
+		file_connection.store_string(code)
+		file_connection.close()
+	else:
+		push_error(\"Oups file was not created\")
+		return
+	
+	# lets try to execute it now.
+	var script:Script = ResourceLoader.load(script_path,\"GDScript\",0)
+	if not script is GDScript:
+		push_error(\"Hum that not a Godot Script\")
+		on_fail_to_load_code.emit(code)
+		return 
+	
+	## We created and loaded a script in our application.
+	## now we need to use it
+	
+	## we need for that a node
+	var node :Node = Node.new()
+	# we have a new node but not yet in the scene
+	node.set_script(script)
+	# he has our code 
+	node.set_process(true)
+	# he now use _process(delta)
+	node.set_physics_process(true)
+	# in case we need it later
+	
+	## now we add it in the scene
+	created_node_holding_code = node
+	if where_to_create_node:
+		where_to_create_node.add_child(node)
+	else:
+		add_child(node)
+	on_created_node.emit(node)
+	on_created_node_with_code.emit(node,code)
+	
+
+	## from here you will have ready trigger
+	# and _process
+	
+
+	
+	
+"
+
+[node name="E13ModYourEsp1306" type="Node3D" unique_id=1335173719]
+
+[node name="Display128x64Lite" parent="." unique_id=1860853132 instance=ExtResource("1_8v8o0")]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1754238260]
+transform = Transform3D(1, 0, 0, 0, 0.14140233, 0.9899522, 0, -0.9899522, 0.14140233, -0.3661499, 0.5987463, 0.026144052)
+
+[node name="SSD1306ModLiteRunLayerBuilder" type="Node" parent="." unique_id=1921695565 node_paths=PackedStringArray("layers")]
+script = ExtResource("2_gdk5r")
+layers = [NodePath("E13ScreenLayerModCodeAbstract")]
+metadata/_custom_type_script = "uid://bq8fsmcgcluu2"
+
+[node name="E13ScreenLayerModCodeAbstract" type="Node" parent="SSD1306ModLiteRunLayerBuilder" unique_id=2097096689 node_paths=PackedStringArray("where_to_create_node")]
+script = SubResource("GDScript_3msea")
+given_godot_code_to_execute = "extends Node
+
+func _ready():
+	print(\"Hello Mod\")"
+where_to_create_node = NodePath("../../Display128x64Lite")
+unique_code_file_name = "abstract_code_layer_demo.gd"
+metadata/_custom_type_script = "uid://bhvhsni8og87s"
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=756807834]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4244995, 0)

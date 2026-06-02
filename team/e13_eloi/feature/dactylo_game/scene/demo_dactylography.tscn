@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://xropgo53jkpb"]
+
+[ext_resource type="PackedScene" uid="uid://bh81u2g7tk0cr" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_128x64_2d_rect_lite.tscn" id="1_y1aso"]
+[ext_resource type="PackedScene" uid="uid://dcb1i4wbf2wyo" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_1306_128x64_3d_lite.tscn" id="2_8uskl"]
+[ext_resource type="Script" uid="uid://bq8fsmcgcluu2" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/lite/ssd_1306_mod_lit_run_layer_builder.gd" id="3_8uskl"]
+[ext_resource type="PackedScene" uid="uid://b2i8ch2e5b6r8" path="res://addons/2026_04_27_gdp_oled_128x64_charleroi_xr/team/e13_eloi/feature/dactylo_game/layer_node/screen_layer_dactylography_game.tscn" id="3_y1aso"]
+[ext_resource type="PackedScene" uid="uid://38f7in6gu2wh" path="res://addons/2026_04_27_gdp_oled_128x64_charleroi_xr/team/e13_eloi/feature/dactylo_game/layer_node/e_13_screen_layer_clear.tscn" id="4_nakep"]
+
+[node name="Demo Hello World 2D 3D Lite" type="Node3D" unique_id=766910947]
+
+[node name="2D Example" type="Node3D" parent="." unique_id=724828153]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="2D Example" unique_id=1174326784]
+
+[node name="DisplaySsd128x64dRectLite" parent="2D Example/CanvasLayer" unique_id=769472649 instance=ExtResource("1_y1aso")]
+
+[node name="Label Debug Log" type="Label" parent="2D Example/CanvasLayer" unique_id=816388096]
+anchors_preset = -1
+anchor_right = 0.901
+anchor_bottom = 0.05
+offset_right = -997.952
+offset_bottom = -9.400002
+text = "-"
+
+[node name="Button X" type="Button" parent="2D Example/CanvasLayer" unique_id=875123925]
+anchors_preset = -1
+anchor_left = 0.943
+anchor_right = 0.99300003
+anchor_bottom = 0.048
+offset_left = -0.33605957
+offset_right = 0.063964844
+offset_bottom = -0.10400009
+text = "X"
+icon_alignment = 1
+
+[node name="Button Restart" type="Button" parent="2D Example/CanvasLayer" unique_id=28533078]
+anchors_preset = -1
+anchor_left = 0.85300004
+anchor_right = 0.91600007
+anchor_bottom = 0.048
+text = "Restart"
+icon_alignment = 1
+
+[node name="3D Example" type="Node3D" parent="." unique_id=119733180]
+
+[node name="Display128x64Lite" parent="3D Example" unique_id=802317883 instance=ExtResource("2_8uskl")]
+
+[node name="Label3D Debug Log" type="Label3D" parent="3D Example" unique_id=2052836811]
+transform = Transform3D(0.235, 0, 0, 0, -1.0272176e-08, 0.235, 0, -0.235, -1.0272176e-08, -0.5140991, 3.7980673e-08, 0.46948242)
+text = "-"
+font_size = 72
+horizontal_alignment = 0
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1559641334]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.74688715, -0.0070801107)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1819194466]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.777771, 0.99884033, 0.52490234)
+
+[node name="Code" type="Node" parent="." unique_id=1545940022]
+
+[node name="SSD1306ModLiteRunLayerBuilder" type="Node" parent="Code" unique_id=197152595 node_paths=PackedStringArray("screens", "layers")]
+script = ExtResource("3_8uskl")
+screens = [NodePath("../../2D Example/CanvasLayer/DisplaySsd128x64dRectLite/Code/Facade Lite"), NodePath("../../3D Example/Display128x64Lite/Code/Facade Lite")]
+layers = [NodePath("E13ScreenLayerClear"), null]
+metadata/_custom_type_script = "uid://bq8fsmcgcluu2"
+
+[node name="E13ScreenLayerClear" parent="Code/SSD1306ModLiteRunLayerBuilder" unique_id=1458758596 instance=ExtResource("4_nakep")]
+
+[node name="Screen Layer Dactylography Game" parent="Code/SSD1306ModLiteRunLayerBuilder" unique_id=886793185 instance=ExtResource("3_y1aso")]
+
+[connection signal="button_down" from="2D Example/CanvasLayer/Button X" to="2D Example/CanvasLayer" method="hide"]
+
+[editable path="2D Example/CanvasLayer/DisplaySsd128x64dRectLite"]
+[editable path="3D Example/Display128x64Lite"]
+[editable path="3D Example/Display128x64Lite/SizeAnchor/ssd_1306_128x64_display"]
