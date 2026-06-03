@@ -26,6 +26,10 @@ func get_cursor_pression_percent_11() -> float:
 func get_contact_radius_percent_01_from_width() -> float:
 	return tool_quad_and_brush.get_contact_radius_percent_01_from_width()
 
+func set_brush_global_position(global_position:Vector3):
+	tool_quad_and_brush.set_brush_global_position(global_position)
+	
+
 func set_brush_size_with_local_from_percent_01(percent_01:float):
 	tool_quad_and_brush.set_brush_size_with_local_from_percent_01(percent_01)
 
@@ -40,7 +44,3 @@ func toggle_pen_drawing_value():
 
 func toggle_pen_active_state():
 	quad_drawer.toggle_pen_active_state()
-
-
-func _on_check_button_pen_is_active_toggled(toggled_on: bool) -> void:
-	pass # Replace with function body.

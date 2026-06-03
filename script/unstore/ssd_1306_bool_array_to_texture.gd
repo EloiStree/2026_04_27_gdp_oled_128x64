@@ -1,3 +1,4 @@
+@tool
 class_name SSD1306BoolArrayToTexture
 extends Node
 
@@ -22,7 +23,9 @@ var texture_2d: Texture2D
 var bool_array_clear: Array[bool] = []
 var bool_array_full: Array[bool] = []
 
-@export var color_style: ColorStyle
+@export var color_style: ColorStyle:
+	set (value):
+		color_style =value
 
 enum ColorStyle {
 	INSEPCTOR_VALUE,

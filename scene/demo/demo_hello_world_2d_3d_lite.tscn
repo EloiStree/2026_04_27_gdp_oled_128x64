@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://djfg8fhxkqmyv"]
 
-[ext_resource type="PackedScene" uid="uid://dcb1i4wbf2wyo" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_1306_128x64_3d_lite.tscn" id="1_4exay"]
-[ext_resource type="PackedScene" uid="uid://bh81u2g7tk0cr" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_128x64_2d_rect_lite.tscn" id="2_6y7oy"]
-[ext_resource type="Script" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_hello_godot_script_lite.gd" id="3_6y7oy"]
+[ext_resource type="PackedScene" uid="uid://dcb1i4wbf2wyo" path="res://addons/2026_04_27_gdp_oled_128x64/scene/prefab/display_ssd_1306_128x64_3d_lite.tscn" id="1_4exay"]
+[ext_resource type="PackedScene" uid="uid://bh81u2g7tk0cr" path="res://addons/2026_04_27_gdp_oled_128x64/scene/prefab/display_ssd_128x64_2d_rect_lite.tscn" id="2_6y7oy"]
+[ext_resource type="Script" uid="uid://b86cxxyu84ps6" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_hello_godot_script_lite.gd" id="3_6y7oy"]
 
 [node name="Demo Hello World 2D 3D Lite" type="Node3D" unique_id=766910947]
 

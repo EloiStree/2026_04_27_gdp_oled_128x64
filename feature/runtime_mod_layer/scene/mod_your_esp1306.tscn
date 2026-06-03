@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bvhfj50b5eoy0"]
 
-[ext_resource type="PackedScene" uid="uid://dcb1i4wbf2wyo" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_1306_128x64_3d_lite.tscn" id="1_8v8o0"]
+[ext_resource type="PackedScene" uid="uid://dcb1i4wbf2wyo" path="res://addons/2026_04_27_gdp_oled_128x64/scene/prefab/display_ssd_1306_128x64_3d_lite.tscn" id="1_8v8o0"]
 [ext_resource type="Script" uid="uid://bq8fsmcgcluu2" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/lite/ssd_1306_mod_lit_run_layer_builder.gd" id="2_gdk5r"]
 [ext_resource type="Script" uid="uid://by2xcdjhmexr3" path="res://addons/2026_04_27_gdp_oled_128x64/feature/runtime_mod_layer/script/ssd_1306_screen_layer_mod_code_abstract.gd" id="3_bpvl1"]
 [ext_resource type="Script" uid="uid://c57fgqfb4xr7p" path="res://addons/2026_04_27_gdp_oled_128x64/feature/runtime_mod_layer/script/load_text/download_text_from_paste_bin.gd" id="4_sd5o7"]

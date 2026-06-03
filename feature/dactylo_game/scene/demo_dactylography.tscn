@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://xropgo53jkpb"]
 
-[ext_resource type="PackedScene" uid="uid://bh81u2g7tk0cr" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_128x64_2d_rect_lite.tscn" id="1_y1aso"]
-[ext_resource type="PackedScene" uid="uid://dcb1i4wbf2wyo" path="res://addons/2026_04_27_gdp_oled_128x64/scene/element/display_ssd_1306_128x64_3d_lite.tscn" id="2_8uskl"]
+[ext_resource type="PackedScene" uid="uid://bh81u2g7tk0cr" path="res://addons/2026_04_27_gdp_oled_128x64/scene/prefab/display_ssd_128x64_2d_rect_lite.tscn" id="1_y1aso"]
+[ext_resource type="PackedScene" uid="uid://dcb1i4wbf2wyo" path="res://addons/2026_04_27_gdp_oled_128x64/scene/prefab/display_ssd_1306_128x64_3d_lite.tscn" id="2_8uskl"]
 [ext_resource type="Script" uid="uid://bq8fsmcgcluu2" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/lite/ssd_1306_mod_lit_run_layer_builder.gd" id="3_8uskl"]
 [ext_resource type="PackedScene" uid="uid://b2i8ch2e5b6r8" path="res://addons/2026_04_27_gdp_oled_128x64/feature/dactylo_game/layer_node/screen_layer_dactylography_game.tscn" id="3_y1aso"]
 [ext_resource type="PackedScene" uid="uid://38f7in6gu2wh" path="res://addons/2026_04_27_gdp_oled_128x64/feature/dactylo_game/layer_node/screen_layer_clear.tscn" id="4_nakep"]

@@ -15,7 +15,6 @@ extends Node
 @export var size_anchor_quad:Node3D
 @export var size_anchor_sphere_brush:Node3D
 
-
 		
 func set_brush_size_with_local_size(size:float):
 	var local_size_vector3: Vector3 = Vector3(size, size, size)
@@ -27,6 +26,8 @@ func set_brush_size_with_local_from_percent_01( percent_01:float):
 	set_brush_size_with_local_size(size_as_meter)
 
 
+func set_global_position(global_position:Vector3):
+	move_rotate_anchor_sphere_brush.global_position=global_position
 
 
 func get_cursor_lrdt_percent_01() -> Vector2:
