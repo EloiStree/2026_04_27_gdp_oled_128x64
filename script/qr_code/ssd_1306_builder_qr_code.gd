@@ -1,17 +1,11 @@
 
-class_name SSD1306BuilderQrCode
+class_name ScreenBuilderQrCode
 extends Node
 
+static func display_at_left_center_with_flush(array:Array[bool],text:String):
+	display_at_left_center(array,text)
 
-@export var drawer: SSD1306SetGetScreenStateInterfaceWithCPU
-
-
-func display_at_left_center_with_flush(text:String):
-
-	drawer.flush_and_emit()
-	display_at_left_center(text)
-
-func display_at_left_center(text:String):
+static func display_at_left_center(array:Array[bool],text:String):
 	
 	var inverse:bool = text.begins_with("inverse")
 	if inverse:
@@ -22,12 +16,12 @@ func display_at_left_center(text:String):
 	var texture: ImageTexture = qr_code.get_texture(text)
 	var image: Image = texture.get_image()
 	if inverse:
-		image = inverse_image_color(image)
-	drawer.draw_bool_image_2d_at_center_left(image,0.5)
+		image = inverse_image_color(array,image)
+	ScreenBuilderDrawImage.draw_image_2d_at_center_left(array,image,0.5)
 	qr_code.queue_free() # clean up to avoid leaks	
 	pass
 
-func inverse_image_color(image:Image):
+static func inverse_image_color(array:Array[bool],  image:Image):
 	# inverse color of the image
 	for x in range(image.get_width()):
 		for y in range(image.get_height()):
@@ -38,3 +32,13 @@ func inverse_image_color(image:Image):
 			image.set_pixel(x, y, color)
 	return image
 	
+static func draw_bool_image_2d_center_at_point_lrtd(array:Array[bool],x_left_right: int, y_top_down: int, image: Image, threshold: float = 1.0):
+	if image == null:
+		return 
+	var width: int = image.get_width()
+	var height: int = image.get_height()
+	var offset_x: float = width / 2.0
+	var offset_y: float = height / 2.0
+	var top_left_x: int = x_left_right - offset_x
+	var top_left_y: int = y_top_down - offset_y
+	ScreenBuilderDrawImage.draw_image_2d_lrtd(array,top_left_x, top_left_y, image, threshold)

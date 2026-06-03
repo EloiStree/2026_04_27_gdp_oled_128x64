@@ -11,6 +11,11 @@ extends SSD1306NodeFacadeLite
 
 #region UNSTORE
 
+func inverse_display_texture_colors():
+	texture_builder.inverse_color_true_false()
+func inverse_display_value():
+	boolean_state.inverse_all_boolean_value()
+	
 func set_texture_color_gameboy():
 	texture_builder.set_color_style_as_gameboy_on_light()
 func set_texture_color_black_and_white():
@@ -68,18 +73,19 @@ func get_draw_interface()-> SSD1306SetGetScreenStateInterfaceWithCPU:
 func fill_and_draw(): boolean_state.fill_and_emit()
 func flush_and_draw(): boolean_state.flush_and_emit()
 
-func bit_shift_1d_right(): boolean_state.shift_1d_by_steps_right(1)
-func bit_shift_1d_left(): boolean_state.shift_1d_by_steps_left(1)
-	
-func bit_shift_2d_left(): boolean_state.shift_2d_boolean_array_left()
-func bit_shift_2d_right():boolean_state.shift_2d_boolean_array_right()
-func bit_shift_2d_up(): boolean_state.shift_2d_boolean_array_up()
-func bit_shift_2d_down(): boolean_state.shift_2d_boolean_array_down()
 
-func bit_shift_2d_up_left(): pass
-func bit_shift_2d_up_right(): pass
-func bit_shift_2d_down_left(): pass
-func bit_shift_2d_down_right(): pass
+
+func get_array_ref()->Array[bool]:	return boolean_state.get_value_as_1d_array_reference()
+func bit_shift_1d_right(loop:bool=true): ScreenBuilderShiftBits.shift_1d_left(get_array_ref(),loop)
+func bit_shift_1d_left(loop:bool=true): ScreenBuilderShiftBits.shift_1d_right(get_array_ref(),loop)	
+func bit_shift_2d_left(loop:bool=true): ScreenBuilderShiftBits.shift_2d_left(get_array_ref(),loop)
+func bit_shift_2d_right(loop:bool=true):ScreenBuilderShiftBits.shift_2d_right(get_array_ref(),loop)
+func bit_shift_2d_up(loop:bool=true): ScreenBuilderShiftBits.shift_2d_up(get_array_ref(),loop)
+func bit_shift_2d_down(loop:bool=true): ScreenBuilderShiftBits.shift_2d_down(get_array_ref(),loop)
+func bit_shift_2d_up_left(loop:bool=true): ScreenBuilderShiftBits.shift_2d_up_left(get_array_ref(),loop)
+func bit_shift_2d_up_right(loop:bool=true):ScreenBuilderShiftBits.shift_2d_up_right(get_array_ref(),loop)
+func bit_shift_2d_down_left(loop:bool=true): ScreenBuilderShiftBits.shift_2d_down_left(get_array_ref(),loop)
+func bit_shift_2d_down_right(loop:bool=true): ScreenBuilderShiftBits.shift_2d_down_right(get_array_ref(),loop)
 	
 func draw_grid_1x1(): boolean_state.set_boolean_as_1x1_grid(true)
 func draw_chess_full(): boolean_state.draw_bool_chressboard_full_screen()
@@ -95,16 +101,23 @@ func trigger_export_events(): exporter.export_from_inspector_target()
 func import_state_as_image_from_clipboard():
 	draw_text_image_at_zero(DisplayServer.clipboard_get())
 
-func export_state_as_image_in_clipboard():
-	var image :=get_export_as_text_image()
+func export_state_as_image_b64_in_clipboard():
+	var image :=get_export_as_text_image_01()
 	DisplayServer.clipboard_set(image)
 	
-func get_export_as_text_image()->String:
+func get_export_as_text_image_01()->String:
 	var array:= boolean_state.get_value_as_1d_array_reference()
-	var text = SSD1306Exporter.convert_booleans_to_text_image(array)
+	var text = SSD1306Exporter.convert_booleans_to_text_image_01(array)
 	return text
+
+func draw_six_objectifs_from_text(text:String):
+	push_error("SIX OBJECTIFS NOT IMPLEMENTED")
+
+func draw_qr_code_from_text(text:String):
+	push_error("QRCODE NOT IMPLEMENTED")
 	
-	
+
+
 	
 #region UDP DEBUG SENDER
 

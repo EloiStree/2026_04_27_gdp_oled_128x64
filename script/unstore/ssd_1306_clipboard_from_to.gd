@@ -8,6 +8,11 @@ signal on_exported_array_in_clipboard(array : Array[bool])
 signal on_exported_text_in_clipboard(text : String)
 
 var current_state_of_array : Array[bool] = []
+@export var texture_to_export:Texture2D
+func set_texture_to_export(texture:Texture2D):
+	texture_to_export = texture
+
+
 
 func set_reference_to_current_state_of_array(array : Array[bool]) -> void:
 	current_state_of_array = array
@@ -49,6 +54,8 @@ func import_without_signal_from_clipboard_state_of_array() -> Array[bool]:
 			array_from_clipboard.append(false)
 
 	return array_from_clipboard	
+
+
 
 
 
@@ -115,6 +122,16 @@ static func convert_to_base_58(array: Array[bool]) -> String:
 	return "1".repeat(zeros) + "".join(reversed)
 
 const BASE58_CHARS := "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+
+
+
+
+
+
+
+
+
+
 static func convert_from_base_58(base58_string: String) -> Array[bool]:
 	# VIBE CODED NOT TESTED, MAY CONTAIN BUGS, USE WITH CAUTION
 	# TODO: READ WHEN BRAIN CLEAR AND TEST, MAY CONTAIN BUGS
@@ -163,29 +180,39 @@ static func convert_from_base_58(base58_string: String) -> Array[bool]:
 
 
 
-@export var texture_to_export:Texture2D
-func set_texture_to_export(texture:Texture2D):
-	texture_to_export = texture
 
 
 func export_texture_to_markdown_base_64_image_from_inspector():
-	var text= convert_texture_to_svg_for_markdown(texture_to_export)
+	var text= convert_texture_to_markdown_base64_image(texture_to_export)
 	DisplayServer.clipboard_set(text)
 	on_exported_text_in_clipboard.emit( text)
 	
 func export_texture_to_markdown_svg_image_from_inspector():
-	var text= convert_texture_to_svg_for_markdown(texture_to_export)
+	var text= convert_texture_to_markdown_svg_image(texture_to_export)
 	DisplayServer.clipboard_set(text)
 	on_exported_text_in_clipboard.emit( text)
 
-func convert_texture_to_markdown_base64_image(texture: Texture2D) -> String:
+
+
+static func convert_texture_to_markdown_base64_image(texture: Texture2D) -> String:
 	var image: Image = texture.get_image()
 	var png_buffer: PackedByteArray = image.save_png_to_buffer()
 	var b64 := Marshalls.raw_to_base64(png_buffer)
 	var html := '<img width="128" height="64" src="data:image/png;base64,%s" />' % b64
 	return html
 
-func convert_texture_to_svg_for_markdown(image: Texture2D) -> String:
+static func convert_texture_to_markdown_svg_image(texture: Texture2D) -> String:
+	var image: Image = texture.get_image()
+	var array: Array[bool] = []
+	for y in range(image.get_height()):
+		for x in range(image.get_width()):
+			var color := image.get_pixel(x, y)
+			var is_true := color.r > 0.5 or color.g > 0.5 or color.b > 0.5
+			array.append(is_true)
+	return convert_array_to_svg_for_markdown(array)
+
+
+static func convert_array_to_svg_for_markdown(array: Array[bool]) -> String:
 	var width := 128
 	var height := 64
 
@@ -196,11 +223,11 @@ func convert_texture_to_svg_for_markdown(image: Texture2D) -> String:
 	var color_true := "#000000"
 	var color_false := "#FFA500"
 
-	for i in range(current_state_of_array.size()):
+	for i in range(array.size()):
 		var x := i % width
 		var y := i / width
 
-		var is_true := current_state_of_array[i]
+		var is_true := array[i]
 		var color := color_true if is_true else color_false
 
 		svg += '<rect x="%d" y="%d" width="1" height="1" fill="%s"/>\n' % [x, y, color]

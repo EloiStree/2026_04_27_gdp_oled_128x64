@@ -16,13 +16,13 @@ func export_from_inspector_target():
 		export_given_boolean_array(array)
 
 func export_given_boolean_array(array:Array[bool]):
-	var text : String = convert_booleans_to_text_image(array)
+	var text : String = convert_booleans_to_text_image_01(array)
 	var bytes_1d : PackedByteArray = convert_booleans_to_1d_packed_bytes(array)
 	on_export_as_text_image.emit(text)
 	on_export_as_1d_pack_bytes.emit(bytes_1d)
 
 	
-static func convert_booleans_to_text_image(array:Array[bool])->String:
+static func convert_booleans_to_text_image_01(array:Array[bool])->String:
 	var result:String =""
 	for i in range(128*64):
 		result += "1" if array[i] else "0"
