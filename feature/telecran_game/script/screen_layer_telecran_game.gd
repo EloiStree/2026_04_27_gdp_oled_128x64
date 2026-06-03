@@ -59,7 +59,8 @@ func _process(delta: float) -> void:
 	if use_default_gamepad:
 		var direction:Vector2=Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		if direction.length()>0:
-			var curve_multiplier:float=curve_value.sample_baked(direction.length())
-			move_cursor_at(current_cursor + direction*cursor_move_speed*delta*curve_multiplier)
+			if curve_value:
+				var curve_multiplier:float=curve_value.sample_baked(direction.length())
+				move_cursor_at(current_cursor + direction*cursor_move_speed*delta*curve_multiplier)
 		
 	
