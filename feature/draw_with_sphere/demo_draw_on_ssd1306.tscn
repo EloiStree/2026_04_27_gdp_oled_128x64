@@ -83,7 +83,7 @@ metadata/_custom_type_script = "uid://bbvrta1247wc0"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1739081289]
 
-[node name="SSD1306BridgeUiButtonsToFacade" type="Node" parent="CanvasLayer" unique_id=897296178 node_paths=PackedStringArray("display_facade_lite", "button_clear", "button_full", "button_inverse_display_color", "button_inverse_array_value", "button_export_as_text_01_image", "button_import_as_text_01_image", "button_export_as_b64_html_image", "button_export_as_svg_html_image")]
+[node name="SSD1306BridgeUiButtonsToFacade" type="Node" parent="CanvasLayer" unique_id=897296178 node_paths=PackedStringArray("display_facade_lite", "button_clear", "button_full", "button_inverse_display_color", "button_inverse_array_value", "button_export_as_text_01_image", "button_import_as_text_01_image", "button_export_as_b58_html_image", "button_import_as_b58_html_image", "button_export_as_b64_html_image", "button_export_as_svg_html_image", "line_edit_udp_target", "text_edit_six_objectifs", "text_edit_to_qr_code", "color_picker_false", "color_picker_true", "button_style_gameboy", "button_style_black_white", "button_style_oled_sh1106", "button_style_oled_ssd1306", "button_style_e_ink", "button_style_black_green_matrix", "button_style_flipper_orange", "button_bit_shift_1d_right", "button_bit_shift_1d_left", "button_bit_shift_2d_left", "button_bit_shift_2d_right", "button_bit_shift_2d_up", "button_bit_shift_2d_down", "button_bit_shift_2d_up_left", "button_bit_shift_2d_up_right", "button_bit_shift_2d_down_left", "button_bit_shift_2d_down_right")]
 script = ExtResource("6_uw8io")
 display_facade_lite = NodePath("../../Display128x64/Code/Facade")
 button_clear = NodePath("../VBoxContainer/Button Clear")
@@ -92,8 +92,32 @@ button_inverse_display_color = NodePath("../VBoxContainer/Button Inverse Color")
 button_inverse_array_value = NodePath("../VBoxContainer2/Button Toggle")
 button_export_as_text_01_image = NodePath("../VBoxContainer2/Button Export")
 button_import_as_text_01_image = NodePath("../VBoxContainer2/Button Import")
+button_export_as_b58_html_image = NodePath("../VBoxContainer2/HBoxContainer2/Button ExportB85")
+button_import_as_b58_html_image = NodePath("../VBoxContainer2/HBoxContainer2/Button ImportB58")
 button_export_as_b64_html_image = NodePath("../VBoxContainer2/Button Export B64 IMG")
 button_export_as_svg_html_image = NodePath("../VBoxContainer2/Button Export SVG")
+line_edit_udp_target = NodePath("../HBoxContainer/LineEdit UDP Target")
+text_edit_six_objectifs = NodePath("../HBoxContainer/TextEdit Objectifs6")
+text_edit_to_qr_code = NodePath("../HBoxContainer/TextEdit QR Code")
+color_picker_false = NodePath("../VBoxContainer2/ColorPickerButtonFalse")
+color_picker_true = NodePath("../VBoxContainer2/ColorPickerButtonTrue")
+button_style_gameboy = NodePath("../VBoxContainer/Gameboy")
+button_style_black_white = NodePath("../VBoxContainer/BlackWhite")
+button_style_oled_sh1106 = NodePath("../VBoxContainer/OLED Blue SH1106")
+button_style_oled_ssd1306 = NodePath("../VBoxContainer/OLED White Blue SSD1306")
+button_style_e_ink = NodePath("../VBoxContainer/eInk")
+button_style_black_green_matrix = NodePath("../VBoxContainer/OLED Green")
+button_style_flipper_orange = NodePath("../VBoxContainer/Flipper Orange")
+button_bit_shift_1d_right = NodePath("../HBoxContainer2/ButtonRight")
+button_bit_shift_1d_left = NodePath("../HBoxContainer2/ButtonLeft")
+button_bit_shift_2d_left = NodePath("../HBoxContainer2/ButtonO")
+button_bit_shift_2d_right = NodePath("../HBoxContainer2/ButtonE")
+button_bit_shift_2d_up = NodePath("../HBoxContainer2/ButtonN")
+button_bit_shift_2d_down = NodePath("../HBoxContainer2/ButtonS")
+button_bit_shift_2d_up_left = NodePath("../HBoxContainer2/ButtonNO")
+button_bit_shift_2d_up_right = NodePath("../HBoxContainer2/ButtonNE")
+button_bit_shift_2d_down_left = NodePath("../HBoxContainer2/ButtonSO")
+button_bit_shift_2d_down_right = NodePath("../HBoxContainer2/ButtonSE")
 metadata/_custom_type_script = "uid://cycigu70f6mwv"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=7355163]
@@ -130,6 +154,7 @@ step = 0.001
 [node name="TextEdit Objectifs6" type="TextEdit" parent="CanvasLayer/HBoxContainer" unique_id=261038945]
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
+placeholder_text = "Give 6 Objectifs"
 
 [node name="SSD1306TextEditToString" type="Node" parent="CanvasLayer/HBoxContainer/TextEdit Objectifs6" unique_id=748420102 node_paths=PackedStringArray("text_editor")]
 script = ExtResource("6_m2j7y")
@@ -138,6 +163,7 @@ text_editor = NodePath("..")
 [node name="TextEdit QR Code" type="TextEdit" parent="CanvasLayer/HBoxContainer" unique_id=1538084614]
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
+placeholder_text = "Parse text to QR Code"
 
 [node name="SSD1306TextEditToString" type="Node" parent="CanvasLayer/HBoxContainer/TextEdit QR Code" unique_id=732654765 node_paths=PackedStringArray("text_editor")]
 script = ExtResource("6_m2j7y")
@@ -250,8 +276,77 @@ text = "Out"
 [node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/VBoxContainer2" unique_id=774370785]
 layout_mode = 2
 
+[node name="ColorPickerButtonFalse" type="ColorPickerButton" parent="CanvasLayer/VBoxContainer2" unique_id=1663817107]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "Color False"
+
+[node name="ColorPickerButtonTrue" type="ColorPickerButton" parent="CanvasLayer/VBoxContainer2" unique_id=1583076235]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "Color True"
+
 [node name="HBoxContainer4" type="HBoxContainer" parent="CanvasLayer/VBoxContainer2" unique_id=657010105]
 layout_mode = 2
+
+[node name="HBoxContainer2" type="GridContainer" parent="CanvasLayer" unique_id=1584764937]
+anchors_preset = -1
+anchor_left = 0.919
+anchor_top = 0.874
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+columns = 3
+
+[node name="CheckButton" type="CheckButton" parent="CanvasLayer/HBoxContainer2" unique_id=1111454933]
+visible = false
+layout_mode = 2
+text = "Bit Shift Loop;"
+
+[node name="ButtonNO" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=279228475]
+layout_mode = 2
+text = "NO"
+
+[node name="ButtonN" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=1769093496]
+layout_mode = 2
+text = "N"
+
+[node name="ButtonNE" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=156746047]
+layout_mode = 2
+text = "NE"
+
+[node name="ButtonO" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=794586609]
+layout_mode = 2
+text = "O"
+
+[node name="Control" type="Control" parent="CanvasLayer/HBoxContainer2" unique_id=434890883]
+layout_mode = 2
+
+[node name="ButtonE" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=1593932591]
+layout_mode = 2
+text = "E"
+
+[node name="ButtonSO" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=295021418]
+layout_mode = 2
+text = "SO"
+
+[node name="ButtonS" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=308035650]
+layout_mode = 2
+text = "S"
+
+[node name="ButtonSE" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=1429687509]
+layout_mode = 2
+text = "SE"
+
+[node name="ButtonLeft" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=506551729]
+layout_mode = 2
+text = "1D L"
+
+[node name="ButtonRight" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=837776130]
+layout_mode = 2
+text = "1D R"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=219482388]
 transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.9294999, 0, 0, 0.6529541)

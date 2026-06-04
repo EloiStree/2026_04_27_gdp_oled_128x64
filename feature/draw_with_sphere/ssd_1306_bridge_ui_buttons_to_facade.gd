@@ -38,6 +38,7 @@ extends Node
 	
 
 @export_group("Bit Shift")
+@export var check_bit_shift_loop:CheckBox
 @export var button_bit_shift_1d_right:Button
 @export var button_bit_shift_1d_left:Button
 @export var button_bit_shift_2d_left:Button
@@ -112,30 +113,33 @@ func _ready() -> void:
 
 
 	if text_edit_six_objectifs!=null:
-		text_edit_six_objectifs.text_changed.connect(d.set_six_objectifs_from_text)
+		text_edit_six_objectifs.text_changed.connect(func():
+			d.draw_six_objectifs_from_text(text_edit_six_objectifs.text))
 	if text_edit_to_qr_code!=null:
-		text_edit_to_qr_code.text_changed.connect(d.set_to_qr_code_from_text)
+		text_edit_to_qr_code.text_changed.connect(func():
+			d.draw_qr_code_from_text_at_left_center(text_edit_to_qr_code.text))
 	
 
-	if button_export_as_b58_html_image!=null:
-		button_export_as_b58_html_image.button_down.connect(d.export_state_as_image_b58_in_clipboard)
+	#if button_export_as_b58_html_image!=null:
+		#button_export_as_b58_html_image.button_down.connect(d.export_state_as_image_b58_in_clipboard)
+#
+	#if button_import_as_b58_html_image!=null:
+		#button_import_as_b58_html_image.button_down.connect(d.import_state_as_image_b58_from_clipboard)
+		#
+	#if button_export_as_text_01_image!=null:		
+		#button_export_as_text_01_image.button_down.connect(d.export_state_as_image_in_clipboard)
+#
+	#if button_import_as_text_01_image!=null:
+		#button_import_as_text_01_image.button_down.connect(d.import_state_as_image_from_clipboard)
+#
+	#if button_export_as_b64_html_image!=null:
+		#button_export_as_b64_html_image.button_down.connect(d.export_state_as_image_b64_in_clipboard)
+#
+	#if button_export_as_svg_html_image!=null:
+		#button_export_as_svg_html_image.button_down.connect(d.export_state_as_image_svg_in_clipboard)
 
-	if button_import_as_b58_html_image!=null:
-		button_import_as_b58_html_image.button_down.connect(d.import_state_as_image_b58_from_clipboard)
-		
-	if button_export_as_text_01_image!=null:		
-		button_export_as_text_01_image.button_down.connect(d.export_state_as_image_in_clipboard)
 
-	if button_import_as_text_01_image!=null:
-		button_import_as_text_01_image.button_down.connect(d.import_state_as_image_from_clipboard)
-
-	if button_export_as_b64_html_image!=null:
-		button_export_as_b64_html_image.button_down.connect(d.export_state_as_image_b64_in_clipboard)
-
-	if button_export_as_svg_html_image!=null:
-		button_export_as_svg_html_image.button_down.connect(d.export_state_as_image_svg_in_clipboard)
-
-
+	
 	
 	
 	

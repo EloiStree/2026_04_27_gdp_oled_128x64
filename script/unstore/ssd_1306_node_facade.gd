@@ -110,11 +110,15 @@ func get_export_as_text_image_01()->String:
 	var text = SSD1306Exporter.convert_booleans_to_text_image_01(array)
 	return text
 
+func get_array():
+	return boolean_state.get_value_as_1d_array_reference()
 func draw_six_objectifs_from_text(text:String):
-	push_error("SIX OBJECTIFS NOT IMPLEMENTED")
+	ScreenBuilderSixObjectifs.draw_title_with_six_objectifs_from_text(get_array(),text,true)
 
-func draw_qr_code_from_text(text:String):
-	push_error("QRCODE NOT IMPLEMENTED")
+func draw_qr_code_from_text_at_center(text:String):
+	push_error("No done")
+func draw_qr_code_from_text_at_left_center(text:String):
+	ScreenBuilderQrCode.draw_at_center(get_array(),text)
 	
 
 

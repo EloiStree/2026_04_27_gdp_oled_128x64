@@ -2,10 +2,8 @@
 class_name ScreenBuilderQrCode
 extends Node
 
-static func display_at_left_center_with_flush(array:Array[bool],text:String):
-	display_at_left_center(array,text)
 
-static func display_at_left_center(array:Array[bool],text:String):
+static func draw_at_center(array:Array[bool],text:String):
 	
 	var inverse:bool = text.begins_with("inverse")
 	if inverse:
@@ -17,7 +15,7 @@ static func display_at_left_center(array:Array[bool],text:String):
 	var image: Image = texture.get_image()
 	if inverse:
 		image = inverse_image_color(array,image)
-	ScreenBuilderDrawImage.draw_image_2d_at_center_left(array,image,0.5)
+	draw_image_2d_center_at_point_lrtd(array, 64,32,image,0.5)
 	qr_code.queue_free() # clean up to avoid leaks	
 	pass
 
@@ -32,7 +30,7 @@ static func inverse_image_color(array:Array[bool],  image:Image):
 			image.set_pixel(x, y, color)
 	return image
 	
-static func draw_bool_image_2d_center_at_point_lrtd(array:Array[bool],x_left_right: int, y_top_down: int, image: Image, threshold: float = 1.0):
+static func draw_image_2d_center_at_point_lrtd(array:Array[bool],x_left_right: int, y_top_down: int, image: Image, threshold: float = 1.0):
 	if image == null:
 		return 
 	var width: int = image.get_width()

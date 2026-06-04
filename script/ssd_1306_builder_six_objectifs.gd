@@ -1,19 +1,20 @@
-class_name SSD1306BuilderSixObjectifs
-extends Node
+class_name ScreenBuilderSixObjectifs
 
-@export var drawer: SSD1306SetGetScreenStateInterfaceWithCPU
+static  var margin_left_right: int = 2
+static  var margin_top_down: int = 2
+static  var line_height: int = 10
+static  var line_cut_border: int = 5
 
-@export var margin_left_right: int = 2
-@export var margin_down_top: int = 2
-@export var line_height: int = 10
-@export var line_cut_border: int = 5
-
-func push_in_text(text_of_six_objectif:String):	
-	drawer.flush()
+##ScreenBuilderSixObjectifs.draw_title_with_six_objectifs_from_text
+static func draw_title_with_six_objectifs_from_text(array:Array[bool],text_of_six_objectif:String, clear_before_drawing:bool=true):
+	if clear_before_drawing:
+		array.fill(false)
 	var lines := text_of_six_objectif.split("\n")
 	var size:int = lines.size()
 	if size>=1:
-		drawer.print_text_at_lrtd(margin_left_right, margin_down_top, lines[0])
-		drawer.draw_bool_line_right_lrtd( line_cut_border, margin_down_top + line_height, 128)
+		ScreenBuilderPrint6x8.print_text_6x8_at_lrtd(array,Vector2(margin_left_right, margin_top_down), lines[0],true,true)
+		var from :Vector2 = Vector2(line_cut_border, margin_top_down+line_height)
+		var to :Vector2 = Vector2(line_cut_border+128, margin_top_down+line_height)
+		ScreenBuilderLineFromTo.draw_line_from_to(array,from, to,true)
 	var text_without_first_line:String = text_of_six_objectif.substr(lines[0].length() + 1, text_of_six_objectif.length())
-	drawer.print_text_at_lrtd(margin_left_right, line_height+4, text_without_first_line)
+	ScreenBuilderPrint6x8.print_text_6x8_at_lrtd(array,Vector2(margin_left_right, line_height+4),text_without_first_line,true,true)
