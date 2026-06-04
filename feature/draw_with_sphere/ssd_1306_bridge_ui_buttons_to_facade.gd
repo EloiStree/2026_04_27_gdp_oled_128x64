@@ -83,13 +83,10 @@ func _ready() -> void:
 	if line_edit_udp_target!=null:
 		line_edit_udp_target.text_changed.connect(d.set_udp_target_ipv4)
 	
-
 	if color_picker_false!=null:
 		color_picker_false.color_changed.connect(d.set_texture_color_false_color)
 	if color_picker_true!=null:
 		color_picker_true.color_changed.connect(d.set_texture_color_true_color)
-
-
 	if button_bit_shift_1d_right!=null:
 		button_bit_shift_1d_right.button_down.connect(d.bit_shift_1d_right)
 	if button_bit_shift_1d_left!=null:
@@ -119,18 +116,18 @@ func _ready() -> void:
 		text_edit_to_qr_code.text_changed.connect(func():
 			d.draw_qr_code_from_text_at_left_center(text_edit_to_qr_code.text))
 	
+		
+	if button_export_as_text_01_image!=null:		
+		button_export_as_text_01_image.button_down.connect(d.export_state_as_text_image_01_in_clipboard)
+
+	if button_import_as_text_01_image!=null:
+		button_import_as_text_01_image.button_down.connect(d.import_state_as_text_image_01_from_clipboard)
 
 	#if button_export_as_b58_html_image!=null:
 		#button_export_as_b58_html_image.button_down.connect(d.export_state_as_image_b58_in_clipboard)
 #
 	#if button_import_as_b58_html_image!=null:
 		#button_import_as_b58_html_image.button_down.connect(d.import_state_as_image_b58_from_clipboard)
-		#
-	#if button_export_as_text_01_image!=null:		
-		#button_export_as_text_01_image.button_down.connect(d.export_state_as_image_in_clipboard)
-#
-	#if button_import_as_text_01_image!=null:
-		#button_import_as_text_01_image.button_down.connect(d.import_state_as_image_from_clipboard)
 #
 	#if button_export_as_b64_html_image!=null:
 		#button_export_as_b64_html_image.button_down.connect(d.export_state_as_image_b64_in_clipboard)

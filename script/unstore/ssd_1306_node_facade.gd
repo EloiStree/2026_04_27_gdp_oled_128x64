@@ -98,10 +98,10 @@ func draw_text_image_at_zero(text:String): boolean_state.draw_from_text_image_lr
 
 func trigger_export_events(): exporter.export_from_inspector_target()
 
-func import_state_as_image_from_clipboard():
+func import_state_as_text_image_01_from_clipboard():
 	draw_text_image_at_zero(DisplayServer.clipboard_get())
 
-func export_state_as_image_b64_in_clipboard():
+func export_state_as_text_image_01_in_clipboard():
 	var image :=get_export_as_text_image_01()
 	DisplayServer.clipboard_set(image)
 	
