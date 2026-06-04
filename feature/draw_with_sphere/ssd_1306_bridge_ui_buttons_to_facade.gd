@@ -119,6 +119,11 @@ func _ready() -> void:
 		text_edit_to_qr_code.text_changed.connect(func():
 			d.draw_qr_code_from_text_at_left_center(text_edit_to_qr_code.text))
 	
+	if button_export_as_text_01_image!=null:		
+		button_export_as_text_01_image.button_down.connect(d.exp)
+
+	if button_import_as_text_01_image!=null:
+		button_import_as_text_01_image.button_down.connect(d.import_state_as_image_from_clipboard)
 
 	#if button_export_as_b58_html_image!=null:
 		#button_export_as_b58_html_image.button_down.connect(d.export_state_as_image_b58_in_clipboard)
@@ -126,11 +131,6 @@ func _ready() -> void:
 	#if button_import_as_b58_html_image!=null:
 		#button_import_as_b58_html_image.button_down.connect(d.import_state_as_image_b58_from_clipboard)
 		#
-	#if button_export_as_text_01_image!=null:		
-		#button_export_as_text_01_image.button_down.connect(d.export_state_as_image_in_clipboard)
-#
-	#if button_import_as_text_01_image!=null:
-		#button_import_as_text_01_image.button_down.connect(d.import_state_as_image_from_clipboard)
 #
 	#if button_export_as_b64_html_image!=null:
 		#button_export_as_b64_html_image.button_down.connect(d.export_state_as_image_b64_in_clipboard)

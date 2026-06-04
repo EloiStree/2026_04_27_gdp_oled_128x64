@@ -99,8 +99,8 @@ button_export_as_svg_html_image = NodePath("../VBoxContainer2/Button Export SVG"
 line_edit_udp_target = NodePath("../HBoxContainer/LineEdit UDP Target")
 text_edit_six_objectifs = NodePath("../HBoxContainer/TextEdit Objectifs6")
 text_edit_to_qr_code = NodePath("../HBoxContainer/TextEdit QR Code")
-color_picker_false = NodePath("../VBoxContainer2/ColorPickerButtonFalse")
-color_picker_true = NodePath("../VBoxContainer2/ColorPickerButtonTrue")
+color_picker_false = NodePath("../VBoxContainer/ColorPickerButtonFalse")
+color_picker_true = NodePath("../VBoxContainer/ColorPickerButtonTrue")
 button_style_gameboy = NodePath("../VBoxContainer/Gameboy")
 button_style_black_white = NodePath("../VBoxContainer/BlackWhite")
 button_style_oled_sh1106 = NodePath("../VBoxContainer/OLED Blue SH1106")
@@ -222,6 +222,19 @@ layout_mode = 2
 text = "Flipper
 Orange"
 
+[node name="ColorPickerButtonFalse" type="ColorPickerButton" parent="CanvasLayer/VBoxContainer" unique_id=1663817107]
+layout_direction = 2
+layout_mode = 2
+text = "Color False"
+
+[node name="ColorPickerButtonTrue" type="ColorPickerButton" parent="CanvasLayer/VBoxContainer" unique_id=1583076235]
+layout_direction = 2
+layout_mode = 2
+text = "Color True"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=885870774]
+layout_mode = 2
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer" unique_id=865249304]
 anchors_preset = -1
 anchor_left = 0.88400006
@@ -276,23 +289,13 @@ text = "Out"
 [node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/VBoxContainer2" unique_id=774370785]
 layout_mode = 2
 
-[node name="ColorPickerButtonFalse" type="ColorPickerButton" parent="CanvasLayer/VBoxContainer2" unique_id=1663817107]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-text = "Color False"
-
-[node name="ColorPickerButtonTrue" type="ColorPickerButton" parent="CanvasLayer/VBoxContainer2" unique_id=1583076235]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-text = "Color True"
-
 [node name="HBoxContainer4" type="HBoxContainer" parent="CanvasLayer/VBoxContainer2" unique_id=657010105]
 layout_mode = 2
 
 [node name="HBoxContainer2" type="GridContainer" parent="CanvasLayer" unique_id=1584764937]
 anchors_preset = -1
-anchor_left = 0.919
-anchor_top = 0.874
+anchor_left = 0.89000005
+anchor_top = 0.772
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -371,14 +374,7 @@ transform = Transform3D(1, 0, 0, 0, 0.9294999, 0.36882225, 0, -0.36882225, 0.929
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED White Blue SSD1306" to="Display128x64" method="set_texture_color_oled_blue_ssd1306"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/OLED Green" to="Display128x64" method="set_texture_color_black_green_matrix"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer/Flipper Orange" to="Display128x64" method="set_texture_color_flipper_orange"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Toggle" to="Display128x64/Code/BooleanState" method="toggle_all"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Import" to="Display128x64" method="import_state_as_image_from_clipboard"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Export" to="Display128x64" method="export_state_as_image_in_clipboard"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Export B64 IMG" to="Display128x64/Code/Exporter/Clipboard" method="export_texture_to_markdown_base_64_image_from_inspector"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Export SVG" to="Display128x64/Code/Exporter/Clipboard" method="export_texture_to_markdown_svg_image_from_inspector"]
 [connection signal="button_down" from="CanvasLayer/VBoxContainer2/Button Load Scene UDP" to="CanvasLayer/VBoxContainer2/Button Load Scene UDP/SSD1306LoadScene" method="change_to_scene_in_inspector"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/HBoxContainer2/Button ImportB58" to="Display128x64/Code/Exporter/Clipboard" method="import_from_clipboard_in_base_58"]
-[connection signal="button_down" from="CanvasLayer/VBoxContainer2/HBoxContainer2/Button ExportB85" to="Display128x64/Code/Exporter/Clipboard" method="export_in_clipboard_in_base_58"]
 
 [editable path="Display128x64"]
 [editable path="Display128x64/SizeAnchor/ssd_1306_128x64_display"]
