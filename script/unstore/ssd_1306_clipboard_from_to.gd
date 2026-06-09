@@ -59,178 +59,34 @@ func import_without_signal_from_clipboard_state_of_array() -> Array[bool]:
 
 
 
-func export_in_clipboard_in_base_58() -> void:
-	var base58_string := convert_to_base_58(current_state_of_array)
-	DisplayServer.clipboard_set(base58_string)
-	on_exported_text_in_clipboard.emit( base58_string)
-	on_exported_array_in_clipboard.emit( current_state_of_array)
 
-func import_from_clipboard_in_base_58() -> void:
-	var base58_string := DisplayServer.clipboard_get()
-	var array_from_clipboard := convert_from_base_58(base58_string)
-	on_imported_text_from_clipboard.emit( base58_string)
-	on_imported_array_from_clipboard.emit( array_from_clipboard)
+func get_clipboard():
+	return DisplayServer.clipboard_get()
 
-static func convert_to_base_58(array: Array[bool]) -> String:	
-	# VIBE CODED NOT TESTED, MAY CONTAIN BUGS, USE WITH CAUTION
-	# TODO: READ WHEN BRAIN CLEAR AND TEST, MAY CONTAIN BUGS
-
-	var bytes := PackedByteArray()
-	for i in range(0, array.size(), 8):
-		var byte := 0
-		for j in range(8):
-			if i + j < array.size() and array[i + j]:
-				byte |= (1 << (7 - j))
-		bytes.append(byte)
-	
-	# Convert to Base58
-	var result := ""
-	var zeros := 0
-	while zeros < bytes.size() and bytes[zeros] == 0:
-		zeros += 1
-	
-	var number := bytes.slice(zeros)
-	if number.is_empty():
-		return "1".repeat(zeros)
-	
-	var base58_chars := []
-	var value := number
-	
-	while not value.is_empty():
-		# Divide by 58
-		var remainder := 0
-		var quotient := PackedByteArray()
-		
-		for byte in value:
-			var current := remainder * 256 + byte
-			quotient.append(current / 58)
-			remainder = current % 58
-		
-		base58_chars.append(BASE58_CHARS[remainder])
-		
-		# Remove leading zeros from quotient
-		var start := 0
-		while start < quotient.size() and quotient[start] == 0:
-			start += 1
-		value = quotient.slice(start)
-	
-	# Reverse the characters
-	var reversed := []
-	for i in range(base58_chars.size() - 1, -1, -1):
-		reversed.append(base58_chars[i])
-	
-	return "1".repeat(zeros) + "".join(reversed)
-
-const BASE58_CHARS := "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
-
-
-
-
-
-
-
-
-
-
-static func convert_from_base_58(base58_string: String) -> Array[bool]:
-	# VIBE CODED NOT TESTED, MAY CONTAIN BUGS, USE WITH CAUTION
-	# TODO: READ WHEN BRAIN CLEAR AND TEST, MAY CONTAIN BUGS
-	
-	var zeros := 0
-	for char in base58_string:
-		if char == '1':
-			zeros += 1
-		else:
-			break
-	
-	# Convert from Base58 to bytes
-	var number := PackedByteArray()
-	for char in base58_string:
-		var digit := BASE58_CHARS.find(char)
-		if digit == -1:
-			push_error("Invalid Base58 character: ", char)
-			return []
-		
-		# Multiply current number by 58 and add digit
-		var carry := digit
-		for i in range(number.size() - 1, -1, -1):
-			carry += number[i] * 58
-			number[i] = carry & 0xFF
-			carry >>= 8
-		
-		while carry > 0:
-			number.insert(0, carry & 0xFF)
-			carry >>= 8
-	
-	# Add leading zeros
-	var result_bytes := PackedByteArray()
-	result_bytes.resize(zeros)
-	result_bytes.fill(0)
-	result_bytes += number
-	
-	# Convert bytes to bool array
-	var bool_array: Array[bool] = []
-	for byte in result_bytes:
-		for j in range(8):
-			bool_array.append((byte & (1 << (7 - j))) != 0)
-	
-	return bool_array
-
-
-
-
-
-
-
-func export_texture_to_markdown_base_64_image_from_inspector():
-	var text= convert_texture_to_markdown_base64_image(texture_to_export)
+func set_clipboard(text:String):
 	DisplayServer.clipboard_set(text)
-	on_exported_text_in_clipboard.emit( text)
+
+
+
+func export_state_as_image_b64_in_clipboard():	
+	var texture :Texture2D= texture_to_export
+	var text:String=SSD1306Exporter.convert_texture_to_markdown_base64_image(texture)
+	set_clipboard(text)
 	
-func export_texture_to_markdown_svg_image_from_inspector():
-	var text= convert_texture_to_markdown_svg_image(texture_to_export)
-	DisplayServer.clipboard_set(text)
-	on_exported_text_in_clipboard.emit( text)
+func export_state_as_image_svg_in_clipboard():
+	var text:String = SSD1306Exporter.convert_bool_array_to_svg_for_markdown(current_state_of_array)
+	set_clipboard(text)
+
+func export_state_as_image_b58_in_clipboard():	
+	var text:String=SSD1306Exporter.convert_bool_array_to_base_58_text(current_state_of_array)	
+	set_clipboard(text)
+	
+func import_state_as_image_b58_from_clipboard():
+	var array :Array[bool] = SSD1306Exporter.convert_bool_array_from_base_58_text(get_clipboard())	
+	import_through_signal_from_clipboard_state_of_array()
 
 
 
-static func convert_texture_to_markdown_base64_image(texture: Texture2D) -> String:
-	var image: Image = texture.get_image()
-	var png_buffer: PackedByteArray = image.save_png_to_buffer()
-	var b64 := Marshalls.raw_to_base64(png_buffer)
-	var html := '<img width="128" height="64" src="data:image/png;base64,%s" />' % b64
-	return html
-
-static func convert_texture_to_markdown_svg_image(texture: Texture2D) -> String:
-	var image: Image = texture.get_image()
-	var array: Array[bool] = []
-	for y in range(image.get_height()):
-		for x in range(image.get_width()):
-			var color := image.get_pixel(x, y)
-			var is_true := color.r > 0.5 or color.g > 0.5 or color.b > 0.5
-			array.append(is_true)
-	return convert_array_to_svg_for_markdown(array)
 
 
-static func convert_array_to_svg_for_markdown(array: Array[bool]) -> String:
-	var width := 128
-	var height := 64
-
-	var svg := ""
-	svg += '<?xml version="1.0" encoding="UTF-8"?>\n'
-	svg += '<svg xmlns="http://www.w3.org/2000/svg" width="128" height="64" viewBox="0 0 128 64">\n'
-
-	var color_true := "#000000"
-	var color_false := "#FFA500"
-
-	for i in range(array.size()):
-		var x := i % width
-		var y := i / width
-
-		var is_true := array[i]
-		var color := color_true if is_true else color_false
-
-		svg += '<rect x="%d" y="%d" width="1" height="1" fill="%s"/>\n' % [x, y, color]
-
-	svg += "</svg>"
-	return svg
+	

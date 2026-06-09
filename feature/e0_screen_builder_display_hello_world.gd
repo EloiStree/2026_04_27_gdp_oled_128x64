@@ -9,7 +9,7 @@ func _ready() -> void:
 	
 	var position:Vector2i = Vector2i(5,5) 
 	var text:String = "Hello World ;)"
-	E13ScreenBuilderPrint6x8.print_text_6x8_at_lrtd(
+	ScreenBuilderPrint6x8.print_text_6x8_at_lrtd(
 		array,position,text,true, true)
 	
 	screen.set_value_with_1d_array_and_draw(array)

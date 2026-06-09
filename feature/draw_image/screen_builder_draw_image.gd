@@ -9,10 +9,10 @@ const SCREEN_WIDTH=64
 const SCREEN_HEIGHT=128
 
 static func xy_lrtd_to_index(x: int, y: int) -> int:
-	return y * SCREEN_WIDTH + x	
+	return y * SCREEN_WIDTH + x
 
-static func xy_lrdt_to_index(x: int, y: int) -> int:
-	return (SCREEN_HEIGHT - 1 - y) * SCREEN_WIDTH + x
+#static func xy_lrdt_to_index(x: int, y: int) -> int:
+	#return (SCREEN_HEIGHT - 1 - y) * SCREEN_WIDTH + x
 
 
 static func draw_texture_2d_lrtd(array:Array[bool],x_left_right: int, y_top_down: int, texture: Texture2D, threshold: float = 1.0):
@@ -23,7 +23,7 @@ static func draw_texture_2d_lrtd(array:Array[bool],x_left_right: int, y_top_down
 
 static func draw_image_texture_2d_lrtd(array:Array[bool],x_left_right: int, y_top_down: int, image_texture: ImageTexture, threshold: float = 1.0):
 	if image_texture == null:
-		return 
+		return
 	var image: Image = image_texture.get_image()
 	draw_image_2d_lrtd(array,x_left_right, y_top_down, image, threshold)
 
@@ -41,32 +41,49 @@ static func set_value_at_index_1d(array:Array[bool], index_0_8191:int, is_on:boo
 		return
 	array[index_0_8191] = is_on
 
-static func set_value_at_x_y_lrtd(array:Array[bool],x_left_right:int,y_top_down:int, is_on:bool):
-	if x_left_right < 0 or x_left_right >= SCREEN_WIDTH:
+
+
+
+static func set_value_at_x_y_lrtd(array: Array[bool], x: int, y: int, is_on: bool) -> void:
+	if x < 0 or x >= SCREEN_WIDTH:
 		return
-	if y_top_down < 0:
-		y_top_down = 0
-	if y_top_down >= SCREEN_HEIGHT:
-		y_top_down = SCREEN_HEIGHT - 1
-
-	var index: int = xy_lrtd_to_index(x_left_right, y_top_down)
-	set_value_at_index_1d(array,index, is_on)
+	if y < 0 or y >= SCREEN_HEIGHT:
+		return
+	
+	var index: int = xy_lrtd_to_index(x, y)
+	set_value_at_index_1d(array, index, is_on)
 
 
-static func draw_image_2d_lrtd(array:Array[bool],x_left_right: int, y_top_down: int, image: Image, threshold: float = 1.0):
-	var width: int = image.get_width()
-	var height: int = image.get_height()
-	for y in range(height):
-		for x in range(width):
+static func draw_image_2d_lrtd(
+	array: Array[bool],
+	x_left_right: int,
+	y_top_down: int,
+	image: Image,
+	threshold: float = 0.5
+) -> void:
+	
+	if image == null or array == null:
+		return
+	
+	var img_width: int = image.get_width()
+	var img_height: int = image.get_height()
+	
+	for x in range(img_width):
+		for y in range(img_height):
+			var screen_x: int = x_left_right + x
+			var screen_y: int = y_top_down + y
+			
 			var color: Color = image.get_pixel(x, y)
-			var is_white_not_transparent: bool = is_color_white_threshold(color,threshold) #and not is_color_transparent(color, alpha)
-			set_value_at_x_y_lrtd(array,x_left_right + x, y_top_down + y, is_white_not_transparent)
-	image = null
+			var is_white_not_transparent: bool = is_color_white_threshold(color, threshold)
+			
+			set_value_at_x_y_lrtd(array, screen_x, screen_y, is_white_not_transparent)
+
+
 
 
 static func draw_image_2d_center_at_point_lrtd(array:Array[bool],x_left_right: int, y_top_down: int, image: Image, threshold: float = 1.0):
 	if image == null:
-		return 
+		return
 	var width: int = image.get_width()
 	var height: int = image.get_height()
 	var offset_x: float = width / 2.0
@@ -77,15 +94,15 @@ static func draw_image_2d_center_at_point_lrtd(array:Array[bool],x_left_right: i
 
 static func draw_image_2d_at_center(array:Array[bool],image: Image, threshold: float = 1.0):
 	if image == null:
-		return 
+		return
 	draw_image_2d_center_at_point_lrtd(array,64,32, image, threshold)
 
 static func draw_image_2d_at_center_left(array:Array[bool],image: Image, threshold: float = 1.0):
 	if image == null:
-		return 
+		return
 	draw_image_2d_center_at_point_lrtd(array,32,32, image, threshold)
 
 static func draw_image_2d_at_center_right(array:Array[bool],image: Image, threshold: float = 1.0):
 	if image == null:
-		return 
+		return
 	draw_image_2d_center_at_point_lrtd(array,96,32, image, threshold)

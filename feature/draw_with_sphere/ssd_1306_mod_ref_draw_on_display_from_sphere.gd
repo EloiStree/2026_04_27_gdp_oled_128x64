@@ -6,6 +6,9 @@ extends Node
 @export var is_drawer_active:bool= true
 @export var drawing_value:bool=true
 
+## if True an other part need the pen to not work for a moment.
+@export var disable_lock:bool
+
 
 func set_pen_drawing_value_as_true():
 	drawing_value=true
@@ -30,9 +33,15 @@ func toggle_pen_active_state():
 	is_drawer_active= not is_drawer_active
 
 
+
+func set_as_disable_lock_to_use_ui(is_disable:bool):
+	disable_lock=is_disable
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if not is_drawer_active:
+		return
+	if disable_lock:
 		return
 	var cursor_lrdt_percent_01: Vector2 = tool_draw_quad_board_facade.get_cursor_lrdt_percent_01()
 	var cursor_radius_percent_01: float = tool_draw_quad_board_facade.get_cursor_radius_percent_01()

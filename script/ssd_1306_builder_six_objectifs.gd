@@ -1,4 +1,5 @@
 class_name ScreenBuilderSixObjectifs
+extends Node
 
 static  var margin_left_right: int = 2
 static  var margin_top_down: int = 2

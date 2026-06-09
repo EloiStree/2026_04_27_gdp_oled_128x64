@@ -5,7 +5,6 @@ extends Node
 
 signal on_created_node_with_code(node_created:Node)
 
-@export var unique_code_file_name:String ="code_file_name_change_me.gd"
 @export var created_node_holding_code:Node
 
 
@@ -19,13 +18,14 @@ func try_to_execute_code(code_text:String) -> void:
 		created_node_holding_code.queue_free()
 		created_node_holding_code = null
 	
+	if code_text=="":
+		return
 	var code = code_text
 	
 	## code cant be loaded like that. you need to load from file
 	
 	## we can create the file in folde of our application
-	var script_path: String = "user://"+unique_code_file_name
-	print(script_path)
+	var script_path: String = "user://"+str(get_instance_id())+".gd"
 	## to see where it is store in the end
 	print(ProjectSettings.globalize_path(script_path))
 	
@@ -39,7 +39,7 @@ func try_to_execute_code(code_text:String) -> void:
 	
 	#lets see that
 	# lets try to execute it now.
-	var script:Script = ResourceLoader.load(script_path,"GDScript",0)
+	var script:Script = ResourceLoader.load(script_path,"GDScript",ResourceLoader.CACHE_MODE_IGNORE)
 	if not script is GDScript:
 		push_error("Hum that not a Godot Script")
 		return 

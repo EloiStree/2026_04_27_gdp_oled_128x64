@@ -1,7 +1,4 @@
 extends Node
-
-
-signal on_screen_update_request(array:Array[bool])
 var screen:Array[bool]=[]
 
 func wait_seconds(seconds: float) -> void:
@@ -14,7 +11,15 @@ func _ready() -> void:
 	screen.resize(128*64)
 	screen[(128*64)/2+64] = true
 	screen[(128*64)/2+65] = true
-	on_screen_update_request.emit(screen)
+
+## DIRECT ACCESS TO THE UI DISPLAY ARRAY OF 128x64 8192 pixels
+func append_layer(array_128x64: Array[bool]) -> void:
+	if array_128x64 and array_128x64.size()>=128*64:
+		var is_active:=true
+		if is_active:
+			for i in range(8192):
+				array_128x64[i] = screen[i]
+	
 
 ## 40-200 FPS of GODOT
 ## No need to go faster that the draw call, but it is there if you need it.

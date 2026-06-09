@@ -98,16 +98,46 @@ func draw_text_image_at_zero(text:String): boolean_state.draw_from_text_image_lr
 
 func trigger_export_events(): exporter.export_from_inspector_target()
 
-func import_state_as_image_from_clipboard():
+func get_clipboard():
+	return DisplayServer.clipboard_get()
+
+func set_clipboard(text:String):
+	DisplayServer.clipboard_set(text)
+
+
+
+func export_state_as_image_b64_in_clipboard():	
+	var texture :Texture2D= texture_builder.texture_2d
+	var text:String=SSD1306Exporter.convert_texture_to_markdown_base64_image(texture)
+	set_clipboard(text)
+func import_state_as_image_b64_from_clipboard():
+	var array:Array[bool]= SSD1306Exporter.convert_base64_html_image_to_bool_array(get_clipboard())
+	set_value_with_1d_array_and_draw(array)
+
+func export_state_as_image_svg_in_clipboard():
+	var text:String = SSD1306Exporter.convert_bool_array_to_svg_for_markdown(get_array_ref())
+	set_clipboard(text)
+
+
+func export_state_as_image_b58_in_clipboard():	
+	var text:String=SSD1306Exporter.convert_bool_array_to_base_58_text(get_array_ref())	
+	set_clipboard(text)
+	
+func import_state_as_image_b58_from_clipboard():
+	var array :Array[bool] = SSD1306Exporter.convert_bool_array_from_base_58_text(get_clipboard())	
+	set_value_with_1d_array_and_draw(array)
+	
+
+func import_state_as_text_image_01_from_clipboard():
 	draw_text_image_at_zero(DisplayServer.clipboard_get())
 
-func export_state_as_image_b64_in_clipboard():
+func export_state_as_text_image_01_in_clipboard():
 	var image :=get_export_as_text_image_01()
 	DisplayServer.clipboard_set(image)
 	
 func get_export_as_text_image_01()->String:
 	var array:= boolean_state.get_value_as_1d_array_reference()
-	var text = SSD1306Exporter.convert_booleans_to_text_image_01(array)
+	var text = SSD1306Exporter.convert_bool_array_to_text_image_01(array)
 	return text
 
 func get_array():
@@ -117,6 +147,7 @@ func draw_six_objectifs_from_text(text:String):
 
 func draw_qr_code_from_text_at_center(text:String):
 	push_error("No done")
+	ScreenBuilderQrCode.draw_at_lrtd_vector2i(get_array(),text,Vector2i.ZERO)
 func draw_qr_code_from_text_at_left_center(text:String):
 	ScreenBuilderQrCode.draw_at_center(get_array(),text)
 	
@@ -160,3 +191,7 @@ func send_integer_to_udp_target(value:int):
 		SSD1306UdpSendToSingleTarget.send_integer_little_endian_to_target(udp_sender.target_ip, udp_sender.target_port, value)
 
 #endregion
+
+
+func _on_ssd_1306_mod_code_editor_to_string_on_code_to_execute_updated(node_created: String) -> void:
+	pass # Replace with function body.

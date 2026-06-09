@@ -6,8 +6,7 @@ extends Node
 @export var methode_name_draw_called:String = "on_draw_was_called"
 @export var methode_name_update_position_rotation:String = "on_update_position_rotation"
 @export var methode_name_update_nes_buttons:String = "on_update_nes_buttons"
-@export var signal_name_listen_to_array_1d_upated:String = "on_screen_update_request"
-
+@export var methode_name_expose_current_bool_array="append_layer"
 @export var variable_name_api_code:String = "facade"
 @export var facade_to_provide:SSD1306NodeFacade
 @export var default_node_position_rotation:Node3D
@@ -32,6 +31,9 @@ extends Node
 func _process(delta: float) -> void:
 	if default_node_position_rotation:
 		update_position_rotation_from_node_3d(default_node_position_rotation)
+	if node_to_affect and node_to_affect.has_method("append_layer"):
+		node_to_affect.append_layer(facade_to_provide.get_array_ref())
+			
 
 
 
@@ -40,10 +42,11 @@ func _process(delta: float) -> void:
 func set_node_to_affect(given_node: Node):
 	node_to_affect = given_node
 	if node_to_affect:
-		mod_out_connect_signal_in_node_to_callable(signal_name_listen_to_array_1d_upated, mod_out_push_boolean_array.emit)
 		if facade_to_provide:
 			mod_in_set_variable_from_name(variable_name_api_code, facade_to_provide)
-
+			# func append_layer(array_128x64: Array[bool]) -> void:
+			if node_to_affect and node_to_affect.has_method("append_layer"):
+				node_to_affect.append_layer(facade_to_provide.get_array_ref())
 #endregion
 
 
@@ -65,6 +68,7 @@ func update_position_rotation_from_node_3d(node_3d:Node3D):
 	var euler_rotation = node_3d.global_transform.basis.get_euler()
 	var quaternion_rotation = node_3d.global_transform.basis.get_rotation_quaternion()
 	update_position_rotation(position, euler_rotation, quaternion_rotation)
+	
 
 func update_position_rotation(position:Vector3, euler_rotation:Vector3, quaternion_rotation:Quaternion):
 	game_position = position

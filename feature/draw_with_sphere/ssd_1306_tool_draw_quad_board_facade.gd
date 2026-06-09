@@ -32,9 +32,15 @@ func set_brush_global_position(global_position:Vector3):
 
 func set_brush_size_with_local_from_percent_01(percent_01:float):
 	tool_quad_and_brush.set_brush_size_with_local_from_percent_01(percent_01)
+	
+	
+
+func set_as_disable_lock_to_use_ui(is_disable:bool):
+	quad_drawer.set_as_disable_lock_to_use_ui(is_disable)
 
 func set_pen_as_active(is_active:bool):
 	quad_drawer.set_pen_as_active(is_active)
+	
 
 func set_pen_drawing_value_as(use_true_value:bool):
 	quad_drawer.set_pen_drawing_value_as(use_true_value)
