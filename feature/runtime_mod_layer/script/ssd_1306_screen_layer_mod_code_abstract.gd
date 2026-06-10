@@ -15,7 +15,7 @@ func append_layer(array_128x64: Array[bool]) -> void:
 	array_128x64.fill(true)
 	
 """
-@export var where_to_create_node:Node3D
+@export var where_to_create_node:Node
 @export var load_code_inspector_at_ready:bool=true
 @export var unique_code_file_name:String ="code_file_name_change_me_mod_layer.gd"
 
@@ -46,10 +46,12 @@ func load_in_godot_code(code:String):
 		
 	## code cant be loaded like that. you need to load from file
 	## we can create the file in folde of our application
+	if unique_code_file_name=="":
+		unique_code_file_name= str(self.get_instance_id())+".gd"
 	var script_path: String = "user://"+unique_code_file_name
 	## print(script_path)
 	## to see where it is store in the end
-	print(ProjectSettings.globalize_path(script_path))
+	##print(ProjectSettings.globalize_path(script_path))
 	var file_connection =FileAccess.open(script_path, FileAccess.WRITE)
 	if file_connection:
 		file_connection.store_string(code)

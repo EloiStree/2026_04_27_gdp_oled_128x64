@@ -38,8 +38,7 @@ func emit_code_editor_text() -> void:
 	on_code_to_execute_updated.emit(code_editor_to_read_from.text)
 	
 	
-	
-@export_category("Reload code")
+@export_group("Keyboard Run")
 @export var _use_key_code_to_reload_code:bool=true
 @export var _key_code_to_reload_code:int=KEY_F1
 func _unhandled_input(event):
