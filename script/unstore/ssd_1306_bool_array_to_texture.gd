@@ -202,6 +202,29 @@ func set_texture_with_boolean_array(display_as_boolean_array: Array[bool]):
 	on_texture_updated.emit(texture_2d)
 	on_texture_material_updated.emit(0, material_duplicated)
 
+func set_texture_with_bit_array_if_exact_size(bit_pack_as_bytes:PackedByteArray):	
+	if bit_pack_as_bytes.size()==1024:
+		set_texture_with_bit_array(bit_pack_as_bytes)
+
+func set_texture_with_text01_if_exact_size(bit_pack_as_text01: String) -> void:
+	bit_pack_as_text01 = bit_pack_as_text01.replace("\r", "").replace("\n", "")
+	if bit_pack_as_text01.length() != 128 * 64:
+		return
+	var byte_count := bit_pack_as_text01.length() / 8
+	var pack := PackedByteArray()
+	pack.resize(byte_count)
+	for i in range(byte_count):
+		var value := 0
+		for j in range(8):
+			var bit_index := i * 8 + j
+			if bit_pack_as_text01[bit_index] == "1":
+				value |= 1 << (7 - j) 
+		pack[i] = value
+	set_texture_with_bit_array(pack)
+			
+			
+	
+	
 func set_texture_with_bit_array(bit_pack_as_bytes:PackedByteArray):
 	_setup_the_texture_check()
 	# expects width * height bits, packed as bytes (8 bits per byte)
