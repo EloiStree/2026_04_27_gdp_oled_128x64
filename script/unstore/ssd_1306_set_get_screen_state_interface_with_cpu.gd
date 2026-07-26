@@ -509,7 +509,6 @@ func draw_bool_line_percent11_right(percent11:float):
 
 func draw_bool_line_up_lrdt(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
 	for i in range(pixel + 1):
-
 		set_value_at_x_y_lrdt(x_left_right, y_down_top + i, is_on)
 
 func draw_bool_line_right_lrdt(x_left_right: int, y_down_top: int, pixel: int, is_on: bool = true):
@@ -590,8 +589,6 @@ func keep_only_01(text:String)->String:
 			result += char
 	return result
 
-
-
 func draw_from_text_image_lrtd_at_zero(text:String):	
 	draw_from_text_image_lrtd(0,0,text,true)
 	
@@ -599,7 +596,6 @@ func draw_from_text_image_lrtd_at_zero_inversed(text:String):
 	draw_from_text_image_lrtd(0,0,text, false)
 	pass
 	
-
 func draw_bool_image_from_1d_array_lrtd_at_zero(width: int, boolean_array: Array[bool]):
 	draw_bool_image_from_1d_array_lrtd(0, 0, width, boolean_array)
 
@@ -614,8 +610,6 @@ func draw_bool_image_from_1d_array_lrtd(x_left_right: int, y_down_top: int, widt
 		var x_offset: int = i % width
 		var y_offset: int = i / width
 		set_value_at_x_y_lrtd(x_left_right + x_offset, y_down_top + y_offset, is_on)
-
-
 
 func print_text_at_zero(text:String):
 	draw_bool_line_characters_6x8_lrtd(0, 0, text, true)
