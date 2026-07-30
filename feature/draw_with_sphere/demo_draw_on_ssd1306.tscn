@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://c5mjxpyp13vrg" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_text_edit_to_string.gd" id="6_m2j7y"]
 [ext_resource type="Script" uid="uid://cycigu70f6mwv" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_bridge_ui_buttons_to_facade.gd" id="6_uw8io"]
 [ext_resource type="Script" uid="uid://48jcpn17e656" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_load_scene.gd" id="7_disnu"]
-[ext_resource type="PackedScene" uid="uid://cbt8xvf1tpip5" path="res://addons/2026_04_27_gdp_oled_128x64/scene/demo/demo_oled_128x64_udp_display.tscn" id="8_uw8io"]
+[ext_resource type="PackedScene" uid="uid://cbt8xvf1tpip5" path="res://addons/2026_04_27_gdp_oled_128x64/scene/guid/demo_udp_listen_to_128x64/demo_oled_128x64_udp_display.tscn" id="8_uw8io"]
 [ext_resource type="Script" uid="uid://d367r5q0x3x7c" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/ssd_1306_mod_code_editor_to_string.gd" id="10_44ik5"]
 [ext_resource type="Script" uid="uid://dt5blybafo2q1" path="res://addons/2026_04_27_gdp_oled_128x64/feature/runtime_mod_layer/script/code_edit/ssd_1306_color_the_code_editor.gd" id="11_38plc"]
 [ext_resource type="Script" uid="uid://cslb7qlsbmd0u" path="res://addons/2026_04_27_gdp_oled_128x64/script/mod/ssd_1306_mod_empty_script.gd" id="11_ll62q"]
