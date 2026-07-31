@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://bbvrta1247wc0" path="res://addons/2026_04_27_gdp_oled_128x64/feature/draw_with_sphere/ssd_1306_mouse_event_for_debug.gd" id="5_jg7h5"]
 [ext_resource type="Script" uid="uid://c5mjxpyp13vrg" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_text_edit_to_string.gd" id="6_6dx2a"]
 [ext_resource type="Script" uid="uid://48jcpn17e656" path="res://addons/2026_04_27_gdp_oled_128x64/script/ssd_1306_load_scene.gd" id="7_c3mbq"]
-[ext_resource type="PackedScene" uid="uid://cbt8xvf1tpip5" path="res://addons/2026_04_27_gdp_oled_128x64/scene/demo/demo_oled_128x64_udp_display.tscn" id="8_lldmp"]
+[ext_resource type="PackedScene" uid="uid://cbt8xvf1tpip5" path="res://addons/2026_04_27_gdp_oled_128x64/scene/guid/demo_udp_listen_to_128x64/demo_oled_128x64_udp_display.tscn" id="8_lldmp"]
 
 [sub_resource type="Image" id="Image_y0keq"]
 data = {
