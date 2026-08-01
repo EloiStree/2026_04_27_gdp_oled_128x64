@@ -2,6 +2,7 @@ class_name SSD1306ModFakeNesInput
 extends Node
 
 signal on_nes_input_updated(up:bool,right:bool,down:bool,left:bool,a:bool,b:bool,menu_left_select:bool,menu_right_restart:bool)
+signal on_nes_input_changed(up:bool,right:bool,down:bool,left:bool,a:bool,b:bool,menu_left_select:bool,menu_right_restart:bool)
 
 
 @export var is_fake_input_enabled:bool=true
@@ -55,20 +56,56 @@ func set_fake_nes_input_as_enabled(enabled:bool):
 @export var joystick_right_state:Vector2=Vector2.ZERO
 
 
+var previous_button_up:bool=false
+var previous_button_right:bool=false
+var previous_button_down:bool=false
+var previous_button_left:bool=false
+var previous_button_a:bool=false
+var previous_button_b:bool=false
+var previous_button_menu_left_select:bool=false
+var previous_button_menu_right_restart:bool=false
+
+
+
+func _check_for_change():
+	var changed:bool = button_up != previous_button_up or \
+		button_right != previous_button_right or \
+		button_down != previous_button_down or \
+		button_left != previous_button_left or \
+		button_a != previous_button_a or \
+		button_b != previous_button_b or \
+		button_menu_left_select != previous_button_menu_left_select or \
+		button_menu_right_restart != previous_button_menu_right_restart
+		
+	if changed:
+		previous_button_up = button_up
+		previous_button_right = button_right
+		previous_button_down = button_down
+		previous_button_left = button_left
+		previous_button_a = button_a
+		previous_button_b = button_b
+		previous_button_menu_left_select = button_menu_left_select
+		previous_button_menu_right_restart = button_menu_right_restart
+		on_nes_input_changed.emit(button_up, button_right, button_down, button_left, button_a, button_b, button_menu_left_select, button_menu_right_restart)
+
+
+
+
 func is_button(value:int, button_array:Array[int])->bool:
 	for button in button_array:
 		if value == button:
 			return true
 	return false
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not is_fake_input_enabled:
-		return	
+		return
 
 	## display keybaord input
-	if listen_to_keyboard_input and event is InputEventKey:
+	if listen_to_keyboard_input and event is InputEventKey and not event.echo:
 		var name :String= event.as_text()
 		var is_pressed :bool= event.pressed
+		print("TEST ", is_pressed)
 		if use_print_keyboard_input:
 			print("Key event: ", event.as_text(), " pressed: ", event.pressed)
 		if name == input_name_up:
@@ -88,7 +125,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif name == input_name_menu_right_restart:
 			button_menu_right_restart = is_pressed
 		on_nes_input_updated.emit(button_up, button_right, button_down, button_left, button_a, button_b, button_menu_left_select, button_menu_right_restart)
-	if listen_to_gamepad_button_input and event is InputEventJoypadButton:
+		_check_for_change()
+
+	if listen_to_gamepad_button_input and event is InputEventJoypadButton :
 		var name :String= "JoypadButton"+str(event.button_index)
 		var is_pressed :bool= event.pressed
 	
@@ -110,13 +149,14 @@ func _unhandled_input(event: InputEvent) -> void:
 			button_menu_left_select = is_pressed
 		elif is_button(event.button_index, input_gamepad_button_menu_right_restart):
 			button_menu_right_restart = is_pressed
+		
 		on_nes_input_updated.emit(button_up, button_right, button_down, button_left, button_a, button_b, button_menu_left_select, button_menu_right_restart)
-
+		_check_for_change()
 
 	if listen_to_gamepad_joystick_input and event is InputEventJoypadMotion:
 		var name :String= "JoypadMotion"+str(event.axis)
 		var value :float= event.axis_value
-		if abs(value) > 0.1:	
+		if abs(value) > 0.1:
 			if use_print_gamepad_joystick_input:
 				print("Gamepad motion event: ", event.axis, " value: ", event.axis_value)
 			if event.axis== 0:
@@ -156,3 +196,4 @@ func _unhandled_input(event: InputEvent) -> void:
 
 			if changed:
 				on_nes_input_updated.emit(button_up, button_right, button_down, button_left, button_a, button_b, button_menu_left_select, button_menu_right_restart)
+				_check_for_change()
