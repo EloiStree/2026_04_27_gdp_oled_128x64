@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cbt8xvf1tpip5"]
+[gd_scene format=3 uid="uid://duxf4wmrlh8ne"]
 
 [ext_resource type="Script" uid="uid://1vbadktl3xyb" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_set_get_screen_state_interface_with_cpu.gd" id="1_nh6pj"]
 [ext_resource type="Script" uid="uid://ihf0hsq51tfy" path="res://addons/2026_04_27_gdp_oled_128x64/script/unstore/ssd_1306_boolean_state_resource.gd" id="2_0r4rt"]
