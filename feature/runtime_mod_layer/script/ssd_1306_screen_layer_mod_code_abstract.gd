@@ -37,13 +37,18 @@ func load_code_from_file_script_in_project(script: Script):
 	var text = FileAccess.get_file_as_string(local_path)
 	load_in_godot_code(text)
 
+	
+
 func load_in_godot_code(code:String):
 	## When we start we need to destroy the previous one.
 	if created_node_holding_code:
 		## if it existe. kill it. I means... lets is free 
 		created_node_holding_code.queue_free()
 		created_node_holding_code = null
-		
+	
+	if code.strip_edges().length()<=0:
+		return 
+	
 	## code cant be loaded like that. you need to load from file
 	## we can create the file in folde of our application
 	if unique_code_file_name=="":
@@ -95,4 +100,9 @@ func load_in_godot_code(code:String):
 	
 
 	
-	
+func push_nes_buttons_to_node_holding_code(up:bool,right:bool,down:bool,left:bool,a:bool,b:bool,menu_left_select:bool,menu_right_restart:bool):
+	if created_node_holding_code:
+		if created_node_holding_code.has_method("on_update_nes_buttons"):
+			created_node_holding_code.call("on_update_nes_buttons",up,right,down,left,a,b,menu_left_select,menu_right_restart)
+	#else:
+		#print("No Holding code")
