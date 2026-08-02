@@ -41,6 +41,36 @@ enum ColorStyle {
 }
 
 
+func set_random_color_style():
+	var random_index = randi() % ColorStyle.size()
+
+	if random_index == ColorStyle.OLED_BLACK_BLUE:
+		set_color_style_as_sh1106_oled_blue_screen()
+	elif random_index == ColorStyle.OLED_BLACK_GREEN:
+		set_color_style_as_oled_green_screen()
+	elif random_index == ColorStyle.BLACK_TRUE_ON_WHITE_FALSE:
+		set_color_style_as_black_true_on_white_false()
+	elif random_index == ColorStyle.WHITE_TRUE_ON_BLACK_FALSE:
+		set_color_style_as_white_true_on_black_false()
+	elif random_index == ColorStyle.GAMEBOY_DARK:
+		set_color_style_as_gameboy_on_dark()
+	elif random_index == ColorStyle.GAMEBOY_LIGHT:
+		set_color_style_as_gameboy_on_light()
+	elif random_index == ColorStyle.E_INK:
+		set_color_style_as_e_ink_screen()
+	elif random_index == ColorStyle.OLED_BLACK_WHITE_BLUE:
+		set_color_style_as_ssd1306_black_white_blue()
+	elif random_index == ColorStyle.FLIPPER_ORANGE:
+		set_color_style_as_flipper_orange()		
+	else:
+		set_color_style_as_flipper_orange()	
+
+func set_with_random_value():
+	var bools: Array[bool] = []
+	for i in range(SCREEN_SIZE):
+		bools.append(randf() < 0.5)
+	set_texture_with_boolean_array(bools)
+
 func set_color_style_as_sh1106_oled_blue_screen():
 	# OLED blue: #007BFF
 	color_on = Color("a2e5ffff")  # OLED blue
@@ -177,14 +207,18 @@ func get_on_off_color(is_on: bool) -> Color:
 
 
 func set_color_on_off(new_true_color:Color,new_false_color:Color):
-		color_on =new_true_color
-		color_off =new_false_color
+	color_on =new_true_color
+	color_off =new_false_color
+	set_texture_with_boolean_array(bool_array_clear)
 		
 func set_color_on(new_true_color:Color):
 	color_on =new_true_color
+	set_texture_with_boolean_array(bool_array_clear)
 	
 func set_color_off(new_false_color:Color):
 	color_off =new_false_color
+	set_texture_with_boolean_array(bool_array_clear)
+	
 func set_texture_with_boolean_array(display_as_boolean_array: Array[bool]):
 	if display_as_boolean_array==null:
 		return 
