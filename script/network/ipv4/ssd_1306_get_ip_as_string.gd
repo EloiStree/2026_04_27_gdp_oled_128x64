@@ -8,7 +8,7 @@ signal on_ipv4_found(ipv4: String)
 @export var ipv4_found: String = ""
 @export var spliter:String = ","
 @export var refresh_at_ready: bool = true
-
+@export var remote_local_host:bool = true
 func _ready() -> void:
 	if refresh_at_ready:
 		refresh_ipv4()
@@ -26,6 +26,10 @@ func refresh_ipv4() -> void:
 		
 		on_ipv4_group_found.emit(name, addresses)
 		for addr in addresses:
+			if remote_local_host and addr == "127.0.0.1":
+				continue
+			if remote_local_host and addr == "localhost":
+				continue
 			if _is_ipv4(addr):
 				ipv4_addresses.append(addr)
 				ipv4_found = addr
