@@ -4,6 +4,7 @@ extends Node
 
 signal on_texture_material_updated(index:int, material_surface:Material)
 signal on_texture_updated(texture: Texture2D)
+signal on_exact_size_packed_byte_array_received(bit_pack_as_bytes:PackedByteArray)
 
 @export var color_on: Color = Color(0.0, 0.734, 0.699, 1.0)   # OLED green
 @export var color_off: Color = Color(0, 0, 0, 1)  # background
@@ -235,11 +236,24 @@ func set_texture_with_boolean_array(display_as_boolean_array: Array[bool]):
 	texture_2d = ImageTexture.create_from_image(image)
 	on_texture_updated.emit(texture_2d)
 	on_texture_material_updated.emit(0, material_duplicated)
+	
+	
+	# Not as a 8192 bytes array but as a 1024 bytes array
+	
+	on_exact_size_packed_byte_array_received.emit(bool_array_to_packed_byte_array(display_as_boolean_array))
+
+func bool_array_to_packed_byte_array(bool_array: Array[bool]) -> PackedByteArray:
+	var result := PackedByteArray()
+	result.resize(ceil(bool_array.size() / 8.0))
+	for i in range(bool_array.size()):
+		if bool_array[i]:
+			result[i / 8] |= 1 << (i % 8)
+	return result
 
 func set_texture_with_bit_array_if_exact_size(bit_pack_as_bytes:PackedByteArray):	
 	if bit_pack_as_bytes.size()==1024:
 		set_texture_with_bit_array(bit_pack_as_bytes)
-
+		
 func set_texture_with_text01_if_exact_size(bit_pack_as_text01: String) -> void:
 	bit_pack_as_text01 = bit_pack_as_text01.replace("\r", "").replace("\n", "")
 	if bit_pack_as_text01.length() != 128 * 64:
